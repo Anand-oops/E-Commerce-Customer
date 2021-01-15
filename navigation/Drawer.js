@@ -14,7 +14,7 @@ const customComponent = (props) => {
 
     
     const { user, logout } = useContext(AuthContext);
-    var name;
+    var name = "User"
     const ref = Firebase.database().ref(`Customers/${user.uid}`);
     ref.on('value', function (snapshot) {
         var data = snapshot.val();
