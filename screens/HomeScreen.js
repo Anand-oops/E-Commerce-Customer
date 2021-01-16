@@ -1,16 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
-import { StyleSheet, View,ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, StatusBar } from 'react-native';
 import Firebase from '../firebaseConfig';
 import Card from '../shared/Card'
 import { SliderBox } from 'react-native-image-slider-box';
 
-export default function HomeScreen() {
+const HomeScreen = () => {
 
     const { user } = useContext(AuthContext);
-
-    const [imagesDeck, setImagesDeck] = useState([])
-    const [cards, setCards] = useState([])
 
     Firebase.database().ref(`/Customers/${user.uid}`).update({
         id: user.uid,
@@ -18,20 +15,51 @@ export default function HomeScreen() {
         password: user.providerId,
     })
 
-    Firebase.database().ref(`/ImagesDeck/`).once('value').then((data) => {
-        if (data.val()) {
-            setImagesDeck(data.val())
+    const [imagesDeck, setImagesDeck] = useState([])
+    const [imagesDeckCall, setImagesDeckCall] = useState(true)
+    const [cards, setCards] = useState([])
+    const [cardsCall, setCardsCall] = useState(true)
+
+    
+
+    Firebase.database().ref('ImagesDeck/').on('value', function (data) {
+        if (imagesDeckCall) {
+            if (data.val()) {
+                console.log("ImagesDeck Called")
+                setImagesDeck(data.val())
+                setImagesDeckCall(false);
+            }
         }
     })
 
-    Firebase.database().ref(`/Cards`).once('value').then((data) => {
-        if (data.val()) {
-            setCards(data.val())
+    Firebase.database().ref('ImagesDeck/').on('child_changed', function () {
+        console.log("ImagesDeck Child Changed")
+        setImagesDeckCall(true)
+    })
+
+    Firebase.database().ref('Cards/').once('value', function (data) {
+        if (cardsCall) {
+            if (data.val()) {
+                console.log("Cards Called")
+                setCards(data.val())
+                setCardsCall(false);
+            }
         }
     })
+
+    Firebase.database().ref('Cards/').on('child_changed', function () {
+        console.log("Card Child Changed")
+        setCardsCall(true);
+    });
+
+    // Firebase.database().ref('Cards/').on('child_added', function () {
+    //     console.log("Card Child Changed")
+    //     setCardsCall(true);
+    // });
 
     return (
         <View style={styles.screen}>
+            <StatusBar style='light' />
             <ScrollView>
                 <View>
                     <View style={styles.imageDeck}>
@@ -51,6 +79,8 @@ export default function HomeScreen() {
         </View>
     );
 }
+
+export default HomeScreen;
 
 const styles = StyleSheet.create({
     screen: {
