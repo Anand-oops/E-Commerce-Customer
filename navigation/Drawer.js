@@ -3,11 +3,13 @@ import { useContext } from 'react'
 import { createAppContainer } from "react-navigation";
 import AppStack from './AppStack';
 import profileStack from './ProfileStack';
+import NewStack from "./NewStack";
 import { AntDesign } from '@expo/vector-icons';
 import { AuthContext } from './AuthProvider';
 import Firebase from '../firebaseConfig';
 import React from "react";
 import { View, SafeAreaView, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { useState } from 'react';
 
 
 const customComponent = (props) => {
@@ -52,6 +54,18 @@ const screens = {
 
     Home: { screen: AppStack },
     Profile: { screen: profileStack }, 
+}
+var length=0;
+var list ;
+Firebase.database().ref('DrawerItemsList').on('value',(data)=>{
+    list=data.val();
+    console.log("value",list);
+    length = list.length;
+    console.log("length",length);
+})
+
+for(var i=0;i<length;i++){
+    screens[" "+list[i].itemName]={screen:NewStack};
 }
 
 const RootNavigationDrawer = createDrawerNavigator(screens, { contentComponent: customComponent });
