@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function NewScreen() {
+export default function NewScreen(props) {
 
+    console.log("dshjsfg",props);
     return (
         
         <View style={styles.main}>
