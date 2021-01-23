@@ -5,6 +5,7 @@ import NewScreen from '../screens/NewScreen';
 
 const screens = {
     NewScreen:{  screen:NewScreen, navigationOptions: ({navigation})=>{
+        console.log("Nav",navigation.getParam())
         return {
             
                 headerTitle:()=><Header navigation={navigation} title='New Screen'/>,
@@ -17,7 +18,7 @@ const newStack = createStackNavigator(screens,{
     defaultNavigationOptions:{
         headerTintColor:'white',
         headerStyle:{
-            backgroundColor:'black',height:90
+            backgroundColor:'black',height:70
         }
     }
 });
