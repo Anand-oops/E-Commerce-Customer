@@ -1,9 +1,11 @@
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { useContext } from 'react'
 import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "@react-navigation/stack";
 import AppStack from './AppStack';
 import profileStack from './ProfileStack';
 import NewStack from "./NewStack";
+import NewScreen from "../screens/NewScreen";
 import { AntDesign } from '@expo/vector-icons';
 import { AuthContext } from './AuthProvider';
 import Firebase from '../firebaseConfig';
@@ -52,9 +54,10 @@ const customComponent = (props) => {
 
 const screens = {
 
-    Home: { screen: AppStack },
-    Profile: { screen: profileStack }, 
+    Home: { screen: AppStack ,params:{name:'Home'} },
+    Profile: { screen: profileStack, params:{name:'Profile'} }, 
 }
+
 var length=0;
 var list ;
 Firebase.database().ref('DrawerItemsList').on('value',(data)=>{
@@ -62,11 +65,22 @@ Firebase.database().ref('DrawerItemsList').on('value',(data)=>{
     console.log("value",list);
     length = list.length;
     console.log("length",length);
+    
 })
+const Stack=createStackNavigator();
 
 for(var i=0;i<length;i++){
-    screens[" "+list[i].itemName]={screen:NewStack};
+    var name=list[i].itemName;
+    console.log('bsjk',name);
+    screens[" "+list[i].itemName]={screen:()=>(
+
+        <Stack.Navigator>
+            <Stack.Screen name={name} component={NewScreen}/>
+        </Stack.Navigator>
+    ) ,params:{name :list[i].itemName}};
+    console.log("screennnnnnnnnns",screens);
 }
+
 
 const RootNavigationDrawer = createDrawerNavigator(screens, { contentComponent: customComponent });
 
