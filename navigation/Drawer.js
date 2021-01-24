@@ -32,7 +32,6 @@ const customComponent = (props) => {
                 <Text style={{ marginTop: 10, fontSize: 20 }}> {"Hey " + name + "!!"}</Text>
             </View>
 
-<<<<<<< HEAD
             <ScrollView>
                 <DrawerItems  {...props} />
             </ScrollView>
@@ -53,33 +52,32 @@ const customComponent = (props) => {
     )
 }
 
-const delay = ms => new Promise(res => setTimeout(res,ms));
-const getScreens = () => {
-    const screens = {
-        Home: { screen: AppStack },
-        Profile: { screen: profileStack },
-    }
-
-    Firebase.database().ref('DrawerItemsList').on('value', (data) => {
-        if (data.val()) {
-            let list = data.val();
-            for (var i = 0; i < list.length; i++) {
-                screens[list[i].itemName] = { screen: NewStack };
-            }
-        }
-    })
+// const delay = ms => new Promise(res => setTimeout(res,ms));
+// const getScreens = () => {
     
-    //console.log("AddedScreens",addedScreens)
-    console.log("Screens",screens)
-    //console.length("Added",addedScreens)
-    return screens;
-}
 
-const RootNavigationDrawer = createDrawerNavigator(getScreens(), { contentComponent: customComponent });
-=======
-    Home: { screen: AppStack ,params:{name:'Home'} },
-    Profile: { screen: profileStack, params:{name:'Profile'} }, 
+//     Firebase.database().ref('DrawerItemsList').on('value', (data) => {
+//         if (data.val()) {
+//             let list = data.val();
+//             for (var i = 0; i < list.length; i++) {
+//                 screens[list[i].itemName] = { screen: NewStack };
+//             }
+//         }
+//     })
+    
+//     //console.log("AddedScreens",addedScreens)
+//     console.log("Screens",screens)
+//     //console.length("Added",addedScreens)
+//     return screens;
+// }
+const screens = {
+    Home: { screen: AppStack },
+    Profile: { screen: profileStack },
 }
+// const RootNavigationDrawer = createDrawerNavigator(getScreens(), { contentComponent: customComponent });
+//     Home: { screen: AppStack ,params:{name:'Home'} },
+//     Profile: { screen: profileStack, params:{name:'Profile'} }, 
+// }
 
 var length=0;
 var list ;
@@ -106,6 +104,5 @@ for(var i=0;i<length;i++){
 
 
 const RootNavigationDrawer = createDrawerNavigator(screens, { contentComponent: customComponent });
->>>>>>> 2be84e2a72b157cc0a12ab814425f9a16b23c41c
 
 export default createAppContainer(RootNavigationDrawer);
