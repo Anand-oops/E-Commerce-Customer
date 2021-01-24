@@ -12,13 +12,14 @@ const Card = props => {
                 <View style={styles.card}>
                     <FlatList data={props.images}
                         renderItem={itemData => (
-                            <View style={styles.Container}>
-                                <Image style={styles.image} source={itemData.item.image} />
-                                <Text style={styles.text}>{itemData.item.textItem}</Text>
-                                <Text style={styles.offerText}>{itemData.item.textOff}</Text>
+                            <View >
+                                <TouchableOpacity style={styles.Container} >
+                                    <Image style={styles.image} source={itemData.item.image} />
+                                    <Text style={styles.text}>{itemData.item.textItem}</Text>
+                                    <Text style={styles.offerText}>{itemData.item.textOff}</Text>
+                                </TouchableOpacity>
                             </View>
-                        )}
-                        numColumns={2} />
+                        )} />
                 </View>
             </View>
         </View>

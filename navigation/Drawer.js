@@ -16,7 +16,6 @@ import { useState } from 'react';
 
 const customComponent = (props) => {
 
-    
     const { user, logout } = useContext(AuthContext);
     var name = "User"
     const ref = Firebase.database().ref(`Customers/${user.uid}`);
@@ -24,39 +23,61 @@ const customComponent = (props) => {
         var data = snapshot.val();
         name = data.firstName;
     })
-    return(
-    <SafeAreaView style={{ flex: 1, }}>
 
-        <View style={{ flexDirection:'row',height: 100, backgroundColor: 'white', alignItems: 'center',  marginTop: 10,paddingTop:15,paddingLeft:15 }}>
-            <AntDesign name="user" size={40} color="black"  />
-            <Text style={{ marginTop: 10,fontSize:20 }}> {"Hey " + name+ "!!"}</Text>
-        </View>
+    return (
+        <SafeAreaView style={{ flex: 1, }}>
 
-        <ScrollView>
-            <DrawerItems  {...props} />
-        </ScrollView>
-        <TouchableOpacity >
-            <Text
-                style={{ width:'100%',backgroundColor:'#eee',color: 'black', fontSize: 20, fontWeight: 'bold',height:50,textAlign:'center',paddingTop:10 }}
-                onPress={() => {
-                    Alert.alert("Logout", "You will be logged out...",
-                    [
-                        {text:"Cancel" },
-                        {text:"Proceed", onPress: () => logout()}
-                    ],{cancelable: false}
-                    );
-                } }>
-                SIGN OUT</Text>
-        </TouchableOpacity>
-    </SafeAreaView>
-)}
+            <View style={{ flexDirection: 'row', height: 100, backgroundColor: 'white', alignItems: 'center', marginTop: 10, paddingTop: 15, paddingLeft: 15 }}>
+                <AntDesign name="user" size={40} color="black" />
+                <Text style={{ marginTop: 10, fontSize: 20 }}> {"Hey " + name + "!!"}</Text>
+            </View>
 
-
-const screens = {
-
-    Home: { screen: AppStack ,params:{name:'Home'} },
-    Profile: { screen: profileStack, params:{name:'Profile'} }, 
+            <ScrollView>
+                <DrawerItems  {...props} />
+            </ScrollView>
+            <TouchableOpacity >
+                <Text
+                    style={{ width: '100%', backgroundColor: '#eee', color: 'black', fontSize: 20, fontWeight: 'bold', height: 50, textAlign: 'center', paddingTop: 10 }}
+                    onPress={() => {
+                        Alert.alert("Logout", "You will be logged out...",
+                            [
+                                { text: "Cancel" },
+                                { text: "Proceed", onPress: () => logout() }
+                            ], { cancelable: false }
+                        );
+                    }}>
+                    SIGN OUT</Text>
+            </TouchableOpacity>
+        </SafeAreaView>
+    )
 }
+
+// const delay = ms => new Promise(res => setTimeout(res,ms));
+// const getScreens = () => {
+    
+
+//     Firebase.database().ref('DrawerItemsList').on('value', (data) => {
+//         if (data.val()) {
+//             let list = data.val();
+//             for (var i = 0; i < list.length; i++) {
+//                 screens[list[i].itemName] = { screen: NewStack };
+//             }
+//         }
+//     })
+    
+//     //console.log("AddedScreens",addedScreens)
+//     console.log("Screens",screens)
+//     //console.length("Added",addedScreens)
+//     return screens;
+// }
+const screens = {
+    Home: { screen: AppStack },
+    Profile: { screen: profileStack },
+}
+// const RootNavigationDrawer = createDrawerNavigator(getScreens(), { contentComponent: customComponent });
+//     Home: { screen: AppStack ,params:{name:'Home'} },
+//     Profile: { screen: profileStack, params:{name:'Profile'} }, 
+// }
 
 var length=0;
 var list ;
