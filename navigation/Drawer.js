@@ -67,18 +67,30 @@ Firebase.database().ref('DrawerItemsList').on('value',(data)=>{
     console.log("length",length);
     
 })
-const Stack=createStackNavigator();
+
+function NewStackCreate(params) {
+    const Stack=createStackNavigator();
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name='name' component={NewScreen}/>
+        </Stack.Navigator>
+    )
+}
 
 for(var i=0;i<length;i++){
-    var name=list[i].itemName;
-    console.log('bsjk',name);
-    screens[" "+list[i].itemName]={screen:()=>(
+    
+    screens[""+list[i].itemName]={screen:NewStackCreate}
+    console.log("screens",screens);
+    // const Stack=createStackNavigator();
+    // var name=list[i].itemName;
+    // console.log('bsjk',name);
+    // screens[" "+list[i].itemName]={screen:()=>(
 
-        <Stack.Navigator>
-            <Stack.Screen name={name} component={NewScreen}/>
-        </Stack.Navigator>
-    ) ,params:{name :list[i].itemName}};
-    console.log("screennnnnnnnnns",screens);
+    //     <Stack.Navigator>
+    //         <Stack.Screen name={name} component={NewScreen}/>
+    //     </Stack.Navigator>
+    // ) ,params:{name :list[i].itemName}};
+    // console.log("screennnnnnnnnns",screens);
 }
 
 
