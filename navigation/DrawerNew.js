@@ -9,6 +9,7 @@ import ProfilePageStack from "./ProfileStack";
 import { View, TouchableOpacity, SafeAreaView, Text, ScrollView, Alert } from 'react-native';
 import NewScreen from '../screens/NewScreen';
 import Header from '../shared/Header';
+import ShopByCategory from '../screens/ShopByCategory';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
@@ -151,7 +152,7 @@ export default class DrawerNew extends React.Component {
 											},
 										}}>
 
-											<Stack.Screen name={text} component={NewScreen} options={{
+											<Stack.Screen name={text} component={ShopByCategory} options={{
 												title: text,
 												headerStyle: {
 													backgroundColor: 'black'

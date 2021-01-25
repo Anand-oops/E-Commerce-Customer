@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Firebase from "../firebaseConfig";
 
 
-export default function NewScreen(props) {
+export default function ShopBYCategory(props) {
     
     const [listen, setListen] = useState(true);
     const [items, setItem] = useState([]);
@@ -44,22 +44,22 @@ export default function NewScreen(props) {
               renderItem={({item})=>(
                   <View style={{flex:1,margin:2}}>
                       <TouchableOpacity >
-                          <View style={{margin:4,borderColor:'white',borderRadius:1,elevation:1}}>
+                          <View style={{margin:1,borderColor:'white',borderRadius:1,elevation:1,height:110,flexDirection:'row'}}>
                               <View style={{borderColor:'white',borderRadius:1,elevation:1}}>
                       <Image
-                      style={{padding:2,height:200,width:'98%',resizeMode:'stretch',alignSelf:'center',}}
+                      style={{padding:2,height:120,width:100,resizeMode:'contain',alignSelf:'center',}}
                       source={{uri:item.image.uri}}
                       />
                       </View>
 
-                      <Text style={{color:'#3b3a30' ,fontSize:20,padding:4}}>{item.productName}</Text>
-                      <Text style={{color:'black' , fontSize:10,paddingLeft:4}}>{ item.description}</Text>
+                      <Text style={{color:'#3b3a30' ,fontSize:10,padding:4,alignSelf:'center',flex:1}}>{item.productName}</Text>
+                      {/* <Text style={{color:'black' , fontSize:10,paddingLeft:4}}>{ item.description}</Text>
                       <View style={{flexDirection:'row'}}>
                       <Text style={{color:'grey' , fontSize:18,padding:2,flex:1}}>{"Rs."+ item.finalPrice}</Text>
                       
                       <Text style={{color:'#82b74b' , fontSize:18,padding:2,flex:1}}>{item.discount +"off "}</Text>
                       </View>
-                      <Text style={{color:'grey' , fontSize:10,paddingLeft:4,paddingBottom:2}}>{ item.productPrice}</Text>
+                      <Text style={{color:'grey' , fontSize:10,paddingLeft:4,paddingBottom:2}}>{ item.productPrice}</Text> */}
                       </View>
                   </TouchableOpacity>
                   </View>
