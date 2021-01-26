@@ -1,15 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
 import { StyleSheet, Text, View, FlatList,Image } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { LongPressGestureHandler, TouchableOpacity } from 'react-native-gesture-handler';
 import Firebase from "../firebaseConfig";
 
 
-export default function ShopBYCategory(props) {
+export default function ShopByCategory({navigation,route}) {
     
     const [listen, setListen] = useState(true);
     const [items, setItem] = useState([]);
-    Firebase.database().ref(`ProductList/${props.route.name}`).on('value', (data) => {
+    Firebase.database().ref(`ProductList/${route.name}`).on('value', (data) => {
         if (listen) {
             if(data.val()){
                 var temp = [];
@@ -34,6 +34,12 @@ export default function ShopBYCategory(props) {
         
     })
 
+    const itemsPress=(item)=>{
+        console.log("clicked");
+       navigation.navigate('ProductDetailsScreen',{item:item});
+    // console.log(props.navigation.navigate);
+    }
+
     return (
 
         <View style={styles.main}>
@@ -43,7 +49,7 @@ export default function ShopBYCategory(props) {
               numColumns={2}
               renderItem={({item})=>(
                   <View style={{flex:1,margin:2}}>
-                      <TouchableOpacity >
+                      <TouchableOpacity onPress={()=>itemsPress(item)}>
                           <View style={{margin:1,borderColor:'white',borderRadius:1,elevation:1,height:110,flexDirection:'row'}}>
                               <View style={{borderColor:'white',borderRadius:1,elevation:1}}>
                       <Image
