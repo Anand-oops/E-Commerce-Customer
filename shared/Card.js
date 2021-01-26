@@ -13,10 +13,10 @@ const Card = props => {
                     <FlatList data={props.images}
                         renderItem={itemData => (
                             <View >
-                                <TouchableOpacity style={styles.Container} >
+                                <TouchableOpacity style={styles.Container} onPress={props.pressHandler.bind()}>
                                     <Image style={styles.image} source={itemData.item.image} />
                                     <Text style={styles.text}>{itemData.item.textItem}</Text>
-                                    <Text style={styles.offerText}>{itemData.item.textOff}</Text>
+                                    <Text style={styles.offerText}>{itemData.item.textOff+" % off !"}</Text>
                                 </TouchableOpacity>
                             </View>
                         )} />

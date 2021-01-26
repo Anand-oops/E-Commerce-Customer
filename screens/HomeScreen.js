@@ -5,7 +5,7 @@ import Firebase from '../firebaseConfig';
 import Card from '../shared/Card'
 import { SliderBox } from 'react-native-image-slider-box';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
 
     const { user } = useContext(AuthContext);
 
@@ -52,11 +52,6 @@ const HomeScreen = () => {
         setCardsCall(true);
     });
 
-    // Firebase.database().ref('Cards/').on('child_added', function () {
-    //     console.log("Card Child Changed")
-    //     setCardsCall(true);
-    // });
-
     return (
         <View style={styles.screen}>
             <StatusBar style='light' />
@@ -73,7 +68,8 @@ const HomeScreen = () => {
                     </View>
                 </View>
                 <View>
-                    {cards.map(card => <Card key={card.key} images={card.images} header={card.header} />)}
+                    {cards.map(card => <Card key={card.key} images={card.images} header={card.header} 
+                    pressHandler = {() => navigation.navigate("SaleProductDetails")} />)}
                 </View>
             </ScrollView>
         </View>
