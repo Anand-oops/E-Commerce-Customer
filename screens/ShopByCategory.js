@@ -4,12 +4,12 @@ import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Firebase from "../firebaseConfig";
 
-
 export default function ShopByCategory({ navigation, route }) {
 
+    var name = route.name;
     const [listen, setListen] = useState(true);
     const [items, setItem] = useState([]);
-    Firebase.database().ref(`ProductList/${route.name}`).on('value', (data) => {
+    Firebase.database().ref(`DrawerItemsList/`).on('value', (data) => {
         if (listen) {
             if (data.val()) {
                 var temp = [];
@@ -18,16 +18,21 @@ export default function ShopByCategory({ navigation, route }) {
                     var key = keys[i]
                     temp.push(data.val()[key])
                 }
+                temp.map((item) => {
+                    if (item.itemName === name) {
+                        console.log("SubCats", item.SubCategories);
+                        setItem(item.SubCategories)
+                    }
+                })
                 setListen(false);
-                setItem(temp);
             }
-        }
 
+        }
     })
 
     const itemsPress = (item) => {
         console.log("clicked");
-        navigation.navigate('ProductDetailsScreen', { item: item });
+        navigation.navigate('NewScreen', { item: item });
     }
 
     return (
@@ -44,18 +49,12 @@ export default function ShopByCategory({ navigation, route }) {
                                 <View style={{ borderColor: 'white', borderRadius: 1, elevation: 1 }}>
                                     <Image
                                         style={{ padding: 2, height: 120, width: 100, resizeMode: 'contain', alignSelf: 'center', }}
-                                        source={{ uri: item.image.uri }}
+                                        source={{ uri: item.uri }}
                                     />
                                 </View>
 
-                                <Text style={{ color: '#3b3a30', fontSize: 10, padding: 4, alignSelf: 'center', flex: 1 }}>{item.productName}</Text>
-                                {/* <Text style={{color:'black' , fontSize:10,paddingLeft:4}}>{ item.description}</Text>
-                      <View style={{flexDirection:'row'}}>
-                      <Text style={{color:'grey' , fontSize:18,padding:2,flex:1}}>{"Rs."+ item.finalPrice}</Text>
-                      
-                      <Text style={{color:'#82b74b' , fontSize:18,padding:2,flex:1}}>{item.discount +"off "}</Text>
-                      </View>
-                      <Text style={{color:'grey' , fontSize:10,paddingLeft:4,paddingBottom:2}}>{ item.productPrice}</Text> */}
+                                <Text style={{ color: '#3b3a30', fontSize: 10, padding: 4, alignSelf: 'center', flex: 1 }}>{item.subitemName}</Text>
+
                             </View>
                         </TouchableOpacity>
                     </View>

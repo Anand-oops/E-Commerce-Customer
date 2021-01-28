@@ -12,6 +12,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SaleProductDetails from '../screens/SaleProductDetails';
 import SubHeader from '../shared/SubHeader'
+import NewScreen from '../screens/NewScreen';
 
 
 const addedItems = [];
@@ -165,6 +166,13 @@ export default class DrawerNew extends React.Component {
 													backgroundColor: 'black'
 												},
 												headerTitle: () => <Header navigation={navigation} title={text} />
+											}} />
+											<Stack.Screen name="NewScreen" component={NewScreen} options={{
+												title: "Explore",
+												headerStyle: {
+													backgroundColor: 'black'
+												},
+												headerTitle: () => <SubHeader navigation={navigation} title="Explore" />
 											}} />
 											<Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} options={{
 												title: "Details",

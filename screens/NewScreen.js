@@ -33,6 +33,11 @@ export default function NewScreen(props) {
     }
         
     })
+    const itemsPress=(item)=>{
+        console.log("clicked");
+       navigation.navigate('ProductDetailsScreen',{item:item});
+    // console.log(props.navigation.navigate);
+    }
 
     return (
 
@@ -43,7 +48,7 @@ export default function NewScreen(props) {
               numColumns={2}
               renderItem={({item})=>(
                   <View style={{flex:1,margin:2}}>
-                      <TouchableOpacity >
+                      <TouchableOpacity  onPress={()=>itemsPress(item)}>
                           <View style={{margin:4,borderColor:'white',borderRadius:1,elevation:1}}>
                               <View style={{borderColor:'white',borderRadius:1,elevation:1}}>
                       <Image
