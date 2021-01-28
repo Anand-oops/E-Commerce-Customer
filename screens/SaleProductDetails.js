@@ -1,39 +1,41 @@
-import React from 'react';
-import { StyleSheet, Text, View,ScrollView,TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
+import Collapsible from 'react-native-collapsible'
 
 export default function SaleProductDetails(props) {
-  console.log("logggg",props.route.params.product);
-  //var item=props.route.params.item;
-// var name=navigation.getParam('item');
-// console.log(name);
+    const item = props.route.params.product;
+    const [collapsed, setCollapsed] = useState(true)
+
     return (
         <View style={styles.screen}>
-                <ScrollView>
-                    <View style={styles.display}>
-                        <View style={styles.imageContainer}>
-                            <SliderBox
-                                // images={this.state.product.images ? this.state.product.images : [this.state.product.image]}
-                                images={item.images}
-                                sliderBoxHeight={375}
-                                circleLoop={true}
-                                resizeMode={'contain'} />
-                            {/* <TouchableOpacity style={styles.iconContainer} onPress={this.toggleFavorite}>
+            <ScrollView>
+                <View style={styles.display}>
+                    <View style={styles.imageContainer}>
+                        <SliderBox
+                            images={item.images}
+                            sliderBoxHeight={375}
+                            circleLoop={true}
+                            resizeMode={'contain'} />
+                        {/* <TouchableOpacity style={styles.iconContainer} onPress={this.toggleFavorite}>
                                 <Image source={this.state.clicked ? clicked : unclicked} style={styles.icon} />
                             </TouchableOpacity> */}
-                        </View>
-                        <Text style={styles.text}>{item.productName}</Text>
-                        <Text style={styles.price}>{item.finalPrice}</Text>
                     </View>
-                    <View style={styles.body}>
-                        <View style={styles.descriptionContainer}>
-                            <Text style={styles.descriptionHeader}>Description:</Text>
-                            <Text style={styles.description}>{item.description}</Text>
-                            <TouchableOpacity onPress={this.SpecsHandler}>
-                                <Text style={styles.productlink}>All Product Details</Text>
-                            </TouchableOpacity>
-                        </View>
-                        {/* <Modal
+                    <Text style={styles.text}>{item.productName}</Text>
+                    <Text style={styles.price}>{item.salePrice}</Text>
+                </View>
+                <View style={styles.body}>
+                    <View style={styles.descriptionContainer}>
+                        <Text style={styles.descriptionHeader}>Description:</Text>
+                        <Text style={styles.description}>{item.description}</Text>
+                        <TouchableOpacity onPress={() => setCollapsed(!collapsed)} >
+                            <Text style={styles.productlink}>Product Specifications :</Text>
+                        </TouchableOpacity>
+                        <Collapsible collapsed={collapsed} >
+                        <Text style={{fontSize:16, marginStart:20, marginBottom:5}}>{item.specs}</Text>
+                        </Collapsible>
+                    </View>
+                    {/* <Modal
                             visible={this.state.showSpecsModal}
                             onRequestClose={this.closeModal}>
                             <Text style={styles.ratingText}>Product Specification</Text>
@@ -46,7 +48,7 @@ export default function SaleProductDetails(props) {
                                 ))}
                             </View>
                         </Modal> */}
-                        {/* <View style={styles.reviewContainer}>
+                    {/* <View style={styles.reviewContainer}>
                             <Modal
                                 transparent
                                 visible={this.state.showRateModal}
@@ -78,7 +80,7 @@ export default function SaleProductDetails(props) {
                                 <Text style={{ color: 'blue', fontSize: 16 }}>Rate Product</Text>
                             </TouchableOpacity>
                         </View> */}
-                        {/* <View style={styles.comments}>
+                    {/* <View style={styles.comments}>
                             {
                                 this.state.comments.slice(0, 2).reverse().map(comment =>
                                     <View style={styles.commentBox}>
@@ -101,7 +103,7 @@ export default function SaleProductDetails(props) {
                                     </View>
                                 )}
                         </View> */}
-                        {/* <View style={styles.review}>
+                    {/* <View style={styles.review}>
                             <TouchableOpacity onPress={() => {
                                 this.setState({
                                     showModal: true,
@@ -110,14 +112,14 @@ export default function SaleProductDetails(props) {
                                 <Text style={styles.link}>See all Ratings and Reviews </Text>
                             </TouchableOpacity>
                         </View> */}
-                    </View>
-                </ScrollView>
-                <View>
-                    <TouchableOpacity style={styles.footer} /*onPress={this.saveToCart}*/>
-                        <Text style={styles.footerText}>ADD TO CART</Text>
-                    </TouchableOpacity>
                 </View>
-                {/* <Modal
+            </ScrollView>
+            <View>
+                <TouchableOpacity style={styles.saveButton} /*onPress={this.saveToCart}*/>
+                    <Text style={{ fontSize: 18, color: 'white' }}>ADD TO CART</Text>
+                </TouchableOpacity>
+            </View>
+            {/* <Modal
                     visible={this.state.showModal}
                     onRequestClose={this.closeModal}>
                     <View style={styles.screen}>
@@ -146,26 +148,9 @@ export default function SaleProductDetails(props) {
                         </ScrollView>
                     </View>
                 </Modal> */}
-            </View>
-        );
-    }
-
-
-//     );
-// }
-
-// const styles = StyleSheet.create({
-//     main: {
-//         height:'100%',
-//         width:'100%'
-//     },
-//     container: {
-//         flex: 1,
-//         alignItems: "center",
-//         // justifyContent: "center",
-//         paddingTop:'50%'
-//     },
-// });
+        </View>
+    );
+}
 
 
 const styles = StyleSheet.create({
@@ -189,8 +174,7 @@ const styles = StyleSheet.create({
     imageContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 30,
-        marginVertical: 55,
+        marginBottom: 30,
         elevation: 5,
         height: 375,
     },
@@ -198,8 +182,8 @@ const styles = StyleSheet.create({
     productlink: {
         color: 'blue',
         paddingLeft: 20,
-        fontSize: 16,
-        marginVertical: 15
+        fontSize: 18,
+        marginVertical: 10
     },
 
     mainImage: {
@@ -253,7 +237,7 @@ const styles = StyleSheet.create({
     description: {
         fontStyle: 'italic',
         fontSize: 18,
-        marginVertical: 15,
+        marginVertical: 10,
         marginLeft: 30,
     },
 
@@ -272,12 +256,6 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-    },
-
-    item: {
-        width: '50%',
-        borderWidth: 1,
-        padding: 10,
     },
 
     modalScreen: {
@@ -323,19 +301,6 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 20,
-    },
-
-    footer: {
-        backgroundColor: '#ec2F4B',
-        padding: 15,
-        elevation: 10,
-        borderRadius: 10,
-        margin: 5,
-        alignItems: 'center',
-    },
-
-    footerText: {
-        color: 'white',
     },
 
     comments: {
@@ -399,5 +364,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#FAFAFA',
         paddingHorizontal: 8,
         fontSize: 16,
+    },
+    saveButton: {
+        padding: 15,
+        elevation: 10,
+        borderTopRightRadius: 30,
+        borderTopLeftRadius: 30,
+        backgroundColor: 'black',
+        alignItems: 'center',
     },
 });

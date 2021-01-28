@@ -1,120 +1,212 @@
-import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
-import { useContext } from 'react'
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "@react-navigation/stack";
-import AppStack from './AppStack';
-import profileStack from './ProfileStack';
-import NewStack from "./NewStack";
-import NewScreen from "../screens/NewScreen";
+import React, { useContext } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
+import Firebase from "../firebaseConfig";
+import { AuthContext } from './AuthProvider'
 import { AntDesign } from '@expo/vector-icons';
-import { AuthContext } from './AuthProvider';
-import Firebase from '../firebaseConfig';
-import React from "react";
-import { View, SafeAreaView, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
-import { useState } from 'react';
+import { View, TouchableOpacity, SafeAreaView, Text, ScrollView, Alert } from 'react-native';
+import Header from '../shared/Header';
+import ProductDetailsScreen from "../screens/ProductDetailsScreen";
+import ShopByCategory from '../screens/ShopByCategory';
+import HomeScreen from '../screens/HomeScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import SaleProductDetails from '../screens/SaleProductDetails';
+import SubHeader from '../shared/SubHeader'
 
 
-const customComponent = (props) => {
+const addedItems = [];
+const DrawerNav = createDrawerNavigator();
+const Stack = createStackNavigator();
 
-    const { user, logout } = useContext(AuthContext);
-    var name = "User"
-    const ref = Firebase.database().ref(`Customers/${user.uid}`);
-    ref.on('value', function (snapshot) {
-        var data = snapshot.val();
-        name = data.firstName;
-    })
+const HomeStackScreen = ({ navigation }) => (
+	<Stack.Navigator screenOptions={{
+		headerTintColor: 'white',
+		headerTitleStyle: {
+			fontWeight: 'bold',
+			alignSelf: 'center'
+		},
+	}}>
+		<Stack.Screen name="HomeScreen" component={HomeScreen} options={{
+			title: 'HomeScreen',
+			headerStyle: {
+				backgroundColor: 'black'
+			},
+			headerTitle: () => <Header navigation={navigation} title="Home" />,
+		}} />
 
-    return (
-        <SafeAreaView style={{ flex: 1, }}>
+		<Stack.Screen name="SaleProductDetails" component={SaleProductDetails} options={{
+			title: 'SaleProductDetails',
+			headerStyle: {
+				backgroundColor: 'black'
+			},
+			headerTitle: () => <SubHeader navigation={navigation} title="Product Details" />,
+		}} />
 
-            <View style={{ flexDirection: 'row', height: 100, backgroundColor: 'white', alignItems: 'center', marginTop: 10, paddingTop: 15, paddingLeft: 15 }}>
-                <AntDesign name="user" size={40} color="black" />
-                <Text style={{ marginTop: 10, fontSize: 20 }}> {"Hey " + name + "!!"}</Text>
-            </View>
+	</Stack.Navigator>
+);
 
-            <ScrollView>
-                <DrawerItems  {...props} />
-            </ScrollView>
-            <TouchableOpacity >
-                <Text
-                    style={{ width: '100%', backgroundColor: '#eee', color: 'black', fontSize: 20, fontWeight: 'bold', height: 50, textAlign: 'center', paddingTop: 10 }}
-                    onPress={() => {
-                        Alert.alert("Logout", "You will be logged out...",
-                            [
-                                { text: "Cancel" },
-                                { text: "Proceed", onPress: () => logout() }
-                            ], { cancelable: false }
-                        );
-                    }}>
-                    SIGN OUT</Text>
-            </TouchableOpacity>
-        </SafeAreaView>
-    )
+const ProfileStackScreen = ({ navigation }) => (
+	<Stack.Navigator screenOptions={{
+		headerTintColor: 'white',
+		headerTitleStyle: {
+			fontWeight: 'bold',
+			alignSelf: 'center'
+		},
+	}}>
+		<Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{
+			title: 'ProfileScreen',
+			headerStyle: {
+				backgroundColor: 'black'
+			},
+			headerTitle: () => <Header navigation={navigation} title="Profile" />,
+		}} />
+
+	</Stack.Navigator>
+);
+
+const customerItems = [
+	<DrawerNav.Screen name="Home" component={HomeStackScreen}
+
+		options={{
+			title: 'Home',
+		}}
+	/>,
+	<DrawerNav.Screen name="Profile" component={ProfileStackScreen}
+
+		options={{
+			title: 'Profile',
+		}}
+	/>
+];
+
+
+function DrawerContent(props) {
+
+
+	const { user, logout } = useContext(AuthContext);
+	var name = "User"
+	const ref = Firebase.database().ref(`Customers/${user.uid}`);
+	ref.on('value', function (snapshot) {
+		var data = snapshot.val();
+		name = data.firstName;
+	})
+	return (
+		<SafeAreaView style={{ flex: 1, }}>
+
+			<View style={{ flexDirection: 'row', height: 100, backgroundColor: 'white', alignItems: 'center', marginTop: 10, paddingTop: 15, paddingLeft: 15 }}>
+				<AntDesign name="user" size={40} color="black" />
+				<Text style={{ marginTop: 10, fontSize: 20 }}> {"Hey " + name + "!!"}</Text>
+			</View>
+
+			<ScrollView>
+				<DrawerItemList  {...props} />
+			</ScrollView>
+			<TouchableOpacity >
+				<Text
+					style={{ width: '100%', backgroundColor: '#eee', color: 'black', fontSize: 20, fontWeight: 'bold', height: 50, textAlign: 'center', paddingTop: 10 }}
+					onPress={() => {
+						Alert.alert("Logout", "You will be logged out...",
+							[
+								{ text: "Cancel" },
+								{ text: "Proceed", onPress: () => logout() }
+							], { cancelable: false }
+						);
+					}}>
+					SIGN OUT</Text>
+			</TouchableOpacity>
+		</SafeAreaView>
+	)
 }
 
-// const delay = ms => new Promise(res => setTimeout(res,ms));
-// const getScreens = () => {
-    
 
-//     Firebase.database().ref('DrawerItemsList').on('value', (data) => {
-//         if (data.val()) {
-//             let list = data.val();
-//             for (var i = 0; i < list.length; i++) {
-//                 screens[list[i].itemName] = { screen: NewStack };
-//             }
-//         }
-//     })
-    
-//     //console.log("AddedScreens",addedScreens)
-//     console.log("Screens",screens)
-//     //console.length("Added",addedScreens)
-//     return screens;
-// }
-const screens = {
-    Home: { screen: AppStack },
-    Profile: { screen: profileStack },
+export default class DrawerNew extends React.Component {
+	_isMounted = false;
+	constructor(props) {
+		super(props);
+		this.state = {
+			arr: [],
+		};
+	}
+
+	componentDidMount() {
+		this._isMounted = true;
+		Firebase.database().ref('/DrawerItemsList').once('value', (data) => {
+			if (this._isMounted) {
+				if (data.val()) {
+					console.log(data.val())
+					this.setState({
+						arr: data.val(),
+					});
+					for (var index = 0; index < this.state.arr.length; index++) {
+						if (this.state.arr[index] != null && addedItems.includes(this.state.arr[index]) == false)
+							addedItems.push(this.state.arr[index].itemName)
+					}
+					console.log("AddedItems", addedItems)
+					if (addedItems.length != 0) {
+
+						addedItems.map((text) => {
+
+							customerItems.push(
+								<DrawerNav.Screen name={text} component={
+
+									({ navigation }) => (
+
+										<Stack.Navigator screenOptions={{
+											headerTintColor: 'white',
+											headerTitleStyle: {
+												fontWeight: 'bold',
+												alignSelf: 'center'
+											},
+										}}>
+
+											<Stack.Screen name={text} component={ShopByCategory} options={{
+												title: text,
+												headerStyle: {
+													backgroundColor: 'black'
+												},
+												headerTitle: () => <Header navigation={navigation} title={text} />
+											}} />
+											<Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} options={{
+												title: "Details",
+												headerStyle: {
+													backgroundColor: 'black'
+												},
+												headerTitle: () => <SubHeader navigation={navigation} title="Details" />
+											}} />
+
+										</Stack.Navigator>
+									)
+								}
+									options={{
+
+										drawerLabel: text,
+										title: text,
+									}}
+								/>
+							)
+						});
+
+					}
+
+				}
+			}
+		}
+		);
+
+	}
+	componentWillUnmount() {
+		console.log("Unmount")
+		this._isMounted = false;
+	}
+
+
+	render() {
+		return (
+			<DrawerNav.Navigator initialRouteName="HomeScreen" drawerContentOptions={{ activeBackgroundColor: '#fff', activeTintColor: '#ff788f' }}
+				drawerContent={props => <DrawerContent {...props} />} >
+				{customerItems}
+			</DrawerNav.Navigator>
+		);
+
+	}
 }
-// const RootNavigationDrawer = createDrawerNavigator(getScreens(), { contentComponent: customComponent });
-//     Home: { screen: AppStack ,params:{name:'Home'} },
-//     Profile: { screen: profileStack, params:{name:'Profile'} }, 
-// }
-
-var length=0;
-var list ;
-Firebase.database().ref('DrawerItemsList').on('value',(data)=>{
-    list=data.val();
-    console.log("value",list);
-    length = list.length;
-    console.log("length",length);
-    
-})
-
-function NewStackCreate(params) {
-    const Stack=createStackNavigator();
-    return(
-        <Stack.Navigator>
-            <Stack.Screen name='name' component={NewScreen}/>
-        </Stack.Navigator>
-    )
-}
-
-for(var i=0;i<length;i++){
-    
-    screens[""+list[i].itemName]={screen:NewStackCreate}
-    console.log("screens",screens);
-    // const Stack=createStackNavigator();
-    // var name=list[i].itemName;
-    // console.log('bsjk',name);
-    // screens[" "+list[i].itemName]={screen:()=>(
-
-    //     <Stack.Navigator>
-    //         <Stack.Screen name={name} component={NewScreen}/>
-    //     </Stack.Navigator>
-    // ) ,params:{name :list[i].itemName}};
-    // console.log("screennnnnnnnnns",screens);
-}
-
-
-const RootNavigationDrawer = createDrawerNavigator(screens, { contentComponent: customComponent });
-
-export default createAppContainer(RootNavigationDrawer);

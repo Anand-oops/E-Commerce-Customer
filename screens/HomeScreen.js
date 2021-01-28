@@ -5,7 +5,7 @@ import Firebase from '../firebaseConfig';
 import Card from '../shared/Card'
 import { SliderBox } from 'react-native-image-slider-box';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
 
     const { user } = useContext(AuthContext);
 
@@ -20,7 +20,7 @@ const HomeScreen = ({navigation}) => {
     const [cards, setCards] = useState([])
     const [cardsCall, setCardsCall] = useState(true)
 
-    
+
 
     Firebase.database().ref('ImagesDeck/').on('value', function (data) {
         if (imagesDeckCall) {
@@ -68,8 +68,8 @@ const HomeScreen = ({navigation}) => {
                     </View>
                 </View>
                 <View>
-                    {cards.map(card => <Card key={card.key} images={card.images} header={card.header} 
-                    pressHandler = {() => navigation.navigate("SaleProductDetails")} />)}
+                    {cards.map(card => <Card key={card.key} images={card.images} header={card.header}
+                        pressHandler={(prod) => navigation.navigate("SaleProductDetails", { product: prod })} />)}
                 </View>
             </ScrollView>
         </View>
