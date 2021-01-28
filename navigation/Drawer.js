@@ -134,15 +134,13 @@ export default class DrawerNew extends React.Component {
 		Firebase.database().ref('/DrawerItemsList').once('value', (data) => {
 			if (this._isMounted) {
 				if (data.val()) {
-					console.log(data.val())
 					this.setState({
 						arr: data.val(),
 					});
 					for (var index = 0; index < this.state.arr.length; index++) {
-						if (this.state.arr[index] != null && addedItems.includes(this.state.arr[index]) == false)
+						if (this.state.arr[index] != null && addedItems.includes(this.state.arr[index].itemName) == false)
 							addedItems.push(this.state.arr[index].itemName)
 					}
-					console.log("AddedItems", addedItems)
 					if (addedItems.length != 0) {
 
 						addedItems.map((text) => {

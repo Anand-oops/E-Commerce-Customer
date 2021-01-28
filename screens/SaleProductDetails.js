@@ -2,18 +2,33 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
 import Collapsible from 'react-native-collapsible'
+import Firebase from '../firebaseConfig'
 
 export default function SaleProductDetails(props) {
-    const item = props.route.params.product;
-    const [collapsed, setCollapsed] = useState(true)
 
+    const product=props.route.params.product;
+    const [check, setCheck] = useState(true);
+    const [collapsed, setCollapsed] = useState(true)
+    const [item, setItem] = useState([])
+    const [images, setImages] = useState([])
+    
+    Firebase.database().ref(`ProductList/${product.category}/${product.subCategory}/${product.productKey}`).once('value').then((data) => {
+        if(check){
+            if(data.val()){
+                setItem(data.val())
+                setImages(data.val().images)
+                setCheck(false);
+            }
+        }
+    })
+    
     return (
         <View style={styles.screen}>
             <ScrollView>
                 <View style={styles.display}>
                     <View style={styles.imageContainer}>
                         <SliderBox
-                            images={item.images}
+                            images={images}
                             sliderBoxHeight={375}
                             circleLoop={true}
                             resizeMode={'contain'} />
