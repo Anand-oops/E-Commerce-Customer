@@ -38,7 +38,6 @@ export default function ShopByCategory({ navigation, route }) {
     return (
 
         <View style={styles.main}>
-
             <FlatList style={{ flex: 1, padding: 4 }}
                 data={items}
                 numColumns={2}
@@ -52,9 +51,7 @@ export default function ShopByCategory({ navigation, route }) {
                                         source={{ uri: item.uri }}
                                     />
                                 </View>
-
                                 <Text style={{ color: '#3b3a30', fontSize: 10, padding: 4, alignSelf: 'center', flex: 1 }}>{item.subitemName}</Text>
-
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -75,7 +72,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        // justifyContent: "center",
         paddingTop: '50%'
     },
     text: {
