@@ -44,7 +44,7 @@ export default function ShopByCategory({navigation,route}) {
 
     const itemsPress=(item)=>{
         console.log("clicked");
-       navigation.navigate('NewScreen',{item:item});
+       navigation.navigate('NewScreen',{name:name,subitemName:item.subitemName});
     // console.log(props.navigation.navigate);
     }
 

@@ -6,10 +6,10 @@ import Firebase from "../firebaseConfig";
 
 
 export default function NewScreen(props) {
-    
+    console.log("props",props);
     const [listen, setListen] = useState(true);
     const [items, setItem] = useState([]);
-    Firebase.database().ref(`ProductList/${props.route.name}`).on('value', (data) => {
+    Firebase.database().ref(`ProductList/${props.route.params.name}/${props.route.params.subitemName}`).on('value', (data) => {
         if (listen) {
             if(data.val()){
                 var temp = [];
@@ -35,7 +35,7 @@ export default function NewScreen(props) {
     })
     const itemsPress=(item)=>{
         console.log("clicked");
-       navigation.navigate('ProductDetailsScreen',{item:item});
+       props.navigation.navigate('ProductDetailsScreen',{item:item});
     // console.log(props.navigation.navigate);
     }
 
