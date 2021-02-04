@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext, useRef } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
-import { StyleSheet, Text, View, Image, Button, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, TouchableOpacity } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Firebase from "../firebaseConfig";
 import Counter from "react-native-counters";
@@ -14,12 +14,11 @@ export default function Cart(props) {
     const { user } = useContext(AuthContext);
     const [sumTotalPrice, setSumTotal] = useState(0);
     const [sumFinalPrice, setFinalTotal] = useState(0);
-    const [pay, setPay] = useState(0);
     const [listen, setListen] = useState(true);
     const [items, setItem] = useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
     const [addresses, setAddresses] = useState([])
-    const [addressIndex, setAddressIndex] = useState(-1)
+    const [addressIndex, setAddressIndex] = useState(0)
     const [addressCall , setAddressCall] = useState(true)
 
     const addressRBSheet = useRef();
