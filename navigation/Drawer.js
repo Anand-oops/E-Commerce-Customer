@@ -13,6 +13,10 @@ import ProfileScreen from '../screens/ProfileScreen';
 import SaleProductDetails from '../screens/SaleProductDetails';
 import SubHeader from '../shared/SubHeader'
 import NewScreen from '../screens/NewScreen';
+import WishList from "../screens/WishList";
+import Cart from "../screens/Cart";
+import ProceedToBuy from "../screens/ProceedToBuy";
+import YourOrders from "../screens/YourOrders";
 
 
 const addedItems = [];
@@ -64,6 +68,106 @@ const ProfileStackScreen = ({ navigation }) => (
 
 	</Stack.Navigator>
 );
+const WishListStackScreen = ({ navigation }) => (
+	<Stack.Navigator screenOptions={{
+		headerTintColor: 'white',
+		headerTitleStyle: {
+			fontWeight: 'bold',
+			alignSelf: 'center'
+
+
+		},
+	}}>
+		<Stack.Screen name="WishList" component={WishList} options={{
+			title: 'WishList',
+			headerStyle: {
+				backgroundColor: 'black',
+			},
+			// headerTitleAlign: 'center',
+			headerTitle: () => <Header navigation={navigation} title="WishList" />,
+			// headerLeft : () => (
+			// 	<Icon.Button  name = 'ios-menu' size={30}
+			// 	backgroundColor = '#ec2F4B' onPress={() => navigation.openDrawer()}></Icon.Button>
+			// ),
+
+
+
+		}} />
+		<Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} options={{
+			title: "Details",
+			headerStyle: {
+				backgroundColor: 'black'
+			},
+			headerTitle: () => <SubHeader navigation={navigation} title="Details" />
+		}} />
+
+
+
+	</Stack.Navigator>
+);
+const CartStackScreen = ({ navigation }) => (
+	<Stack.Navigator screenOptions={{
+		headerTintColor: 'white',
+		headerTitleStyle: {
+			fontWeight: 'bold',
+			alignSelf: 'center'
+
+
+		},
+	}}>
+		<Stack.Screen name="Cart" component={Cart} options={{
+			title: 'Cart',
+			headerStyle: {
+				backgroundColor: 'black',
+			},
+			// headerTitleAlign: 'center',
+			headerTitle: () => <Header navigation={navigation} title="Cart" />,
+			// headerLeft : () => (
+			// 	<Icon.Button  name = 'ios-menu' size={30}
+			// 	backgroundColor = '#ec2F4B' onPress={() => navigation.openDrawer()}></Icon.Button>
+			// ),
+
+
+
+		}} />
+		
+		<Stack.Screen name="ProceedToBuy" component={ProceedToBuy} options={{
+			title: 'Proceed to Buy',
+			headerStyle: {
+				backgroundColor: 'black'
+			},
+			headerTitle: () => <SubHeader navigation={navigation} title="Proceed to Buy" />,
+		}} />
+		<Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} options={{
+			title: "Details",
+			headerStyle: {
+				backgroundColor: 'black'
+			},
+			headerTitle: () => <SubHeader navigation={navigation} title="Details" />
+		}} />
+
+
+
+	</Stack.Navigator>
+);
+const YourOrdersStack = ({ navigation }) => (
+	<Stack.Navigator screenOptions={{
+		headerTintColor: 'white',
+		headerTitleStyle: {
+			fontWeight: 'bold',
+			alignSelf: 'center'
+		},
+	}}>
+		<Stack.Screen name="YourOrders" component={YourOrders} options={{
+			title: 'Your Orders',
+			headerStyle: {
+				backgroundColor: 'black'
+			},
+			headerTitle: () => <Header navigation={navigation} title="Your Orders" />,
+		}} />
+
+	</Stack.Navigator>
+);
 
 const customerItems = [
 	<DrawerNav.Screen name="Home" component={HomeStackScreen}
@@ -76,6 +180,33 @@ const customerItems = [
 
 		options={{
 			title: 'Profile',
+		}}
+	/>,
+	<DrawerNav.Screen name="WishList" component={WishListStackScreen}
+
+		options={{
+			title: 'Your WishList',
+			// drawerLabel: () => null,
+			//  title: null,
+			//  drawerIcon: () => null
+		}}
+	/>,
+	<DrawerNav.Screen name="Cart" component={CartStackScreen}
+
+		options={{
+			title: 'Your Cart',
+			// drawerLabel: () => null,
+			//  title: null,
+			//  drawerIcon: () => null
+		}}
+	/>,
+	<DrawerNav.Screen name="Your Orders" component={YourOrdersStack}
+
+		options={{
+			title: 'Your Orders',
+			// drawerLabel: () => null,
+			//  title: null,
+			//  drawerIcon: () => null
 		}}
 	/>
 ];

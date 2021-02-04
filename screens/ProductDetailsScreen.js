@@ -44,45 +44,51 @@ export default function ProductDetailsScreen(props) {
     // })
 
     const addToWishlist = (item)=>{
-
+        var list = [...wishlistItems]
         console.log("add to wishlist");
-        //  console.log("itm",item);
-        //  console.log('user',user);
+       
         var present=false;
-        // wishlistItems.map((i) => {
-        //     if (i.key==item.key) {
-        //         // index = items.indexOf(i);
-        //         present=true;
-        //         // break;
-                
-        //     }
-        // })
-        for(var i=0;i<wishlistItems.length;i++){
-            if(wishlistItems[i].key==item.key){
+       
+        for(var i=0;i<list.length;i++){
+            if(list[i].key==item.key){
                 present=true;
                 break;
             }
         }
-    //  if(present){
-    //     Toast.show("Already added !! ",Toast.SHORT);
-    //  }else{
-
-        setWishlistItems([...wishlistItems,item]);
-        //  console.log('items',wishlistItems);
-         Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(wishlistItems).then(()=>{
+     if(present){
+        Toast.show("Already added !! ",Toast.SHORT);
+     }else{
+        list.push(item);
+        setWishlistItems(list);
+         console.log('items',wishlistItems);
+         Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(list).then(()=>{
              Toast.show("Added to WishList",Toast.SHORT);
          })
-    //  }
+     }
          
     }
 
     const addToCart=(item)=>{
         console.log('add to cart ',item);
+        var list=[...cartItems];
 
-        setCart([...cartItems,item]);
-        Firebase.database().ref(`Customers/${user.uid}/cart`).set(cartItems).then(()=>{
-            Toast.show("Added to Cart",Toast.SHORT);
-        })
+        var present=false;
+       
+        for(var i=0;i<list.length;i++){
+            if(list[i].key==item.key){
+                present=true;
+                break;
+            }
+        }
+     if(present){
+        Toast.show("Already added !! ",Toast.SHORT);
+     }else{
+        list.push(item);
+        setCart(list);
+         Firebase.database().ref(`Customers/${user.uid}/cart`).set(list).then(()=>{
+             Toast.show("Added to Cart",Toast.SHORT);
+         })
+     }
     }
 
     return (
