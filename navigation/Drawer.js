@@ -4,6 +4,7 @@ import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer'
 import Firebase from "../firebaseConfig";
 import { AuthContext } from './AuthProvider'
 import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { View, TouchableOpacity, SafeAreaView, Text, ScrollView, Alert } from 'react-native';
 import Header from '../shared/Header';
 import ProductDetailsScreen from "../screens/ProductDetailsScreen";
@@ -23,6 +24,8 @@ const addedItems = [];
 const DrawerNav = createDrawerNavigator();
 const Stack = createStackNavigator();
 
+
+
 const HomeStackScreen = ({ navigation }) => (
 	<Stack.Navigator screenOptions={{
 		headerTintColor: 'white',
@@ -36,7 +39,25 @@ const HomeStackScreen = ({ navigation }) => (
 			headerStyle: {
 				backgroundColor: 'black'
 			},
-			headerTitle: () => <Header navigation={navigation} title="Home" />,
+			// headerTitle: () => <Header navigation={navigation} title="Home" />,
+			headerTitle:()=>(
+				<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{position:'absolute',left:3}} />
+            <View>
+                <Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>Home</Text>
+            </View>
+            <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+            <AntDesign name="hearto" size={22} color="white"   />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+            <AntDesign name="shoppingcart" size={24} color="white"   />
+            </TouchableOpacity>
+
+        </View>
+			)
 		}} />
 
 		<Stack.Screen name="SaleProductDetails" component={SaleProductDetails} options={{
@@ -44,7 +65,24 @@ const HomeStackScreen = ({ navigation }) => (
 			headerStyle: {
 				backgroundColor: 'black'
 			},
-			headerTitle: () => <SubHeader navigation={navigation} title="Product Details" />,
+			headerTitle:()=>(
+				<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            
+            <View>
+                <Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>Details</Text>
+            </View>
+            <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+            <AntDesign name="hearto" size={22} color="white"   />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+            <AntDesign name="shoppingcart" size={24} color="white"   />
+            </TouchableOpacity>
+
+        </View>
+			)
 		}} />
 
 	</Stack.Navigator>
@@ -63,7 +101,24 @@ const ProfileStackScreen = ({ navigation }) => (
 			headerStyle: {
 				backgroundColor: 'black'
 			},
-			headerTitle: () => <Header navigation={navigation} title="Profile" />,
+			headerTitle:()=>(
+				<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{position:'absolute',left:3}} />
+            <View>
+                <Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>Profile</Text>
+            </View>
+            <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+            <AntDesign name="hearto" size={22} color="white"   />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+            <AntDesign name="shoppingcart" size={24} color="white"   />
+            </TouchableOpacity>
+
+        </View>
+			),
 		}} />
 
 	</Stack.Navigator>
@@ -84,7 +139,24 @@ const WishListStackScreen = ({ navigation }) => (
 				backgroundColor: 'black',
 			},
 			// headerTitleAlign: 'center',
-			headerTitle: () => <Header navigation={navigation} title="WishList" />,
+			headerTitle:()=>(
+				<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{position:'absolute',left:3}} />
+            <View>
+                <Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>Wishlist</Text>
+            </View>
+            <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+            <AntDesign name="hearto" size={22} color="white"   />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+            <AntDesign name="shoppingcart" size={24} color="white"   />
+            </TouchableOpacity>
+
+        </View>
+			)
 			// headerLeft : () => (
 			// 	<Icon.Button  name = 'ios-menu' size={30}
 			// 	backgroundColor = '#ec2F4B' onPress={() => navigation.openDrawer()}></Icon.Button>
@@ -98,7 +170,24 @@ const WishListStackScreen = ({ navigation }) => (
 			headerStyle: {
 				backgroundColor: 'black'
 			},
-			headerTitle: () => <SubHeader navigation={navigation} title="Details" />
+			headerTitle:()=>(
+				<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            
+            <View>
+                <Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>Details</Text>
+            </View>
+            <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+            <AntDesign name="hearto" size={22} color="white"   />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+            <AntDesign name="shoppingcart" size={24} color="white"   />
+            </TouchableOpacity>
+
+        </View>
+			)
 		}} />
 
 
@@ -121,7 +210,24 @@ const CartStackScreen = ({ navigation }) => (
 				backgroundColor: 'black',
 			},
 			// headerTitleAlign: 'center',
-			headerTitle: () => <Header navigation={navigation} title="Cart" />,
+			headerTitle:()=>(
+				<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{position:'absolute',left:3}} />
+            <View>
+                <Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>Cart</Text>
+            </View>
+            <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+            <AntDesign name="hearto" size={22} color="white"   />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+            <AntDesign name="shoppingcart" size={24} color="white"   />
+            </TouchableOpacity>
+
+        </View>
+			)
 			// headerLeft : () => (
 			// 	<Icon.Button  name = 'ios-menu' size={30}
 			// 	backgroundColor = '#ec2F4B' onPress={() => navigation.openDrawer()}></Icon.Button>
@@ -136,14 +242,48 @@ const CartStackScreen = ({ navigation }) => (
 			headerStyle: {
 				backgroundColor: 'black'
 			},
-			headerTitle: () => <SubHeader navigation={navigation} title="Proceed to Buy" />,
+			headerTitle:()=>(
+				<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            
+            <View>
+                <Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>Proceed</Text>
+            </View>
+            <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+            <AntDesign name="hearto" size={22} color="white"   />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+            <AntDesign name="shoppingcart" size={24} color="white"   />
+            </TouchableOpacity>
+
+        </View>
+			)
 		}} />
 		<Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} options={{
 			title: "Details",
 			headerStyle: {
 				backgroundColor: 'black'
 			},
-			headerTitle: () => <SubHeader navigation={navigation} title="Details" />
+			headerTitle:()=>(
+				<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            
+            <View>
+                <Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>Details</Text>
+            </View>
+            <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+            <AntDesign name="hearto" size={22} color="white"   />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+            <AntDesign name="shoppingcart" size={24} color="white"   />
+            </TouchableOpacity>
+
+        </View>
+			)
 		}} />
 
 
@@ -163,7 +303,24 @@ const YourOrdersStack = ({ navigation }) => (
 			headerStyle: {
 				backgroundColor: 'black'
 			},
-			headerTitle: () => <Header navigation={navigation} title="Your Orders" />,
+			headerTitle:()=>(
+				<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{position:'absolute',left:3}} />
+            <View>
+                <Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>Your Orders</Text>
+            </View>
+            <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+            <AntDesign name="hearto" size={22} color="white"   />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+            <AntDesign name="shoppingcart" size={24} color="white"   />
+            </TouchableOpacity>
+
+        </View>
+			)
 		}} />
 
 	</Stack.Navigator>
@@ -294,21 +451,72 @@ export default class DrawerNew extends React.Component {
 												headerStyle: {
 													backgroundColor: 'black'
 												},
-												headerTitle: () => <Header navigation={navigation} title={text} />
+												headerTitle:()=>(
+													<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+												<Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{position:'absolute',left:3}} />
+												<View>
+													<Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>{text}</Text>
+												</View>
+												<TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+												<AntDesign name="hearto" size={22} color="white"   />
+												</TouchableOpacity>
+												
+												<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+												<AntDesign name="shoppingcart" size={24} color="white"   />
+												</TouchableOpacity>
+									
+											</View>
+												)
 											}} />
 											<Stack.Screen name="NewScreen" component={NewScreen} options={{
 												title: "Explore",
 												headerStyle: {
 													backgroundColor: 'black'
 												},
-												headerTitle: () => <SubHeader navigation={navigation} title="Explore" />
+												headerTitle:()=>(
+													<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+												
+												<View>
+													<Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>Explore</Text>
+												</View>
+												<TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+												<AntDesign name="hearto" size={22} color="white"   />
+												</TouchableOpacity>
+												
+												<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+												<AntDesign name="shoppingcart" size={24} color="white"   />
+												</TouchableOpacity>
+									
+											</View>
+												)
 											}} />
 											<Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} options={{
 												title: "Details",
 												headerStyle: {
 													backgroundColor: 'black'
 												},
-												headerTitle: () => <SubHeader navigation={navigation} title="Details" />
+												headerTitle:()=>(
+													<View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+												
+												<View>
+													<Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>Details</Text>
+												</View>
+												<TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{console.log("wishlist open");
+    navigation.navigate('WishList');}}>
+												<AntDesign name="hearto" size={22} color="white"   />
+												</TouchableOpacity>
+												
+												<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{console.log("cart open");
+    navigation.navigate('Cart');}}>
+												<AntDesign name="shoppingcart" size={24} color="white"   />
+												</TouchableOpacity>
+									
+											</View>
+												)
 											}} />
 
 										</Stack.Navigator>

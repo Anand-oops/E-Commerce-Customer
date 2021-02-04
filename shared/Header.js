@@ -17,10 +17,10 @@ const cartOpen=()=>{
     navigation.navigate('Cart');
 }
     return (
-        <View style={styles.header}>
-            <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={styles.icon} />
+        <View style={{height:'100%',width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{position:'absolute',left:3}} />
             <View>
-                <Text style={styles.headertext}>{title}</Text>
+                <Text style={{fontWeight:'bold',fontSize:20,letterSpacing:1,color:'white'}}>{title}</Text>
             </View>
             <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{wishlistOpen()}}>
             <AntDesign name="hearto" size={22} color="white"   />
