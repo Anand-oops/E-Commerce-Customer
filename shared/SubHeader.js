@@ -1,17 +1,31 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
 
-export default function header({ title }) {
+export default function header({ navigation,title }) {
 
+    const wishlistOpen=()=>{
+        console.log("wishlist open");
+        navigation.navigate('WishList');
+        
+    }
+    const cartOpen=()=>{
+        console.log("cart open");
+        navigation.navigate('Cart');
+    }
     return (
         <View style={styles.header}>
             <View>
                 <Text style={styles.headertext}>{title}</Text>
             </View>
-            <AntDesign name="hearto" size={22} color="white" style={{ position: 'absolute', right: 40 }} />
-            <AntDesign name="shoppingcart" size={24} color="white" style={{ position: 'absolute', right: 3 }} />
+            <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{wishlistOpen()}}>
+            <AntDesign name="hearto" size={22} color="white"   />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{cartOpen()}}>
+            <AntDesign name="shoppingcart" size={24} color="white"   />
+            </TouchableOpacity>
 
         </View>
     )

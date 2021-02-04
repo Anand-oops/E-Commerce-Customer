@@ -1,17 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default function header({ navigation, title }) {
-console.log("nav",navigation);
+// console.log("nav",navigation);
 const wishlistOpen=()=>{
     console.log("wishlist open");
+    navigation.navigate('WishList');
+    
 }
 const cartOpen=()=>{
     console.log("cart open");
+    navigation.navigate('Cart');
 }
     return (
         <View style={styles.header}>
@@ -19,12 +22,13 @@ const cartOpen=()=>{
             <View>
                 <Text style={styles.headertext}>{title}</Text>
             </View>
+            <TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={()=>{wishlistOpen()}}>
+            <AntDesign name="hearto" size={22} color="white"   />
+            </TouchableOpacity>
             
-            <AntDesign name="hearto" size={22} color="white" onPress={()=>{wishlistOpen()}} style={{ position: 'absolute', right: 40 }} />
-            
-            
-            <AntDesign name="shoppingcart" size={24} color="white" onPress={()=>{cartOpen()}} style={{ position: 'absolute', right: 3 }} />
-            
+            <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={()=>{cartOpen()}}>
+            <AntDesign name="shoppingcart" size={24} color="white"   />
+            </TouchableOpacity>
 
         </View>
     )
