@@ -8,6 +8,11 @@ import Firebase from "../firebaseConfig";
 
 export default function OrderPlacingScreen(props) {
 
+    const ButtonPress=()=>{
+        console.log('proceed to buy');
+        // props.navigation.navigate('ProceedToBuy');
+    }
+
     // const { user } = useContext(AuthContext);
 
     // console.log("props",props);
@@ -46,7 +51,7 @@ export default function OrderPlacingScreen(props) {
     return (
 
         <View style={styles.main}>
-            <Text>this is order placing screen</Text>
+            
             {/* <FlatList style={{flex:1 ,padding:4}}
               data={items}
               numColumns={2}
@@ -75,6 +80,45 @@ export default function OrderPlacingScreen(props) {
               )}>
 
             </FlatList> */}
+            <View style={{margin:4,borderRadius:1,elevation:1}}>
+                    <Text style={{margin:2,fontWeight:'bold'}}>Shipping to :</Text>
+                    <Text style={{margin:2,fontWeight:'bold'}}>Address :</Text>
+                    <View
+                        style={{
+                            margin:2,
+                            borderBottomColor: 'grey',
+                            borderBottomWidth: 1,
+                        }}
+                    />
+                    <View style={{flexDirection:"row",margin:2}}>
+                        <Text style={{flex:1}}>Items : </Text>
+                        <Text>{"yahan price"}</Text>
+                    </View>
+                    <View style={{flexDirection:"row",margin:2}}>
+                        <Text style={{flex:1}}>ADDITIONAL CHARGES: </Text>
+                        <Text>00.00</Text>
+                    </View>
+                    {/* <View style={{flexDirection:"row",margin:2}}>
+                        <Text style={{flex:1}}>Total </Text>
+                        <Text>{'total '}</Text>
+                    </View> */}
+                    <View
+                        style={{
+                            margin:2,
+                            borderBottomColor: 'grey',
+                            borderBottomWidth: 1,
+                        }}
+                    />
+                    <View style={{flexDirection:"row",margin:2}}>
+                        <Text style={{flex:1,fontWeight:'bold'}}>TOTAL AMOUNT </Text>
+                        <Text style={{fontWeight:'bold'}}>{'total'}</Text>
+                    </View>
+                </View>
+                <TouchableOpacity onPress={()=>ButtonPress()}>
+                    <View style={{borderRadius:3,elevation:1,margin:6,padding:4,backgroundColor:'#f4a460',height:40,justifyContent:'center'}}>
+                        <Text style={{alignSelf:'center',fontWeight:'bold'}}>Place Your Order</Text>
+                    </View>
+                </TouchableOpacity>
 
                 
         </View>
