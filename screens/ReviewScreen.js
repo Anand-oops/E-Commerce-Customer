@@ -14,6 +14,10 @@ export default function ReviewScreen(props) {
 
     
     const [item,setItem]=useState(props.route.params.item);
+    const giveReview=(item)=>{
+        console.log("clicked");
+        props.navigation.navigate('WriteReview',{item:item});
+    }
 
 
     return (
@@ -50,7 +54,7 @@ export default function ReviewScreen(props) {
                                 <View>
                 <Text style={{color:'black',fontSize:20,fontWeight:'bold',marginTop:6,marginHorizontal:4}}>How's your item ?</Text>
                 <View style={{borderRadius:1,elevation:1,padding:2,margin:10,height:40,justifyContent:'center'}}>
-                <TouchableOpacity style={{flexDirection:'row'}}>
+                <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>giveReview(item)}>
                     <Text style={{fontSize:15,marginHorizontal:8,flex:1}}>Give Review</Text>
                     <View style={{alignSelf:'center',marginHorizontal:4}}>
                     <AntDesign name="right" size={15} color="black" />
