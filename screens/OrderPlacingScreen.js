@@ -17,11 +17,13 @@ export default function OrderPlacingScreen(props) {
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
             item.address = address;
-            item.customerId = user.uid;
+            item.customer = {
+                customerId : user.uid,
+                customerName : user.firstName+" "+user.lastName
+            } 
             item.deliveryStatus = 'Pending';
             item.orderId = new Date().getTime().toString();
-            console.log("OrderId",item.orderId);
-
+            
             Firebase.database().ref(`Customers/${user.uid}/Orders/${item.orderId}`).set(item);
             Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).set(item);
         }

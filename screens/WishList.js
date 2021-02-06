@@ -14,6 +14,7 @@ export default function WishList(props) {
     const [listen, setListen] = useState(true);
     const [items, setItem] = useState([]);
     const [cartItems,setCart]=useState([]);
+    
     Firebase.database().ref(`Customers/${user.uid}`).on('value', (data) => {
         if (listen) {
             if (data.val().wishlist) {
@@ -25,17 +26,7 @@ export default function WishList(props) {
                     var key = keys[i]
                     temp.push(data.val().wishlist[key])
                 }
-
-                console.log("sddssdsdd", temp);
-
-                
-
                 setItem(temp);
-
-                
-
-                console.log('items', items);
-                console.log('vsfhbf', temp[0].productName);
             }
             if(data.val().cart){
                 setCart(data.val().cart);
@@ -47,11 +38,9 @@ export default function WishList(props) {
     const itemsPress = (item) => {
         console.log("clicked");
         props.navigation.navigate('ProductDetailsScreen', { item: item });
-        // console.log(props.navigation.navigate);
+    
     }
-    // const DeleteItem=()=>{
-    //     console.log("item deleted");
-    // }
+    
     function DeleteItem(index) {
 		console.log("deleted", index);
 		const newArray = items;
