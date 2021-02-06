@@ -17,6 +17,7 @@ import Cart from "../screens/Cart";
 import ProceedToBuy from "../screens/ProceedToBuy";
 import YourOrders from "../screens/YourOrders";
 import OrderPlacingScreen from '../screens/OrderPlacingScreen'
+import ReviewScreen from '../screens/ReviewScreen';
 
 
 const addedItems = [];
@@ -385,6 +386,35 @@ const YourOrdersStack = ({ navigation }) => (
 				</View>
 			)
 		}} />
+		<Stack.Screen name="ReviewScreen" component={ReviewScreen} options={{
+			title: 'Your Order Details',
+			headerStyle: {
+				backgroundColor: 'black'
+			},
+			headerTitle: () => (
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+
+					<View>
+						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Your Orders</Text>
+					</View>
+					<TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={() => {
+						console.log("wishlist open");
+						navigation.navigate('WishList');
+					}}>
+						<AntDesign name="hearto" size={22} color="white" />
+					</TouchableOpacity>
+
+					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
+						console.log("cart open");
+						navigation.navigate('Cart');
+					}}>
+						<AntDesign name="shoppingcart" size={24} color="white" />
+					</TouchableOpacity>
+
+				</View>
+			)
+		}} />
+
 
 	</Stack.Navigator>
 );

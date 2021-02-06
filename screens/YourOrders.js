@@ -3,11 +3,11 @@ import { useState, useContext } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Firebase from "../firebaseConfig";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { FlatList, LongPressGestureHandler, ScrollView } from "react-native-gesture-handler";
 import Toast from 'react-native-simple-toast'
 
 
-export default function YourOrders() {
+export default function YourOrders({navigation}) {
 
     const { user } = useContext(AuthContext);
 
@@ -29,7 +29,12 @@ export default function YourOrders() {
                 Toast.show("No Orders", Toast.SHORT);
             setListen(false);
         }
-    })
+    });
+
+    const pressHandler=(item)=>{
+        console.log("clickedd");
+   navigation.navigate('ReviewScreen',{item:item});
+    }
 
     return (
 
@@ -37,7 +42,9 @@ export default function YourOrders() {
             <ScrollView style={{ flex: 1, marginTop:10 }}>
                 <FlatList data={orders}
                     renderItem={data => (
+                        <TouchableOpacity onPress={()=>pressHandler(data.item)}>
                         <View style={styles.listContainer}>
+                            
                             <Image source={data.item.image} style={styles.listimage} />
                             <View style={styles.list}>
                                 <Text style={{ color: 'black', fontWeight: 'bold' }}>Order Id: {data.item.orderId}</Text>
@@ -47,7 +54,9 @@ export default function YourOrders() {
                                 <Text style={{ color: 'black' }}>Address: {data.item.address.city + "," + data.item.address.state + " - " + data.item.address.pincode}</Text>
                                 <Text style={{ color: 'red' }}>{data.item.deliveryStatus}</Text>
                             </View>
+                            
                         </View>
+                        </TouchableOpacity>
                     )} />
             </ScrollView>
         </View>
@@ -79,6 +88,7 @@ const styles = StyleSheet.create({
         height: 10,
         width: 10,
         padding: 20,
+        
         marginHorizontal: 20,
     },
 });
