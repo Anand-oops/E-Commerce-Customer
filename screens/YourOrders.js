@@ -14,7 +14,7 @@ export default function YourOrders() {
     const [listen, setListen] = useState(true);
     const [orders, setOrders] = useState([])
 
-    Firebase.database().ref(`Customers/${user.uid}/Orders`).once('value').then(data => {
+    Firebase.database().ref(`Customers/${user.uid}/Orders`).on('value',data => {
         if (listen) {
             if (data.val()) {
                 var list = [];
@@ -23,7 +23,6 @@ export default function YourOrders() {
                     var key = keys[i];
                     list.push(data.val()[key])
                 }
-                console.log("List",list);
                 setOrders(list);
             } else
                 Toast.show("No Orders", Toast.SHORT);
