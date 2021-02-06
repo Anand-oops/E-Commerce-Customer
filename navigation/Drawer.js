@@ -580,7 +580,7 @@ function DrawerContent(props) {
 // }
 
 
-export default class DrawerNew extends React.Component {
+export default class Drawer extends React.Component {
 	_isMounted = false;
 	constructor(props) {
 		super(props);
