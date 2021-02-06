@@ -34,11 +34,10 @@ export default function Cart(props) {
                     var key = keys[i]
                     temp.push(data.val().cart[key])
                 }
-                setListen(false);
                 setItem(temp);
 
-                var sumProductPrice = 0;;
-                var sumFinalPrice = 0
+                var sumProductPrice = 0;
+                var sumFinalPrice = 0;
                 for (var i = 0; i < temp.length; i++) {
                     sumProductPrice += temp[i].productPrice;
                     sumFinalPrice += temp[i].finalPrice;
@@ -49,9 +48,15 @@ export default function Cart(props) {
             if (data.val().wishlist) {
                 setWishlistItems(data.val().wishlist);
             }
+            setListen(false);
         }
 
     })
+
+    // Firebase.database().ref(`Customers/${user.uid}/cart`).on('child_added', function () {
+    //     console.log("Cart Child Changed")
+    //     setListen(true);
+    // })
 
     Firebase.database().ref(`Customers/${user.uid}/Address`).once('value', data => {
         if(addressCall){
@@ -247,6 +252,7 @@ export default function Cart(props) {
                     </ScrollView>
                     <TouchableOpacity style={styles.filterButton} onPress={() => {
                         Toast.show("Proceed", Toast.SHORT);
+                        props.navigation.navigate('OrderPlacingScreen',{address: addresses[addressIndex] , items : items})
                         addressRBSheet.current.close()
                     }}>
                         <Text style={{ color: 'white' }} >Proceed</Text>
