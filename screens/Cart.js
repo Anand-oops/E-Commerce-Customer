@@ -76,7 +76,10 @@ export default function Cart(props) {
 
     const itemsPress = (item) => {
         console.log("clicked");
-        props.navigation.navigate('ProductDetailsScreen', { item: item });
+        if(address[addressIndex] != null)
+            props.navigation.navigate('ProductDetailsScreen', { item: item });
+        else
+            Toast.show("Select Address",Toast.SHORT);
     }
     const ButtonPress = () => {
         console.log('proceed to buy');
@@ -93,6 +96,16 @@ export default function Cart(props) {
             Toast.show("Deleted", Toast.SHORT);
         })
 
+    }
+
+    const deleteAddress = (index) => {
+        var list = [...addresses];
+        list.splice(index,1);
+        setAddresses(list);
+        Firebase.database().ref(`Customers/${user.uid}/Address`).set(list).then(() => {
+            setAddressCall(true);
+            Toast.show("Removed Address",Toast.SHORT);
+        })
     }
     const addToWishlist = (item) => {
         var list = [...wishlistItems]
@@ -240,6 +253,14 @@ export default function Cart(props) {
                                 <CheckBox
                                     title={data.item.name + '\n' + data.item.mobile + '\n' + data.item.addressLine1 + '\n' + data.item.addressLine2 + '\n' + data.item.city + ' , ' + data.item.state + '  ' + data.item.pincode}
                                     checked={(data.index === addressIndex) ? true : false}
+                                    onLongPress={() => {
+                                        Alert.alert("Delete", "Remove Address ?",
+                                                [
+                                                    { text: "No" },
+                                                    { text: "Yes", onPress: () => deleteAddress(data.index) }
+                                                ], { cancelable: false }
+                                            );
+                                        }}
                                     onPress={() => { setAddressIndex(data.index) }}
                                 />
                             )}
