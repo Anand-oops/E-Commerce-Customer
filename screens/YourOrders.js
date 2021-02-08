@@ -23,7 +23,7 @@ export default function YourOrders({ navigation }) {
                     var key = keys[i];
                     list.push(data.val()[key])
                 }
-                setOrders(list);
+                setOrders(list.reverse());
             } else
                 Toast.show("No Orders", Toast.SHORT);
             setListen(false);
@@ -43,17 +43,15 @@ export default function YourOrders({ navigation }) {
                     renderItem={data => (
                         <TouchableOpacity onPress={() => pressHandler(data.item)}>
                             <View style={styles.listContainer}>
-
                                 <Image source={data.item.image} style={styles.listimage} />
                                 <View style={styles.list}>
                                     <Text style={{ color: 'black', fontWeight: 'bold' }}>Order Id: {data.item.orderId}</Text>
-                                    <Text style={{ color: 'black' }}>Name : {data.item.productName}</Text>
+                                    <Text style={{ color: 'black' }}>Product : {data.item.productName}</Text>
                                     <Text style={{ color: 'purple' }}>Category : {data.item.category} :: {data.item.subCategory}</Text>
-                                    <Text style={{ color: 'blue' }}>Price: {data.item.productPrice}</Text>
-                                    <Text style={{ color: 'black' }}>Address: {data.item.address.city + "," + data.item.address.state + " - " + data.item.address.pincode}</Text>
-                                    <Text style={{ color: 'red' }}>{data.item.deliveryStatus}</Text>
+                                    <Text style={{ color: 'blue' }}>Price: {data.item.finalPrice}</Text>
+                                    <Text style={{ color: 'black' }}>Delivered: {data.item.address.city + "," + data.item.address.state + " - " + data.item.address.pincode}</Text>
+                                    <Text style={{ color: 'red', marginBottom: 5 }}>{data.item.deliveryStatus}</Text>
                                 </View>
-
                             </View>
                         </TouchableOpacity>
                     )} />
@@ -82,6 +80,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderColor: 'black',
         paddingHorizontal: 20,
+        marginTop: 5
     },
     listimage: {
         height: 10,

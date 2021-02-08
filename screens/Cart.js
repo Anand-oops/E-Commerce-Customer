@@ -27,15 +27,23 @@ export default function Cart(props) {
         if (listen) {
             if (data.val().cart) {
                 var temp = [];
+                var list = [];
                 var keys = Object.keys(data.val().cart);
                 console.log('keys', keys);
 
                 for (var i = 0; i < keys.length; i++) {
                     var key = keys[i]
-                    temp.push(data.val().cart[key])
+                    var prod = data.val().cart[key];
+                    temp.push(prod)
+                   
+                    // console.log("Prod",prod)
+                    Firebase.database().ref(`ProductList/${prod.category}/${prod.subCategory}/${prod.key}`).once('value').then(snap => {
+                        console.log(snap.val())
+                        list.push(snap.val());
+                    })
                 }
                 setItem(temp);
-
+                // console.log("Yeah?",list)
                 var sumProductPrice = 0;
                 var sumFinalPrice = 0;
                 for (var i = 0; i < temp.length; i++) {
@@ -52,11 +60,6 @@ export default function Cart(props) {
         }
 
     })
-
-    // Firebase.database().ref(`Customers/${user.uid}/cart`).on('child_added', function () {
-    //     console.log("Cart Child Changed")
-    //     setListen(true);
-    // })
 
     Firebase.database().ref(`Customers/${user.uid}/Address`).once('value', data => {
         if(addressCall){

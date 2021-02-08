@@ -28,10 +28,9 @@ export default function OrderPlacingScreen(props) {
             Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).set(item);
         }
 
-        Firebase.database().ref(`Customers/${user.uid}/cart`).set(null).then(() => {
-            Toast.show("Order Placed");
-            props.navigation.goBack(null);
-        })
+        Firebase.database().ref(`Customers/${user.uid}/cart`).set(null)
+        Toast.show("Order Placed");
+        props.navigation.navigate('Cart');
 
     }
 
