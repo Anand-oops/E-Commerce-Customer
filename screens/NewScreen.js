@@ -62,6 +62,7 @@ export default function NewScreen(props) {
                 }
             })
         }
+        console.log("Search", sort, filter, rangeFilterBool, ratingFilterBool);
         performSort(sort, filtered, filter, rangeFilterBool, ratingFilterBool);
     }
 
@@ -101,7 +102,7 @@ export default function NewScreen(props) {
     }
 
     const performFilter = (text, products) => {
-        console.log("Text", text);
+        console.log("Filterby", text);
         if (text === 'Range') {
             var filtered = [];
             if (rangeFilterIndex === 0) {
@@ -354,7 +355,20 @@ export default function NewScreen(props) {
                                         <TouchableOpacity style={styles.filterButton} onPress={() => {
                                             setRatingFilterBool(false);
                                             setRatingFilterIndex(-1);
-                                            performSearch(searchText)
+                                            if (rangeFilterBool) {
+                                                setFilter('Range')
+                                                if (searchText.length == 0 || searchText === '')
+                                                    performSort(sort, products, 'Range', true, false)
+                                                else
+                                                    performSearch(searchText)
+                                            }
+                                            else {
+                                                setFilter('Filter')
+                                                if (searchText.length == 0 || searchText === '')
+                                                    performSort(sort, products, 'Filter', false, false)
+                                                else
+                                                    performSearch(searchText)
+                                            }
                                             ratingRBSheet.current.close()
                                         }}>
                                             <Text style={{ color: 'white' }}>Reset</Text>
@@ -407,7 +421,20 @@ export default function NewScreen(props) {
                                         <TouchableOpacity style={styles.filterButton} onPress={() => {
                                             setRangeFilterBool(false);
                                             setRangeFilterIndex(-1);
-                                            performSearch(searchText)
+                                            if (ratingFilterBool) {
+                                                setFilter('Rating')
+                                                if (searchText.length == 0 || searchText === '')
+                                                    performSort(sort, products, 'Rating', true, false)
+                                                else
+                                                    performSearch(searchText)
+                                            }
+                                            else {
+                                                setFilter('Filter')
+                                                if (searchText.length == 0 || searchText === '')
+                                                    performSort(sort, products, 'Filter', false, false)
+                                                else
+                                                    performSearch(searchText)
+                                            }
                                             rangeRBSheet.current.close()
                                         }} >
                                             <Text style={{ color: 'white' }}>Reset</Text>

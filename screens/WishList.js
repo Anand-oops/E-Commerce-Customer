@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
-import { StyleSheet, Text, View, FlatList, Image, ScrollView, TouchableOpacity,Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import Firebase from "../firebaseConfig";
 import Toast from 'react-native-simple-toast'
 
@@ -13,8 +13,8 @@ export default function WishList(props) {
     console.log("props", props);
     const [listen, setListen] = useState(true);
     const [items, setItem] = useState([]);
-    const [cartItems,setCart]=useState([]);
-    
+    const [cartItems, setCart] = useState([]);
+
     Firebase.database().ref(`Customers/${user.uid}`).on('value', (data) => {
         if (listen) {
             if (data.val().wishlist) {
@@ -28,51 +28,52 @@ export default function WishList(props) {
                 }
                 setItem(temp);
             }
-            if(data.val().cart){
+            if (data.val().cart) {
                 setCart(data.val().cart);
-                 }
-                 setListen(false);
+            }
+            setListen(false);
         }
 
     })
     const itemsPress = (item) => {
         console.log("clicked");
         props.navigation.navigate('ProductDetailsScreen', { item: item });
-    
-    }
-    
-    function DeleteItem(index) {
-		console.log("deleted", index);
-		const newArray = items;
-		newArray.splice(index, 1);
-		setItem(newArray);
-		Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(newArray).then(()=>{
-            Toast.show("Deleted",Toast.SHORT);
-        })
-		
-	}
-    const addToCart = (item)=>{
-        console.log('add to cart ',item);
-        var list=[...cartItems];
 
-        var present=false;
-       
-        for(var i=0;i<list.length;i++){
-            if(list[i].key==item.key){
-                present=true;
+    }
+
+    function DeleteItem(index) {
+        console.log("deleted", index);
+        const newArray = items;
+        newArray.splice(index, 1);
+        setItem(newArray);
+        Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(newArray).then(() => {
+            Toast.show("Deleted", Toast.SHORT);
+            setListen(true);
+        })
+
+    }
+    const addToCart = (item) => {
+        console.log('add to cart ', item);
+        var list = [...cartItems];
+
+        var present = false;
+
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].key == item.key) {
+                present = true;
                 break;
             }
         }
-     if(present){
-        Toast.show("Already added !! ",Toast.SHORT);
-     }else{
-        list.push(item);
-        setCart(list);
-         Firebase.database().ref(`Customers/${user.uid}/cart`).set(list).then(()=>{
-             Toast.show("Added to Cart",Toast.SHORT);
-         })
-     }
-         
+        if (present) {
+            Toast.show("Already added !! ", Toast.SHORT);
+        } else {
+            list.push(item);
+            setCart(list);
+            Firebase.database().ref(`Customers/${user.uid}/cart`).set(list).then(() => {
+                Toast.show("Added to Cart", Toast.SHORT);
+            })
+        }
+
     }
 
     return (
@@ -83,7 +84,7 @@ export default function WishList(props) {
                     data={items}
                     numColumns={2}
                     renderItem={({ item }) => (
-                        
+
                         <View style={{ flex: 1, margin: 2 }}>
                             <TouchableOpacity onPress={() => itemsPress(item)}>
                                 <View style={{ margin: 4, borderColor: 'white', borderRadius: 1, elevation: 1 }}>
@@ -106,19 +107,19 @@ export default function WishList(props) {
                             </TouchableOpacity>
                             <View style={{ flexDirection: 'row' }}>
                                 <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: 'white', alignItems: 'center', }}
-                                onPress={()=>{
-                                    Alert.alert("Delete", "Are you sure ?",
-                                    [
-                                        { text: "No" },
-                                        { text: "Yes", onPress: () => DeleteItem(items.indexOf(item)) }
-                                    ], { cancelable: false }
-                                );
-                                 }}>
+                                    onPress={() => {
+                                        Alert.alert("Delete", "Are you sure ?",
+                                            [
+                                                { text: "No" },
+                                                { text: "Yes", onPress: () => DeleteItem(items.indexOf(item)) }
+                                            ], { cancelable: false }
+                                        );
+                                    }}>
 
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10 }}>Delete</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: 'white', alignItems: 'center', }}
-                                onPress={() => addToCart(item)}>
+                                    onPress={() => addToCart(item)}>
 
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10 }}>Cart</Text>
                                 </TouchableOpacity>

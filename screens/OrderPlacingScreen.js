@@ -24,6 +24,10 @@ export default function OrderPlacingScreen(props) {
             item.deliveryStatus = 'Pending';
             item.orderId = new Date().getTime().toString();
             
+            Firebase.database().ref(`ProductList/${item.category}/${item.subCategory}/${item.key}/stocks`).transaction(function (currentStock) {
+                return currentStock-1;
+            })
+            
             Firebase.database().ref(`Customers/${user.uid}/Orders/${item.orderId}`).set(item);
             Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).set(item);
         }

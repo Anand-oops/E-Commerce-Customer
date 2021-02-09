@@ -19,7 +19,7 @@ export default function Cart(props) {
     const [wishlistItems, setWishlistItems] = useState([]);
     const [addresses, setAddresses] = useState([])
     const [addressIndex, setAddressIndex] = useState(0)
-    const [addressCall , setAddressCall] = useState(true)
+    const [addressCall, setAddressCall] = useState(true)
 
     const addressRBSheet = useRef();
 
@@ -35,15 +35,11 @@ export default function Cart(props) {
                     var key = keys[i]
                     var prod = data.val().cart[key];
                     temp.push(prod)
-                   
-                    // console.log("Prod",prod)
                     Firebase.database().ref(`ProductList/${prod.category}/${prod.subCategory}/${prod.key}`).once('value').then(snap => {
-                        console.log(snap.val())
                         list.push(snap.val());
+                        setItem(list)
                     })
                 }
-                setItem(temp);
-                // console.log("Yeah?",list)
                 var sumProductPrice = 0;
                 var sumFinalPrice = 0;
                 for (var i = 0; i < temp.length; i++) {
@@ -62,15 +58,14 @@ export default function Cart(props) {
     })
 
     Firebase.database().ref(`Customers/${user.uid}/Address`).once('value', data => {
-        if(addressCall){
+        if (addressCall) {
             if (data.val()) {
                 var keys = Object.keys(data.val())
                 var list = [];
-                for(var i =0;i<keys.length;i++){
+                for (var i = 0; i < keys.length; i++) {
                     var key = keys[i];
                     list.push(data.val()[key])
                 }
-                console.log("List",list)
                 setAddresses(list);
                 setAddressCall(false)
             }
@@ -79,15 +74,26 @@ export default function Cart(props) {
 
     const itemsPress = (item) => {
         console.log("clicked");
-        if(address[addressIndex] != null)
+        if (address[addressIndex] != null)
             props.navigation.navigate('ProductDetailsScreen', { item: item });
         else
-            Toast.show("Select Address",Toast.SHORT);
+            Toast.show("Select Address", Toast.SHORT);
     }
     const ButtonPress = () => {
         console.log('proceed to buy');
-        addressRBSheet.current.open();
-        setAddressCall(true)
+        let flag = true;
+        let name = '';
+        items.map(item => {
+            if (item.stocks <= 0) {
+                flag = false;
+                name = item.productName;
+            }
+        })
+        if (flag) {
+            addressRBSheet.current.open();
+            setAddressCall(true)
+        } else
+            Toast.show(name + ' is out of stock', Toast.SHORT);
     }
 
     function DeleteItem(index) {
@@ -97,19 +103,21 @@ export default function Cart(props) {
         setItem(newArray);
         Firebase.database().ref(`Customers/${user.uid}/cart`).set(newArray).then(() => {
             Toast.show("Deleted", Toast.SHORT);
+            setListen(true);
         })
 
     }
 
     const deleteAddress = (index) => {
         var list = [...addresses];
-        list.splice(index,1);
+        list.splice(index, 1);
         setAddresses(list);
         Firebase.database().ref(`Customers/${user.uid}/Address`).set(list).then(() => {
             setAddressCall(true);
-            Toast.show("Removed Address",Toast.SHORT);
+            Toast.show("Removed Address", Toast.SHORT);
         })
     }
+
     const addToWishlist = (item) => {
         var list = [...wishlistItems]
         console.log("add to wishlist");
@@ -250,7 +258,7 @@ export default function Cart(props) {
                 >
                     <ScrollView >
                         <Text style={{ fontSize: 18, textAlign: 'center', marginBottom: 5 }}>Select Address</Text>
-                        
+
                         <FlatList data={addresses}
                             renderItem={data => (
                                 <CheckBox
@@ -258,17 +266,17 @@ export default function Cart(props) {
                                     checked={(data.index === addressIndex) ? true : false}
                                     onLongPress={() => {
                                         Alert.alert("Delete", "Remove Address ?",
-                                                [
-                                                    { text: "No" },
-                                                    { text: "Yes", onPress: () => deleteAddress(data.index) }
-                                                ], { cancelable: false }
-                                            );
-                                        }}
+                                            [
+                                                { text: "No" },
+                                                { text: "Yes", onPress: () => deleteAddress(data.index) }
+                                            ], { cancelable: false }
+                                        );
+                                    }}
                                     onPress={() => { setAddressIndex(data.index) }}
                                 />
                             )}
                         />
-                        <TouchableOpacity style={{ borderColor: 'black', borderWidth: 1, borderRadius: 10, backgroundColor: 'black', alignSelf: 'center', width: 150, justifyContent: 'center',margin:10 }}
+                        <TouchableOpacity style={{ borderColor: 'black', borderWidth: 1, borderRadius: 10, backgroundColor: 'black', alignSelf: 'center', width: 150, justifyContent: 'center', margin: 10 }}
                             onPress={() => { setAddressCall(true), addressRBSheet.current.close(), props.navigation.navigate('ProceedToBuy') }}>
                             <Text style={{ fontSize: 16, textAlign: 'center', color: 'white' }}>Add New</Text>
                         </TouchableOpacity>
@@ -276,7 +284,7 @@ export default function Cart(props) {
                     </ScrollView>
                     <TouchableOpacity style={styles.filterButton} onPress={() => {
                         Toast.show("Proceed", Toast.SHORT);
-                        props.navigation.navigate('OrderPlacingScreen',{address: addresses[addressIndex] , items : items})
+                        props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items })
                         addressRBSheet.current.close()
                     }}>
                         <Text style={{ color: 'white' }} >Proceed</Text>
