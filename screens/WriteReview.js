@@ -61,8 +61,6 @@ export default function WriteReview(props) {
                     else
                         return currentRating;
                 }
-
-
             }).then(() => {
                 Toast.show("Review Submitted", Toast.SHORT);
                 props.navigation.goBack();
