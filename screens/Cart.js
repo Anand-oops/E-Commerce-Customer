@@ -7,7 +7,7 @@ import Firebase from "../firebaseConfig";
 import Counter from "react-native-counters";
 import Toast from 'react-native-simple-toast';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { CheckBox } from 'react-native-elements'
+import { CheckBox } from 'react-native-elements';
 
 export default function Cart(props) {
 
@@ -53,13 +53,12 @@ export default function Cart(props) {
                 // console.log("Yeah?",list)
                 var sumProductPrice = 0;
                 var sumFinalPrice = 0;
-                for (var i = 0; i < counters.length; i++) {
-                    // var one =(temp[i].productPrice)*counters[i];
-                    // console.log("one",temp2[i]);
-                    sumProductPrice += counters[i].productPrice*temp2[i];
-                    sumFinalPrice += counters[i].finalPrice*temp2[i];
-                }
-                setSumTotal(sumProductPrice);
+        for (var i = 0; i < items.length; i++) {
+            
+            sumProductPrice += items[i].productPrice*counters[i];
+            sumFinalPrice += items[i].finalPrice*counters[i];
+        }
+        setSumTotal(sumProductPrice);
                 setFinalTotal(sumFinalPrice);
             }
             if (data.val().wishlist) {
