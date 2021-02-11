@@ -16,7 +16,7 @@ export default function Cart(props) {
     const [sumFinalPrice, setFinalTotal] = useState(0);
     const [listen, setListen] = useState(true);
     const [items, setItem] = useState([]);
-    const [counters,setCounters]=useState([]);
+    const [counters, setCounters] = useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
     const [addresses, setAddresses] = useState([])
     const [addressIndex, setAddressIndex] = useState(0)
@@ -29,38 +29,28 @@ export default function Cart(props) {
             if (data.val().cart) {
                 var temp = [];
                 var list = [];
-                var temp2=[];
+                var temp2 = [];
                 var keys = Object.keys(data.val().cart);
-                console.log('keys', keys);
-
                 for (var i = 0; i < keys.length; i++) {
                     var key = keys[i]
-                    
                     var prod = data.val().cart[key];
                     temp.push(prod);
-                    temp2.push(0);
-                   console.log("temp2",temp2);
-                    // console.log("Prod",prod)
+                    temp2.push(1);
                     Firebase.database().ref(`ProductList/${prod.category}/${prod.subCategory}/${prod.key}`).once('value').then(snap => {
                         list.push(snap.val());
-                        console.log("bjeibdjdkb",snap.val());
+                        console.log("bjeibdjdkb", snap.val());
                         setItem(list);
                     })
                 }
-                
                 setCounters(temp2);
-                
-                // console.log("Yeah?",list)
-                var sumProductPrice = 0;
-                var sumFinalPrice = 0;
-                for (var i = 0; i < counters.length; i++) {
-                    // var one =(temp[i].productPrice)*counters[i];
-                    // console.log("one",temp2[i]);
-                    sumProductPrice += counters[i].productPrice*temp2[i];
-                    sumFinalPrice += counters[i].finalPrice*temp2[i];
+                var spp = sumTotalPrice;
+                var sfp = sumFinalPrice;
+                for (var i = 0; i < items.length; i++) {
+                    spp += items[i].productPrice * temp2[i];
+                    sfp += items[i].finalPrice * temp2[i];
                 }
-                setSumTotal(sumProductPrice);
-                setFinalTotal(sumFinalPrice);
+                setSumTotal(spp);
+                setFinalTotal(sfp);
             }
             if (data.val().wishlist) {
                 setWishlistItems(data.val().wishlist);
@@ -109,32 +99,24 @@ export default function Cart(props) {
             Toast.show(name + ' is out of stock', Toast.SHORT);
     }
 
-    const CounterPressHandler=(value, index)=>{
-        // console.log(value);
-        // console.log(item);
-        // var temp=finalprice*value;
-        // console.log("counters",counters);
-        counters[index]=value;
-        var sumProductPrice = 0;
-                var sumFinalPrice = 0;
+    const CounterPressHandler = (value, index) => {
+        counters[index] = value;
+        var spp = 0;
+        var sfp = 0;
         for (var i = 0; i < items.length; i++) {
-            
-            sumProductPrice += items[i].productPrice*counters[i];
-            sumFinalPrice += items[i].finalPrice*counters[i];
+            spp += items[i].productPrice * counters[i];
+            sfp += items[i].finalPrice * counters[i];
         }
-        setSumTotal(sumProductPrice);
-                setFinalTotal(sumFinalPrice);
-        // console.log("hds",counters[index]);
-
-        
+        setSumTotal(spp);
+        setFinalTotal(sfp);
     }
 
     function DeleteItem(index) {
         console.log("deleted", index);
         const newArray = items;
-        const newCounters=counters;
+        const newCounters = counters;
         newArray.splice(index, 1);
-        newCounters.splice(index,1);
+        newCounters.splice(index, 1);
         setItem(newArray);
         setCounters(newCounters);
         Firebase.database().ref(`Customers/${user.uid}/cart`).set(newArray).then(() => {
@@ -203,15 +185,13 @@ export default function Cart(props) {
                                             <Text style={{ color: 'black', fontSize: 10, paddingLeft: 4 }}>{item.description}</Text>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <Text style={{ color: 'green', fontSize: 14, padding: 2, }}>{"₹" + item.finalPrice}</Text>
-                                                {/* <Text style={{ color: 'grey', fontSize: 14, padding: 2, textDecorationLine: 'line-through' }}>{"₹" + item.productPrice}</Text>
-                                        <Text style={{ color: '#82b74b', fontSize: 14, padding: 2, }}>{item.discount + "off "}</Text> */}
                                             </View>
                                         </View>
 
                                     </View>
                                 </TouchableOpacity>
                                 <View style={{ margin: 4 }}>
-                                    <Counter start={0} onChange={value => CounterPressHandler(value,items.indexOf(item))} />
+                                    <Counter start={1} onChange={value => CounterPressHandler(value, items.indexOf(item))} />
                                 </View>
 
                                 <View style={{ flexDirection: 'row' }}>
