@@ -15,6 +15,8 @@ const Card = props => {
                             <View >
                                 <TouchableOpacity style={styles.Container} onPress={props.pressHandler.bind(this, itemData.item.product)}>
                                     <Image style={styles.image} source={itemData.item.image} />
+                                    <Text style={{color:'blue'}}>{itemData.item.product.subCategory}</Text>
+                                    <Text style={{color:'purple'}}>{itemData.item.product.productName}</Text>
                                     <Text style={styles.text}>{itemData.item.textItem}</Text>
                                     <Text style={styles.offerText}>{itemData.item.textOff+" % off !"}</Text>
                                 </TouchableOpacity>
@@ -30,11 +32,18 @@ const Card = props => {
 const styles = StyleSheet.create({
 
     headerContainer: {
-        paddingLeft: 30,
-        marginTop: 20,
+        width: '90%',
+        marginTop: 30,
+        backgroundColor: 'white',
         flexDirection: 'row',
+        padding: 10,
+        paddingHorizontal: 20,
+        borderWidth: 1,
+        borderColor: 'black',
         justifyContent: 'space-between',
-        paddingRight: 20,
+        alignItems: 'center',
+        borderTopLeftRadius:30,
+        borderTopRightRadius:30
     },
 
     header: {
@@ -61,13 +70,15 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         backgroundColor: 'white',
+        borderBottomLeftRadius:30,
+        borderBottomRightRadius:30
     },
 
     Container: {
         flex: 1,
         flexDirection: 'column',
-        borderColor: 'black',
-        borderWidth: 0.4,
+        borderColor: 'transparent',
+        borderWidth: 0.3,
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',

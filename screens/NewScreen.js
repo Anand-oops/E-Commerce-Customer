@@ -326,142 +326,142 @@ export default function NewScreen(props) {
                                 </View>
                                 <Text style={{ color: 'grey', fontSize: 10, paddingLeft: 4, paddingBottom: 2 }}>{item.productPrice}</Text>
                             </View>
-                            <RBSheet
-                                ref={ratingRBSheet}
-                                closeOnDragDown={true}
-                                closeOnPressMask={true}
-                                height={300}
-                                animationType='fade'
-                                customStyles={{
-                                    wrapper: {
-                                        backgroundColor: 'rgba(52, 52, 52, 0.8)',
-                                    },
-                                    draggableIcon: {
-                                        backgroundColor: "#000"
-                                    }
-                                }}
-                            >
-                                <View >
-                                    <FlatList data={ratingList}
-                                        renderItem={data => (
-                                            <CheckBox
-                                                title={data.item}
-                                                checked={(data.index === ratingFilterIndex) ? true : false}
-                                                onPress={() => { setRatingFilterIndex(data.index), setRatingFilterBool(true) }}
-                                            />
-                                        )}
-                                    />
-                                    <View style={{ flexDirection: 'row' }} >
-                                        <TouchableOpacity style={styles.filterButton} onPress={() => {
-                                            setRatingFilterBool(false);
-                                            setRatingFilterIndex(-1);
-                                            if (rangeFilterBool) {
-                                                setFilter('Range')
-                                                if (searchText.length == 0 || searchText === '')
-                                                    performSort(sort, products, 'Range', true, false)
-                                                else
-                                                    performSearch(searchText)
-                                            }
-                                            else {
-                                                setFilter('Filter')
-                                                if (searchText.length == 0 || searchText === '')
-                                                    performSort(sort, products, 'Filter', false, false)
-                                                else
-                                                    performSearch(searchText)
-                                            }
-                                            ratingRBSheet.current.close()
-                                        }}>
-                                            <Text style={{ color: 'white' }}>Reset</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity style={styles.filterButton} onPress={() => {
-                                            if (searchText.length == 0 || searchText === '') {
-                                                if (ratingFilterBool && rangeFilterBool) {
-                                                    performSort(sort, products, 'Both', true, true)
-                                                } else
-                                                    performSort(sort, products, filter, ratingFilterBool, rangeFilterBool)
-                                            } else {
-                                                performSearch(searchText)
-                                            }
-                                            ratingRBSheet.current.close()
-                                        }} >
-                                            <Text style={{ color: 'white' }}>Apply</Text>
-                                        </TouchableOpacity>
-                                    </View>
-
-                                </View>
-                            </RBSheet>
-
-                            <RBSheet
-                                ref={rangeRBSheet}
-                                closeOnDragDown={true}
-                                closeOnPressMask={true}
-                                height={350}
-                                animationType='fade'
-                                customStyles={{
-                                    wrapper: {
-                                        backgroundColor: 'rgba(52, 52, 52, 0.8)',
-                                    },
-                                    draggableIcon: {
-                                        backgroundColor: "#000"
-                                    }
-                                }}
-                            >
-                                <ScrollView >
-                                    <FlatList data={rangeList}
-                                        renderItem={data => (
-                                            <CheckBox
-                                                title={data.item}
-                                                checked={(data.index === rangeFilterIndex) ? true : false}
-                                                onPress={() => { setRangeFilterIndex(data.index), setRangeFilterBool(true) }}
-                                            />
-                                        )}
-                                    />
-                                    <View style={{ flexDirection: 'row' }} >
-
-                                        <TouchableOpacity style={styles.filterButton} onPress={() => {
-                                            setRangeFilterBool(false);
-                                            setRangeFilterIndex(-1);
-                                            if (ratingFilterBool) {
-                                                setFilter('Rating')
-                                                if (searchText.length == 0 || searchText === '')
-                                                    performSort(sort, products, 'Rating', true, false)
-                                                else
-                                                    performSearch(searchText)
-                                            }
-                                            else {
-                                                setFilter('Filter')
-                                                if (searchText.length == 0 || searchText === '')
-                                                    performSort(sort, products, 'Filter', false, false)
-                                                else
-                                                    performSearch(searchText)
-                                            }
-                                            rangeRBSheet.current.close()
-                                        }} >
-                                            <Text style={{ color: 'white' }}>Reset</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity style={styles.filterButton} onPress={() => {
-                                            if (searchText.length == 0 || searchText === '') {
-                                                if (rangeFilterBool && ratingFilterBool) {
-                                                    performSort(sort, products, 'Both', true, true)
-                                                } else {
-                                                    performSort(sort, products, filter, ratingFilterBool, rangeFilterBool)
-                                                }
-                                            } else {
-                                                performSearch(searchText)
-                                            }
-                                            rangeRBSheet.current.close()
-                                        }}>
-                                            <Text style={{ color: 'white' }} >Apply</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </ScrollView>
-                            </RBSheet>
-
                         </TouchableOpacity>
                     </View>
                 )}>
-
             </FlatList>
+            <TouchableOpacity >
+                <RBSheet
+                    ref={ratingRBSheet}
+                    closeOnDragDown={true}
+                    closeOnPressMask={true}
+                    height={300}
+                    animationType='fade'
+                    customStyles={{
+                        wrapper: {
+                            backgroundColor: 'rgba(52, 52, 52, 0.8)',
+                        },
+                        draggableIcon: {
+                            backgroundColor: "#000"
+                        }
+                    }}
+                >
+                    <View >
+                        <FlatList data={ratingList}
+                            renderItem={data => (
+                                <CheckBox
+                                    title={data.item}
+                                    checked={(data.index === ratingFilterIndex) ? true : false}
+                                    onPress={() => { setRatingFilterIndex(data.index), setRatingFilterBool(true) }}
+                                />
+                            )}
+                        />
+                        <View style={{ flexDirection: 'row' }} >
+                            <TouchableOpacity style={styles.filterButton} onPress={() => {
+                                setRatingFilterBool(false);
+                                setRatingFilterIndex(-1);
+                                if (rangeFilterBool) {
+                                    setFilter('Range')
+                                    if (searchText.length == 0 || searchText === '')
+                                        performSort(sort, products, 'Range', true, false)
+                                    else
+                                        performSearch(searchText)
+                                }
+                                else {
+                                    setFilter('Filter')
+                                    if (searchText.length == 0 || searchText === '')
+                                        performSort(sort, products, 'Filter', false, false)
+                                    else
+                                        performSearch(searchText)
+                                }
+                                ratingRBSheet.current.close()
+                            }}>
+                                <Text style={{ color: 'white' }}>Reset</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.filterButton} onPress={() => {
+                                if (searchText.length == 0 || searchText === '') {
+                                    if (ratingFilterBool && rangeFilterBool) {
+                                        performSort(sort, products, 'Both', true, true)
+                                    } else
+                                        performSort(sort, products, filter, ratingFilterBool, rangeFilterBool)
+                                } else {
+                                    performSearch(searchText)
+                                }
+                                ratingRBSheet.current.close()
+                            }} >
+                                <Text style={{ color: 'white' }}>Apply</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </View>
+                </RBSheet>
+
+                <RBSheet
+                    ref={rangeRBSheet}
+                    closeOnDragDown={true}
+                    closeOnPressMask={true}
+                    height={350}
+                    animationType='fade'
+                    customStyles={{
+                        wrapper: {
+                            backgroundColor: 'rgba(52, 52, 52, 0.8)',
+                        },
+                        draggableIcon: {
+                            backgroundColor: "#000"
+                        }
+                    }}
+                >
+                    <ScrollView >
+                        <FlatList data={rangeList}
+                            renderItem={data => (
+                                <CheckBox
+                                    title={data.item}
+                                    checked={(data.index === rangeFilterIndex) ? true : false}
+                                    onPress={() => { setRangeFilterIndex(data.index), setRangeFilterBool(true) }}
+                                />
+                            )}
+                        />
+                        <View style={{ flexDirection: 'row' }} >
+
+                            <TouchableOpacity style={styles.filterButton} onPress={() => {
+                                setRangeFilterBool(false);
+                                setRangeFilterIndex(-1);
+                                if (ratingFilterBool) {
+                                    setFilter('Rating')
+                                    if (searchText.length == 0 || searchText === '')
+                                        performSort(sort, products, 'Rating', true, false)
+                                    else
+                                        performSearch(searchText)
+                                }
+                                else {
+                                    setFilter('Filter')
+                                    if (searchText.length == 0 || searchText === '')
+                                        performSort(sort, products, 'Filter', false, false)
+                                    else
+                                        performSearch(searchText)
+                                }
+                                rangeRBSheet.current.close()
+                            }} >
+                                <Text style={{ color: 'white' }}>Reset</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.filterButton} onPress={() => {
+                                if (searchText.length == 0 || searchText === '') {
+                                    if (rangeFilterBool && ratingFilterBool) {
+                                        performSort(sort, products, 'Both', true, true)
+                                    } else {
+                                        performSort(sort, products, filter, ratingFilterBool, rangeFilterBool)
+                                    }
+                                } else {
+                                    performSearch(searchText)
+                                }
+                                rangeRBSheet.current.close()
+                            }}>
+                                <Text style={{ color: 'white' }} >Apply</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+                </RBSheet>
+            </TouchableOpacity>
 
         </View>
     );
