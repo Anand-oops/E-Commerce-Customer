@@ -43,10 +43,11 @@ export default function Cart(props) {
                     // console.log("Prod",prod)
                     Firebase.database().ref(`ProductList/${prod.category}/${prod.subCategory}/${prod.key}`).once('value').then(snap => {
                         list.push(snap.val());
+                        console.log("bjeibdjdkb",snap.val());
                         setItem(list);
                     })
                 }
-                setItem(temp);
+                
                 setCounters(temp2);
                 
                 // console.log("Yeah?",list)
