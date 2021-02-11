@@ -1,94 +1,109 @@
-import React, { useState} from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, ToastAndroid, } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, ToastAndroid, FlatList } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
 import { AuthContext } from '../navigation/AuthProvider';
 import Collapsible from 'react-native-collapsible';
 import { FontAwesome } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 import { useContext } from 'react';
 import Firebase from '../firebaseConfig';
-import Toast from 'react-native-simple-toast'
+import Toast from 'react-native-simple-toast';
+import StarRating from "react-native-star-rating";
+import { Entypo } from '@expo/vector-icons';
 
 export default function ProductDetailsScreen(props) {
 
     const { user } = useContext(AuthContext);
     const item = props.route.params.item;
     const [collapsed, setCollapsed] = useState(true);
-    const [check,setcheck]=useState(true);
-    const [wishlistItems,setWishlistItems]=useState([]);
-    const [cartItems,setCart]=useState([]);
+    const [check, setcheck] = useState(true);
+    const [check2, setcheck2] = useState(true);
+    const [wishlistItems, setWishlistItems] = useState([]);
+    const [cartItems, setCart] = useState([]);
+    const [reviews, setReviews] = useState([]);
 
-    Firebase.database().ref(`Customers/${user.uid}`).on('value',(data)=>{
-        if(check){
-        if(data.val()){
+    Firebase.database().ref(`Customers/${user.uid}`).on('value', (data) => {
+        if (check) {
+            if (data.val()) {
 
-            if(data.val().wishlist){
-           setWishlistItems(data.val().wishlist);
+                if (data.val().wishlist) {
+                    setWishlistItems(data.val().wishlist);
+                }
+                if (data.val().cart) {
+                    setCart(data.val().cart);
+                }
+                setcheck(false);
             }
-            if(data.val().cart){
-           setCart(data.val().cart);
-            }
-           setcheck(false);
         }
-    }
 
     })
-    // Firebase.database().ref(`Customers/${user.uid}/cart`).on('value',(data)=>{
-    //     if(check2){
-    //     if(data.val()){
-    //        setCart(data.val());
-    //        setcheck2(false);
-    //     }
-    // }
+    Firebase.database().ref(`ProductList/${item.category}/${item.subCategory}/${item.key}/Reviews`).on('value', (data) => {
+        if (check2) {
+            if (data.val()) {
+                var keys = Object.keys(data.val());
+                // console.log("keys",keys);
+                var temp = [];
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i];
+                    temp.push(data.val()[key]);
+                    // console.log("data1", data.val()[key]);
+                }
 
-    // })
 
-    const addToWishlist = (item)=>{
+                setReviews(temp);
+                console.log("data2", reviews);
+                setcheck2(false);
+            }
+        }
+
+    })
+
+    const addToWishlist = (item) => {
         var list = [...wishlistItems]
         console.log("add to wishlist");
-       
-        var present=false;
-       
-        for(var i=0;i<list.length;i++){
-            if(list[i].key==item.key){
-                present=true;
+
+        var present = false;
+
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].key == item.key) {
+                present = true;
                 break;
             }
         }
-     if(present){
-        Toast.show("Already added !! ",Toast.SHORT);
-     }else{
-        list.push(item);
-        setWishlistItems(list);
-         console.log('items',wishlistItems);
-         Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(list).then(()=>{
-             Toast.show("Added to WishList",Toast.SHORT);
-         })
-     }
-         
+        if (present) {
+            Toast.show("Already added !! ", Toast.SHORT);
+        } else {
+            list.push(item);
+            setWishlistItems(list);
+            console.log('items', wishlistItems);
+            Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(list).then(() => {
+                Toast.show("Added to WishList", Toast.SHORT);
+            })
+        }
+
     }
 
-    const addToCart=(item)=>{
-        console.log('add to cart ',item);
-        var list=[...cartItems];
+    const addToCart = (item) => {
+        console.log('add to cart ', item);
+        var list = [...cartItems];
 
-        var present=false;
-       
-        for(var i=0;i<list.length;i++){
-            if(list[i].key==item.key){
-                present=true;
+        var present = false;
+
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].key == item.key) {
+                present = true;
                 break;
             }
         }
-     if(present){
-        Toast.show("Already added !! ",Toast.SHORT);
-     }else{
-        list.push(item);
-        setCart(list);
-         Firebase.database().ref(`Customers/${user.uid}/cart`).set(list).then(()=>{
-             Toast.show("Added to Cart",Toast.SHORT);
-         })
-     }
+        if (present) {
+            Toast.show("Already added !! ", Toast.SHORT);
+        } else {
+            list.push(item);
+            setCart(list);
+            Firebase.database().ref(`Customers/${user.uid}/cart`).set(list).then(() => {
+                Toast.show("Added to Cart", Toast.SHORT);
+            })
+        }
     }
 
     return (
@@ -105,155 +120,98 @@ export default function ProductDetailsScreen(props) {
                                 <Image source={this.state.clicked ? clicked : unclicked} style={styles.icon} />
                             </TouchableOpacity> */}
                     </View>
-                    <View style={{flexDirection:'row'}}>
-                    <View style={{flex:1}}>
-                    <Text style={{textTransform:'uppercase',fontSize:18,fontWeight:'bold',paddingBottom:4}}>{item.productName}</Text>
-                    <View style={{flexDirection:'row'}}>
-                    <Text style={{color:'#2f4f4f',fontSize:15,marginRight:6,fontWeight:'bold'}}>{"₹"+item.finalPrice}</Text>
-                    <Text style={{color:'grey',fontSize:15,marginRight:6 ,textDecorationLine:'line-through'}}>{"₹"+item.productPrice}</Text>
-                    <Text style={{color:'#ff4500',fontSize:15,marginRight:6}}>{"("+ item.discount+" OFF)"}</Text>
-                    </View>
-                    <Text style={{fontSize:12,color:'green',fontWeight:'bold'}}>{"inclusive of all taxes"}</Text>
-                    </View>
-                    <View style={{ paddingTop:10}}>
-                    <TouchableOpacity>
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 1 }}>
+                            <Text style={{ textTransform: 'uppercase', fontSize: 18, fontWeight: 'bold', paddingBottom: 4 }}>{item.productName}</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ color: '#2f4f4f', fontSize: 15, marginRight: 6, fontWeight: 'bold' }}>{"₹" + item.finalPrice}</Text>
+                                <Text style={{ color: 'grey', fontSize: 15, marginRight: 6, textDecorationLine: 'line-through' }}>{"₹" + item.productPrice}</Text>
+                                <Text style={{ color: '#ff4500', fontSize: 15, marginRight: 6 }}>{"(" + item.discount + " OFF)"}</Text>
+                            </View>
+                            <Text style={{ fontSize: 12, color: 'green', fontWeight: 'bold' }}>{"inclusive of all taxes"}</Text>
+                        </View>
+                        <View style={{ paddingTop: 10 }}>
+                            {/* <TouchableOpacity>
                     <AntDesign name="hearto" size={28} color="grey" />
-                    </TouchableOpacity>
-                    </View>
+                    </TouchableOpacity> */}
+                            <StarRating
+                                disabled={false}
+                                maxStars={5}
+                                rating={item.rating}
+                                starSize={30}
+                                fullStarColor={'#ffa500'}
+                                emptyStarColor={'#ff4500'}
+                            // selectedStar={(rating) => { setRating(rating) }}
+                            />
+                            <Text style={{ fontSize: 12, color: 'green', fontWeight: 'bold' }}>{"  (" + item.rating + " out of 5)"}</Text>
+                            <Text style={{ fontSize: 12, color: 'orange', fontWeight: 'bold' }}>{'Hurry!! Only ' + item.stocks + ' left.'}</Text>
+                        </View>
                     </View>
                 </View>
                 <View style={styles.body}>
                     <View style={styles.descriptionContainer}>
-                        <Text style={{marginLeft:7,fontSize:18,color:'#2f4f4f',fontWeight:'bold'}}>Product Details:</Text>
-                        <Text style={{marginLeft:7,color:"grey",marginBottom:5}}>{item.description}</Text>
+                        <Text style={{ marginLeft: 7, fontSize: 18, color: '#2f4f4f', fontWeight: 'bold' }}>Product Details:</Text>
+                        <Text style={{ marginLeft: 7, color: "grey", marginBottom: 5 }}>{item.description}</Text>
                         <TouchableOpacity onPress={() => setCollapsed(!collapsed)} >
-                            <Text style={{fontSize:18,marginLeft:7,color:'#2f4f4f',fontWeight:'bold'}}>Product Specifications:</Text>
+                            <Text style={{ fontSize: 18, marginLeft: 7, color: '#2f4f4f', fontWeight: 'bold' }}>Product Specifications:</Text>
                         </TouchableOpacity>
                         <Collapsible collapsed={collapsed} >
-                            <Text style={{ fontSize: 16, marginLeft:7, marginBottom:5,color:'grey' }}>{item.specs}</Text>
+                            <Text style={{ fontSize: 16, marginLeft: 7, marginBottom: 5, color: 'grey' }}>{item.specs}</Text>
                         </Collapsible>
-                        <View style={{flexDirection:'row',margin:5}}> 
-                        <TouchableOpacity style={{flex:1,margin:5,flexDirection:'row',padding: 10,elevation: 10,borderRadius:4,backgroundColor: 'white',alignItems: 'center',}}
-                         onPress={()=>{addToWishlist(item)}}>
-                        <AntDesign name="hearto" size={20} color="grey" />
-                    <Text style={{ fontSize: 15,fontWeight:'bold', color: 'black',marginLeft:10 }}>WISHLIST</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{flex:1,padding: 10,flexDirection:'row',margin:5,elevation: 10,borderRadius:4,backgroundColor: '#dc143c',alignItems: 'center',borderColor:'gray'}} 
-                         onPress={()=>{addToCart(item)}}>
-                    <FontAwesome name="shopping-bag" size={20} color="white" />
-                    <Text style={{ fontSize: 15, color: 'white',fontStyle:'italic',marginLeft:10 }}>ADD TO CART</Text>
-                </TouchableOpacity>
-            </View>
+                        <View style={{ flexDirection: 'row', margin: 5 }}>
+                            <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: 'white', alignItems: 'center', }}
+                                onPress={() => { addToWishlist(item) }}>
+                                <AntDesign name="hearto" size={20} color="grey" />
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10 }}>WISHLIST</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ flex: 1, padding: 10, flexDirection: 'row', margin: 5, elevation: 10, borderRadius: 4, backgroundColor: '#dc143c', alignItems: 'center', borderColor: 'gray' }}
+                                onPress={() => { addToCart(item) }}>
+                                <FontAwesome name="shopping-bag" size={20} color="white" />
+                                <Text style={{ fontSize: 15, color: 'white', fontStyle: 'italic', marginLeft: 10 }}>ADD TO CART</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    {/* <Modal
-                            visible={this.state.showSpecsModal}
-                            onRequestClose={this.closeModal}>
-                            <Text style={styles.ratingText}>Product Specification</Text>
-                            <View style={styles.modalContainer}>
-                                {this.state.specs.map(specs => (
-                                    <View style={styles.container}>
-                                        <Text style={styles.item}>{specs.key}</Text>
-                                        <Text style={styles.item}>{specs.value}</Text>
+
+                </View>
+                <View style={styles.body}>
+                    <View style={styles.descriptionContainer}>
+                        <Text style={{ marginLeft: 7, fontSize: 18, color: '#2f4f4f', fontWeight: 'bold' }}>Reviews:</Text>
+                        <FlatList
+                            data={reviews}
+                            renderItem={({ item }) => (
+                                <View style={{margin:4}}>
+                                    <View style={{ flexDirection: 'row', padding: 8 }}>
+                                        <Entypo name="user" size={20} color="black" />
+                                        <Text style={{ flex: 1, paddingHorizontal: 8, fontWeight: 'bold' }}>{item.revTitle}</Text>
+                                        <StarRating
+                                            disabled={false}
+                                            maxStars={5}
+                                            rating={item.revRating}
+                                            starSize={20}
+                                            fullStarColor={'#ffa500'}
+                                            emptyStarColor={'#ff4500'}
+                                        // selectedStar={(rating) => { setRating(rating) }}
+                                        />
                                     </View>
-                                ))}
-                            </View>
-                        </Modal> */}
-                    {/* <View style={styles.reviewContainer}>
-                            <Modal
-                                transparent
-                                visible={this.state.showRateModal}
-                                onRequestClose={this.closeModal}>
-                                <View style={styles.modalContainer}>
-                                    <View style={styles.modalScreen}>
-                                        <Text style={styles.ratingText}>Rate this Product: </Text>
-                                        <View style={styles.textInputContainer}>
-                                            <TextInput placeholder='Enter your review' multiline={true} style={styles.textInput} value={this.state.comment} onChangeText={this.commentHandler} />
-                                        </View>
-                                        <View style={styles.rating}>
-                                            <StarRating
-                                                disabled={false}
-                                                maxStars={5}
-                                                rating={this.state.rating}
-                                                fullStarColor='#f1c40f'
-                                                containerStyle={{ marginVertical: 10, }}
-                                                selectedStar={(rating) => this.setState({ rating: rating })}
-                                            />
-                                            <TouchableOpacity onPress={this.commentsHandler}>
-                                                <Text style={{ color: 'blue', fontSize: 16, marginVertical: 10, elevation: 1, borderWidth: 0.1, padding: 10 }}>Submit your Review</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
+                                    <View
+                                        style={{
+                                            margin: 2,
+                                            borderBottomColor: 'grey',
+                                            borderBottomWidth: 1,
+                                        }}
+                                    />
+                                    <Text style={{margin:4}}>{item.revDesc}</Text>
+
                                 </View>
-                            </Modal>
-                            <Text style={styles.ratingText}>Ratings & Reviews</Text>
-                            <TouchableOpacity style={styles.rateProduct} onPress={() => { this.setState({ showRateModal: true }) }}>
-                                <Text style={{ color: 'blue', fontSize: 16 }}>Rate Product</Text>
-                            </TouchableOpacity>
-                        </View> */}
-                    {/* <View style={styles.comments}>
-                            {
-                                this.state.comments.slice(0, 2).reverse().map(comment =>
-                                    <View style={styles.commentBox}>
-                                        <View style={styles.userContainer}>
-                                            <Image source={require('../assets/images/avatar.png')} style={styles.image} />
-                                            <Text style={styles.user}>{comment.user}</Text>
-                                        </View>
-                                        <View style={styles.row}>
-                                            <View style={styles.starCotainer}>
-                                                <StarRating
-                                                    disabled={false}
-                                                    maxStars={5}
-                                                    rating={comment.rating}
-                                                    starSize={17}
-                                                    fullStarColor='#66aa66' />
-                                            </View>
-                                            <Text style={styles.dateText}>{comment.date}</Text>
-                                        </View>
-                                        <Text style={styles.commentText}>{comment.comment}</Text>
-                                    </View>
-                                )}
-                        </View> */}
-                    {/* <View style={styles.review}>
-                            <TouchableOpacity onPress={() => {
-                                this.setState({
-                                    showModal: true,
-                                })
-                            }}>
-                                <Text style={styles.link}>See all Ratings and Reviews </Text>
-                            </TouchableOpacity>
-                        </View> */}
+
+                            )}
+                        />
+                    </View>
+
                 </View>
             </ScrollView>
-            
-            {/* <Modal
-                    visible={this.state.showModal}
-                    onRequestClose={this.closeModal}>
-                    <View style={styles.screen}>
-                        <ScrollView style={styles.comments}>
-                            {
-                                this.state.comments.map(comment =>
-                                    <View style={styles.commentBox}>
-                                        <View style={styles.userContainer}>
-                                            <Image source={require('../assets/images/avatar.png')} style={styles.image} />
-                                            <Text style={styles.user}>{comment.user}</Text>
-                                        </View>
-                                        <View style={styles.row}>
-                                            <View style={styles.starCotainer}>
-                                                <StarRating
-                                                    disabled={false}
-                                                    maxStars={5}
-                                                    rating={3}
-                                                    starSize={17}
-                                                    fullStarColor='#66aa66' />
-                                            </View>
-                                            <Text style={styles.dateText}>{comment.date}</Text>
-                                        </View>
-                                        <Text style={styles.commentText}>{comment.comment}</Text>
-                                    </View>
-                                )}
-                        </ScrollView>
-                    </View>
-                </Modal> */}
+
+
         </View>
     );
 }
@@ -268,8 +226,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 10,
         borderBottomColor: '#D0D0D0',
         paddingHorizontal: 10,
-        paddingBottom:10
-        
+        paddingBottom: 10
+
     },
 
     descriptionContainer: {
@@ -412,7 +370,7 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        textTransform:'uppercase',
+        textTransform: 'uppercase',
         fontSize: 20,
     },
 
@@ -479,11 +437,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     saveButton: {
-        flex:1,
+        flex: 1,
         padding: 10,
         elevation: 10,
-        
-        borderRadius:10,
+
+        borderRadius: 10,
         backgroundColor: 'black',
         alignItems: 'center',
     },

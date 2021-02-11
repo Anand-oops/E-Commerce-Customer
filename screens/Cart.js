@@ -16,6 +16,7 @@ export default function Cart(props) {
     const [sumFinalPrice, setFinalTotal] = useState(0);
     const [listen, setListen] = useState(true);
     const [items, setItem] = useState([]);
+    const [counters,setCounters]=useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
     const [addresses, setAddresses] = useState([])
     const [addressIndex, setAddressIndex] = useState(0)
@@ -28,14 +29,16 @@ export default function Cart(props) {
             if (data.val().cart) {
                 var temp = [];
                 var list = [];
+                var temp2=[];
                 var keys = Object.keys(data.val().cart);
                 console.log('keys', keys);
 
                 for (var i = 0; i < keys.length; i++) {
                     var key = keys[i]
                     var prod = data.val().cart[key];
-                    temp.push(prod)
-                   
+                    temp.push(prod);
+                    temp2.push(0);
+                   console.log("temp2",temp2);
                     // console.log("Prod",prod)
                     Firebase.database().ref(`ProductList/${prod.category}/${prod.subCategory}/${prod.key}`).once('value').then(snap => {
                         console.log(snap.val())
@@ -43,12 +46,16 @@ export default function Cart(props) {
                     })
                 }
                 setItem(temp);
+                setCounters(temp2);
+                
                 // console.log("Yeah?",list)
                 var sumProductPrice = 0;
                 var sumFinalPrice = 0;
-                for (var i = 0; i < temp.length; i++) {
-                    sumProductPrice += temp[i].productPrice;
-                    sumFinalPrice += temp[i].finalPrice;
+                for (var i = 0; i < counters.length; i++) {
+                    // var one =(temp[i].productPrice)*counters[i];
+                    // console.log("one",temp2[i]);
+                    sumProductPrice += counters[i].productPrice*temp2[i];
+                    sumFinalPrice += counters[i].finalPrice*temp2[i];
                 }
                 setSumTotal(sumProductPrice);
                 setFinalTotal(sumFinalPrice);
@@ -90,11 +97,34 @@ export default function Cart(props) {
         setAddressCall(true)
     }
 
+    const CounterPressHandler=(value, index)=>{
+        // console.log(value);
+        // console.log(item);
+        // var temp=finalprice*value;
+        // console.log("counters",counters);
+        counters[index]=value;
+        var sumProductPrice = 0;
+                var sumFinalPrice = 0;
+        for (var i = 0; i < items.length; i++) {
+            
+            sumProductPrice += items[i].productPrice*counters[i];
+            sumFinalPrice += items[i].finalPrice*counters[i];
+        }
+        setSumTotal(sumProductPrice);
+                setFinalTotal(sumFinalPrice);
+        // console.log("hds",counters[index]);
+
+        
+    }
+
     function DeleteItem(index) {
         console.log("deleted", index);
         const newArray = items;
+        const newCounters=counters;
         newArray.splice(index, 1);
+        newCounters.splice(index,1);
         setItem(newArray);
+        setCounters(newCounters);
         Firebase.database().ref(`Customers/${user.uid}/cart`).set(newArray).then(() => {
             Toast.show("Deleted", Toast.SHORT);
         })
@@ -167,7 +197,7 @@ export default function Cart(props) {
                                     </View>
                                 </TouchableOpacity>
                                 <View style={{ margin: 4 }}>
-                                    <Counter onChange={value => console.log(value)} />
+                                    <Counter start={0} onChange={value => CounterPressHandler(value,items.indexOf(item))} />
                                 </View>
 
                                 <View style={{ flexDirection: 'row' }}>

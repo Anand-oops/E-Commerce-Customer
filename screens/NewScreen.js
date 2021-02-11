@@ -8,6 +8,7 @@ import RBSheet from 'react-native-raw-bottom-sheet'
 import { CheckBox } from 'react-native-elements'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { windowWidth } from '../shared/Dimensions'
+import StarRating from "react-native-star-rating";
 
 
 export default function NewScreen(props) {
@@ -315,15 +316,27 @@ export default function NewScreen(props) {
                                         source={{ uri: item.image.uri }}
                                     />
                                 </View>
-
-                                <Text style={{ color: '#3b3a30', fontSize: 20, padding: 4 }}>{item.productName}</Text>
+                                <View style={{flexDirection:'row'}}>
+                                <Text style={{ color: '#3b3a30', fontSize: 20, padding: 4 ,flex:1}}>{item.productName}</Text>
+                                <View style={{padding:4}}>
+                                <StarRating
+                            disabled={false}
+                            maxStars={5}
+                            rating={item.rating}
+                            starSize={10}
+                            fullStarColor={'#ffa500'}
+                            emptyStarColor={'#ff4500'}
+                            // selectedStar={(rating) => { setRating(rating) }}
+                        />
+                        </View>
+                                </View>
                                 <Text style={{ color: 'black', fontSize: 10, paddingLeft: 4 }}>{item.description}</Text>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <Text style={{ color: 'grey', fontSize: 18, padding: 2, flex: 1 }}>{"Rs." + item.finalPrice}</Text>
+                                    <Text style={{ color: 'grey', fontSize: 18, padding: 2, flex: 1 }}>{"₹" + item.finalPrice}</Text>
 
                                     <Text style={{ color: '#82b74b', fontSize: 18, padding: 2, flex: 1 }}>{item.discount + "off "}</Text>
                                 </View>
-                                <Text style={{ color: 'grey', fontSize: 10, paddingLeft: 4, paddingBottom: 2 }}>{item.productPrice}</Text>
+                                <Text style={{ color: 'grey', fontSize: 10, paddingLeft: 4, paddingBottom: 2 ,textDecorationLine:'line-through'}}>{"₹"+item.productPrice}</Text>
                             </View>
                             <RBSheet
                                 ref={ratingRBSheet}
