@@ -1,13 +1,13 @@
 import React from 'react';
 import { useState, useContext, useRef } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
-import { StyleSheet, Text, View, Image, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Firebase from "../firebaseConfig";
-import Counter from "react-native-counters";
+import { AntDesign } from '@expo/vector-icons';
 import Toast from 'react-native-simple-toast';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { CheckBox } from 'react-native-elements'
+import { CheckBox } from 'react-native-elements';
 
 export default function Cart(props) {
 
@@ -21,6 +21,7 @@ export default function Cart(props) {
     const [addresses, setAddresses] = useState([])
     const [addressIndex, setAddressIndex] = useState(0)
     const [addressCall, setAddressCall] = useState(true)
+    const [loader, setLoader] = useState(true);
 
     const addressRBSheet = useRef();
 
@@ -55,6 +56,7 @@ export default function Cart(props) {
                 setWishlistItems(data.val().wishlist);
             }
             setListen(false);
+            setLoader(false);
         }
 
     })
@@ -98,8 +100,8 @@ export default function Cart(props) {
             Toast.show(name + ' is out of stock', Toast.SHORT);
     }
 
-    const CounterPressHandler = (value, index) => {
-        counters[index] = value;
+    const CounterPlus = (index) => {
+        counters[index] = counters[index] + 1;
         var spp = 0;
         var sfp = 0;
         for (var i = 0; i < items.length; i++) {
@@ -108,8 +110,21 @@ export default function Cart(props) {
         }
         setSumTotal(spp);
         setFinalTotal(sfp);
+
     }
 
+    const CounterMinus = (index) => {
+        counters[index] = counters[index] - 1;
+        var spp = 0;
+        var sfp = 0;
+        for (var i = 0; i < items.length; i++) {
+            spp += items[i].productPrice * counters[i];
+            sfp += items[i].finalPrice * counters[i];
+        }
+        setSumTotal(spp);
+        setFinalTotal(sfp);
+
+    }
     function DeleteItem(index) {
         console.log("deleted", index);
         const newArray = items;
@@ -189,8 +204,17 @@ export default function Cart(props) {
 
                                     </View>
                                 </TouchableOpacity>
-                                <View style={{ margin: 4 }}>
-                                    <Counter start={0} onChange={value => CounterPressHandler(value, items.indexOf(item))} />
+
+                                <View style={{ margin: 4, flexDirection: 'row' }}>
+
+                                    <TouchableOpacity style={{ borderRadius: 1, elevation: 1, margin: 4 }} onPress={() => CounterMinus(items.indexOf(item))}>
+                                        <AntDesign name="minus" size={24} color="black" />
+                                    </TouchableOpacity>
+                                    
+                                    <Text style={{ marginVertical: 4, marginHorizontal: 10 }}>{counters[items.indexOf(item)]}</Text>
+                                    <TouchableOpacity style={{ margin: 4, elevation: 1, borderRadius: 1 }} onPress={() => CounterPlus(items.indexOf(item))}>
+                                        <AntDesign name="plus" size={24} color="black" />
+                                    </TouchableOpacity>
                                 </View>
 
                                 <View style={{ flexDirection: 'row' }}>
@@ -305,7 +329,17 @@ export default function Cart(props) {
                         <Text style={{ color: 'white' }} >Proceed</Text>
                     </TouchableOpacity>
                 </RBSheet>
+                <View style={{ position: 'absolute', zIndex: 4, alignSelf: 'center', flex: 1, top: '50%' }}>
+                    <ActivityIndicator
+
+                        size='large'
+                        color="grey"
+                        animating={loader}
+
+                    />
+                </View>
             </View>
+
         </ScrollView>
     );
 }
