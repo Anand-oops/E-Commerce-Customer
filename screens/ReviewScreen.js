@@ -1,14 +1,8 @@
 import React from 'react';
-import { useState, useContext, useRef } from 'react';
-import { AuthContext } from '../navigation/AuthProvider';
 import { StyleSheet, Text, View, Image, Alert, TouchableOpacity } from 'react-native';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import Firebase from "../firebaseConfig";
-import Counter from "react-native-counters";
-import Toast from 'react-native-simple-toast';
-import RBSheet from 'react-native-raw-bottom-sheet';
-import { CheckBox } from 'react-native-elements'
 
 export default function ReviewScreen(props) {
 
@@ -28,7 +22,7 @@ export default function ReviewScreen(props) {
     return (
         <ScrollView>
             <View style={styles.main}>
-                <TouchableOpacity /*onPress={() => itemsPress(item)}*/>
+                <TouchableOpacity >
                     <View style={{ margin: 4, borderColor: 'white', borderRadius: 1, elevation: 1, flexDirection: 'row' }}>
                         <View style={{ borderColor: 'white', borderRadius: 1, elevation: 1, flex: 1 }}>
                             <Image
@@ -41,8 +35,6 @@ export default function ReviewScreen(props) {
                             <Text style={{ color: 'black', fontSize: 10, paddingLeft: 4 }}>{item.description}</Text>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ color: 'green', fontSize: 14, padding: 2, }}>{"₹" + item.finalPrice}</Text>
-                                {/* <Text style={{ color: 'grey', fontSize: 14, padding: 2, textDecorationLine: 'line-through' }}>{"₹" + item.productPrice}</Text>
-                                        <Text style={{ color: '#82b74b', fontSize: 14, padding: 2, }}>{item.discount + "off "}</Text> */}
                             </View>
                         </View>
 
@@ -109,23 +101,20 @@ export default function ReviewScreen(props) {
                 <TouchableOpacity style={{
                     elevation: 1, padding: 2, margin: 10, height: 40, width: 250,
                     justifyContent: 'center', alignSelf: 'center', borderRadius: 10,
-                    backgroundColor: 'orange', opacity: (item.deliveryStatus === 'Cancelled') ? 0 : 1
+                    shadowOpacity:'transparent',
+                    shadowColor:'white',
+                    backgroundColor: (item.deliveryStatus === 'Pending') ? 'orange' : 'transparent', opacity: (item.deliveryStatus === 'Cancelled' || item.deliveryStatus === 'Delivered') ? 0.5 : 1
                 }}
                     onPress={() => {
-                        if (item.deliveryStatus === 'Pending') {
+                        if (item.deliveryStatus === 'Pending')
                             Alert.alert("Cancel Order ?", "Your order will be cancelled !",
                                 [
-                                    { text: 'Proceed', onPress: () => changeStatus() }
+                                    { text: 'Cancel' },
+                                    { text: 'Proceed', onPress: () => changeStatus() },
                                 ])
-                        } else {
-                            Alert.alert("Return Product ?", "Return will be requested !",
-                                [
-                                    { text: 'Proceed', onPress: () => changeStatus() }
-                                ])
-                        }
                     }}>
                     <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>
-                        {(item.deliveryStatus === 'Pending') ? 'Cancel Order' : 'Request Return'}</Text>
+                        Cancel Order</Text>
                 </TouchableOpacity>
             </View>
 

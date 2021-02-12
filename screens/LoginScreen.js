@@ -7,7 +7,11 @@ import { windowWidth } from '../shared/Dimensions';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AuthContext } from '../navigation/AuthProvider';
 import { StatusBar } from 'expo-status-bar';
-import Firebase from '../firebaseConfig'
+import Firebase from '../firebaseConfig';
+import Entypo from 'react-native-vector-icons/Entypo'
+import RBSheet from 'react-native-raw-bottom-sheet';
+import Toast from 'react-native-simple-toast';
+import firebase from 'firebase';
 
 const LoginScreen = ({ navigation }) => {
 
@@ -17,6 +21,10 @@ const LoginScreen = ({ navigation }) => {
 		password: '',
 		securityStatus: true,
 	});
+
+	const resetPassSheet = useRef();
+
+	const [forgotEmail, setForgotEmail] = useState('')
 
 	const updateSecurityStatus = () => {
 		setData({
@@ -62,6 +70,20 @@ const LoginScreen = ({ navigation }) => {
             } else  
 				login(data.email,data.password);
 		}		
+	}
+
+	function forgotPass() {
+		if (forgotEmail.length == 0) {
+			Toast.show("Enter email first..", Toast.SHORT);
+		} else {
+			resetPassSheet.current.close();
+			firebase.auth().sendPasswordResetEmail(forgotEmail).then(function () {
+				alert("Check your email...")
+			}).catch((error) => {
+				console.log(error);
+				alert(error)
+			});
+		}
 	}
 	
 	return (
@@ -141,9 +163,77 @@ const LoginScreen = ({ navigation }) => {
 						</View>
 
 						<TouchableOpacity>
-							<Text
+							<Text onPress={() => resetPassSheet.current.open()}
 								style={{ color: 'red', textAlign: 'right', marginRight: '15%', fontSize: 16, fontWeight: 'bold' }}>
 								Forgot password?</Text>
+
+							<RBSheet
+								ref={resetPassSheet}
+								closeOnDragDown={true}
+								closeOnPressMask={true}
+								height={300}
+								animationType='fade'
+								customStyles={{
+									container: {
+										backgroundColor: '#778899'
+									},
+									wrapper: {
+										backgroundColor: 'rgba(52, 52, 52, 0.8)',
+									},
+									draggableIcon: {
+										backgroundColor: "#000"
+									}
+								}}
+							>
+								<View style={{ marginTop: 20, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
+									<MaterialCommunityIcons name='lock-reset' size={40} color={'black'} style={{ alignSelf: 'center' }} />
+									<Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20, marginTop: 10, textAlign: 'center' }}>Reset Password</Text>
+
+									<View style={{ flexDirection: 'row' }} >
+										<Entypo
+											style={{ padding: 10, marginVertical: 10 }}
+											name="email"
+											size={24}
+											color='red' />
+
+										<View style={styles.inputView} >
+											<TextInput
+												style={styles.inputText}
+												placeholder=" Enter Email"
+												keyboardType="email-address"
+												autoCapitalize="none"
+												autoCorrect={false}
+												placeholderTextColor='#dcdcdc'
+												onChangeText={(entry) => setForgotEmail(entry)}
+											/>
+										</View>
+									</View>
+
+									<TouchableOpacity
+										style={{
+											marginTop: 20,
+											paddingTop: 10,
+											paddingBottom: 10,
+											backgroundColor: 'red',
+											borderRadius: 100,
+											width: '40%',
+										}}
+										onPress={() => { Keyboard.dismiss(), forgotPass() }}
+										underlayColor='#fff'>
+										<Text style={{
+											color: 'white',
+											textAlign: 'center',
+											paddingLeft: 10,
+											fontWeight: 'bold',
+											paddingRight: 10,
+											fontSize: 14
+										}}>Reset</Text>
+									</TouchableOpacity>
+									<TouchableOpacity onPress={() => resetPassSheet.current.close()}>
+										<Text style={{ borderBottomWidth: 1, marginTop: 15 }}>Cancel</Text>
+									</TouchableOpacity>
+								</View>
+							</RBSheet>
 						</TouchableOpacity>
 
 						<TouchableOpacity

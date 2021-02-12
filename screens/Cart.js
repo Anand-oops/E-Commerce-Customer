@@ -35,10 +35,9 @@ export default function Cart(props) {
                     var key = keys[i]
                     var prod = data.val().cart[key];
                     temp.push(prod);
-                    temp2.push(1);
+                    temp2.push(0);
                     Firebase.database().ref(`ProductList/${prod.category}/${prod.subCategory}/${prod.key}`).once('value').then(snap => {
                         list.push(snap.val());
-                        console.log("bjeibdjdkb", snap.val());
                         setItem(list);
                     })
                 }
@@ -191,7 +190,7 @@ export default function Cart(props) {
                                     </View>
                                 </TouchableOpacity>
                                 <View style={{ margin: 4 }}>
-                                    <Counter start={1} onChange={value => CounterPressHandler(value, items.indexOf(item))} />
+                                    <Counter start={0} onChange={value => CounterPressHandler(value, items.indexOf(item))} />
                                 </View>
 
                                 <View style={{ flexDirection: 'row' }}>
