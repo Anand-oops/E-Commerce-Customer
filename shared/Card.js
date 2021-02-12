@@ -35,10 +35,10 @@ const styles = StyleSheet.create({
         width: '90%',
         marginTop: 30,
         backgroundColor: 'white',
-        flexDirection: 'row',
         padding: 10,
         paddingHorizontal: 20,
         borderWidth: 1,
+        alignSelf:'center',
         borderColor: 'black',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
 
     cardContainer: {
         alignItems: 'center',
-        marginVertical: 10,
     },
 
     card: {
@@ -79,7 +78,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         borderColor: 'transparent',
         borderWidth: 0.3,
-        padding: 10,
+        // padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
     },

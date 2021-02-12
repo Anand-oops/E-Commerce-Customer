@@ -26,7 +26,6 @@ const HomeScreen = ({ navigation }) => {
     Firebase.database().ref('ImagesDeck/').on('value', function (data) {
         if (imagesDeckCall) {
             if (data.val()) {
-                console.log("ImagesDeck Called")
                 setImagesDeck(data.val())
                 setImagesDeckCall(false);
                 setLoader(false)
@@ -42,7 +41,6 @@ const HomeScreen = ({ navigation }) => {
     Firebase.database().ref('Cards/').once('value', function (data) {
         if (cardsCall) {
             if (data.val()) {
-                console.log("Cards Called")
                 setCards(data.val())
                 setCardsCall(false);
             }
@@ -54,23 +52,11 @@ const HomeScreen = ({ navigation }) => {
         setCardsCall(true);
     });
 
-
-    // if(loader){
-    //     return (
-    //         <View style={{flex:1, alignItems:'center',justifyContent:'center' }}>
-    //     <ActivityIndicator
-    //         size='large'
-    //         color="#0000ff"
-
-    //         />
-    //         </View>)
-    // }else{
     return (
         <View style={styles.screen}>
             <StatusBar style='light' />
 
             <ScrollView>
-
                 <View>
                     <View style={styles.imageDeck}>
                         <SliderBox
@@ -80,8 +66,6 @@ const HomeScreen = ({ navigation }) => {
                             circleLoop={true}
                             resizeMode={'contain'}
                         />
-
-
                     </View>
 
                 </View>
@@ -92,11 +76,9 @@ const HomeScreen = ({ navigation }) => {
             </ScrollView>
             <View style={{ position: 'absolute', zIndex: 4, alignSelf: 'center', flex: 1, top: '50%' }}>
                 <ActivityIndicator
-
                     size='large'
                     color="grey"
                     animating={loader}
-
                 />
             </View>
 
@@ -118,6 +100,7 @@ const styles = StyleSheet.create({
         height: 175,
         borderColor: 'black',
         borderWidth: 1,
+        backgroundColor:'#778899'
     },
 
     offerCards: {

@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { StyleSheet, Text, View, TextInput, Keyboard, TouchableOpacity, TouchableWithoutFeedback, Alert } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { windowWidth } from '../shared/Dimensions';
@@ -15,7 +16,9 @@ import firebase from 'firebase';
 
 const LoginScreen = ({ navigation }) => {
 
-	const { login, googleLogin } = useContext(AuthContext);
+	const { login } = useContext(AuthContext);
+	const [call, setCall] = useState(true)
+	const [customerUsers, setCustomerUsers] = useState([])
 	const [data, setData] = useState({
 		email: '',
 		password: '',
@@ -32,44 +35,48 @@ const LoginScreen = ({ navigation }) => {
 			securityStatus: !data.securityStatus
 		});
 	}
-	var customerUsers = []
 
 	Firebase.database().ref('Customers/').once('value').then(snapshot => {
-        if (snapshot.val()) {
-            var keys = Object.keys(snapshot.val())
-            for (var i = 0; i < keys.length; i++) {
-                var key = keys[i]
-                customerUsers.push(snapshot.val()[key].email)
-            }
-        }
-    })
+		if (call) {
+			if (snapshot.val()) {
+				var list = [];
+				var keys = Object.keys(snapshot.val())
+				for (var i = 0; i < keys.length; i++) {
+					var key = keys[i]
+					list.push(snapshot.val()[key].email)
+				}
+				setCustomerUsers(list)
+				setCall(false);
+			}
+		}
+	})
 
-	function loginWithEmail(){
-		if (data.email.length<=4) {
+	function loginWithEmail() {
+		if (data.email.length <= 4) {
 			Alert.alert("Credentials error",
 				"Invalid E-mail",
 				[
-					{text:"Retry"}
-				], {cancelable:false});
+					{ text: "Retry" }
+				], { cancelable: false });
 		}
-		else if (data.password<6) {
+		else if (data.password < 6) {
 			Alert.alert("Credentials error",
 				"Password should be at least 6 characters",
 				[
-					{text:"Retry"}
-				], {cancelable:false});
+					{ text: "Retry" }
+				], { cancelable: false });
 		}
-		else{
+		else {
 			const index = customerUsers.findIndex((email) => email === data.email)
-            if (index === -1) {
-                Alert.alert("Login Error !",
-                    "No Customer account linked with this email. Try Signing In...",
-                    [
-                        { text: "OK"}
-                    ], { cancelable: false });
-            } else  
-				login(data.email,data.password);
-		}		
+			if (index === -1) {
+				Alert.alert("Login Error !",
+					"No Customer account linked with this email. Try Signing In...",
+					[
+						{ text: "OK" }
+					], { cancelable: false });
+			} else
+				login(data.email, data.password);
+		}
 	}
 
 	function forgotPass() {
@@ -85,13 +92,13 @@ const LoginScreen = ({ navigation }) => {
 			});
 		}
 	}
-	
+
 	return (
 		<TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
 			<View style={styles.container}>
 
-			<StatusBar style="auto" />
-			
+				<StatusBar style="auto" />
+
 				<LinearGradient
 					colors={['#20527e', '#f08080']}
 					style={{ flex: 1 }}
@@ -238,7 +245,7 @@ const LoginScreen = ({ navigation }) => {
 
 						<TouchableOpacity
 							style={styles.loginButton}
-							onPress={() => {Keyboard.dismiss() ;console.log(data.email,data.password); loginWithEmail()}} >
+							onPress={() => { Keyboard.dismiss(); console.log(data.email, data.password); loginWithEmail() }} >
 							<Text style={styles.loginText}>LOGIN</Text>
 						</TouchableOpacity>
 

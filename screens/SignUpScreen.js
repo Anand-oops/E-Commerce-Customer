@@ -12,45 +12,59 @@ import Firebase from '../firebaseConfig'
 export default function SignUpScreen({ navigation }) {
 
     const { register } = useContext(AuthContext);
+    const [dealerCall, setDealerCall] = useState(true);
+    const [registeredEmails, setRegisteredEmails] = useState([])
+    const [adminCall, setAdminCall] = useState(true);
     const [data, setData] = useState({
         email: '',
         password: '',
     });
-    var registeredEmails = []
 
     Firebase.database().ref('Dealers/').once('value').then(snapshot => {
-        if (snapshot.val()) {
-            var keys = Object.keys(snapshot.val())
-            for (var i = 0; i < keys.length; i++) {
-                var key = keys[i]
-                registeredEmails.push(snapshot.val()[key].email)
+        if (dealerCall) {
+            if (snapshot.val()) {
+                var list = [...registeredEmails];
+                var keys = Object.keys(snapshot.val())
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i]
+                    list.push(snapshot.val()[key].email)
+                }
+                setRegisteredEmails(list);
+                setDealerCall(false);
             }
         }
+
     })
 
     Firebase.database().ref('Admin/').once('value').then(snapshot => {
-        if (snapshot.val()) {
-            var keys = Object.keys(snapshot.val())
-            for (var i = 0; i < keys.length; i++) {
-                var key = keys[i]
-                registeredEmails.push(snapshot.val()[key].email)
+        if (adminCall) {
+            if (snapshot.val()) {
+                var list = [...registeredEmails]
+                var keys = Object.keys(snapshot.val())
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i]
+                    list.push(snapshot.val()[key].email)
+                }
+                setRegisteredEmails(list)
+                setAdminCall(false)
             }
         }
+
     })
 
-    function registerWithEmail(){
+    function registerWithEmail() {
         if (data.email.length <= 4) {
             Alert.alert("Credentials error",
                 "Invalid E-mail",
                 [
-                    { text: "Retry"}
+                    { text: "Retry" }
                 ], { cancelable: false });
         }
         else if (data.password.length < 6) {
             Alert.alert("Credentials error",
                 "Password should be at least 6 characters",
                 [
-                    { text: "Retry"}
+                    { text: "Retry" }
                 ], { cancelable: false });
         }
         else {
@@ -61,7 +75,7 @@ export default function SignUpScreen({ navigation }) {
                 Alert.alert("Registration Error !",
                     "This e-mail is already registered with us. Try Logging In...",
                     [
-                        { text: "OK"}
+                        { text: "OK" }
                     ], { cancelable: false });
         }
     }
@@ -69,7 +83,7 @@ export default function SignUpScreen({ navigation }) {
     return (
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
             <View style={styles.main}>
-            <StatusBar style="auto" />
+                <StatusBar style="auto" />
                 <LinearGradient
                     colors={['#20527e', '#f08080']}
                     style={styles.container}
@@ -84,7 +98,7 @@ export default function SignUpScreen({ navigation }) {
                             placeholderTextColor='#dcdcdc'
                             autoCapitalize="none"
                             keyboardType="email-address"
-							autoCorrect={false}
+                            autoCorrect={false}
                             onChangeText={(entry) => setData({
                                 ...data, email: entry
                             })} />
@@ -94,8 +108,8 @@ export default function SignUpScreen({ navigation }) {
                         <TextInput
                             style={styles.inputText}
                             placeholder={'Enter Password'}
-							autoCapitalize="none"
-							autoCorrect={false}
+                            autoCapitalize="none"
+                            autoCorrect={false}
                             placeholderTextColor='#dcdcdc'
                             onChangeText={(entry) => setData({
                                 ...data, password: entry
@@ -104,7 +118,7 @@ export default function SignUpScreen({ navigation }) {
 
                     <TouchableOpacity
                         style={styles.loginScreenButton}
-                        onPress={() => {Keyboard.dismiss();console.log(data.email,data.password); registerWithEmail()} }
+                        onPress={() => { Keyboard.dismiss(); console.log(data.email, data.password); registerWithEmail() }}
                         underlayColor='#fff' >
                         <Text style={styles.loginText}>SIGN UP</Text>
                     </TouchableOpacity>
@@ -153,7 +167,7 @@ const styles = StyleSheet.create({
 
         height: '100%',
         width: '100%'
-        
+
     },
     container: {
         flex: 1,
@@ -169,8 +183,8 @@ const styles = StyleSheet.create({
         margin: 10,
         width: "75%",
         //flex: 1,
-		color: 'white',
-		fontSize: 16,
+        color: 'white',
+        fontSize: 16,
     },
     button: {
         margin: 10,
@@ -237,10 +251,10 @@ const styles = StyleSheet.create({
     },
     socialText: {
         flex: 1,
-		elevation: 10,
-		color: 'gray',
-		textAlign: 'center',
-		fontWeight: 'bold',
-		paddingRight: 10
+        elevation: 10,
+        color: 'gray',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        paddingRight: 10
     }
 });
