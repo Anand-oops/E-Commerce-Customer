@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
-import { StyleSheet, Text, View, FlatList, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, ScrollView, TouchableOpacity, Alert,ActivityIndicator } from 'react-native';
 import Firebase from "../firebaseConfig";
 import Toast from 'react-native-simple-toast'
 
@@ -14,6 +14,7 @@ export default function WishList(props) {
     const [listen, setListen] = useState(true);
     const [items, setItem] = useState([]);
     const [cartItems, setCart] = useState([]);
+    const [loader,setLoader]=useState(true);
 
     Firebase.database().ref(`Customers/${user.uid}`).on('value', (data) => {
         if (listen) {
@@ -32,6 +33,7 @@ export default function WishList(props) {
                 setCart(data.val().cart);
             }
             setListen(false);
+            setLoader(false);
         }
 
     })
@@ -130,8 +132,17 @@ export default function WishList(props) {
 
                 </FlatList>
 
+                <View style={{ position: 'absolute', zIndex: 4, alignSelf: 'center', flex: 1, top: '50%' }}>
+                <ActivityIndicator
 
+                    size='large'
+                    color="grey"
+                    animating={loader}
+
+                />
             </View>
+            </View>
+
         </ScrollView>
     );
 }

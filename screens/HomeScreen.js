@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
-import { StyleSheet, View, ScrollView, StatusBar } from 'react-native';
+import { StyleSheet, View, ScrollView, StatusBar, ActivityIndicator } from 'react-native';
 import Firebase from '../firebaseConfig';
 import Card from '../shared/Card'
 import { SliderBox } from 'react-native-image-slider-box';
+
 
 const HomeScreen = ({ navigation }) => {
 
@@ -19,7 +20,7 @@ const HomeScreen = ({ navigation }) => {
     const [imagesDeckCall, setImagesDeckCall] = useState(true)
     const [cards, setCards] = useState([])
     const [cardsCall, setCardsCall] = useState(true)
-
+    const [loader, setLoader] = useState(true);
 
 
     Firebase.database().ref('ImagesDeck/').on('value', function (data) {
@@ -28,6 +29,7 @@ const HomeScreen = ({ navigation }) => {
                 console.log("ImagesDeck Called")
                 setImagesDeck(data.val())
                 setImagesDeckCall(false);
+                setLoader(false)
             }
         }
     })
@@ -52,10 +54,23 @@ const HomeScreen = ({ navigation }) => {
         setCardsCall(true);
     });
 
+
+    // if(loader){
+    //     return (
+    //         <View style={{flex:1, alignItems:'center',justifyContent:'center' }}>
+    //     <ActivityIndicator
+    //         size='large'
+    //         color="#0000ff"
+
+    //         />
+    //         </View>)
+    // }else{
     return (
         <View style={styles.screen}>
             <StatusBar style='light' />
+
             <ScrollView>
+
                 <View>
                     <View style={styles.imageDeck}>
                         <SliderBox
@@ -65,15 +80,29 @@ const HomeScreen = ({ navigation }) => {
                             circleLoop={true}
                             resizeMode={'contain'}
                         />
+
+
                     </View>
+
                 </View>
                 <View>
                     {cards.map(card => <Card key={card.key} images={card.images} header={card.header}
                         pressHandler={(prod) => navigation.navigate("SaleProductDetails", { product: prod })} />)}
                 </View>
             </ScrollView>
+            <View style={{ position: 'absolute', zIndex: 4, alignSelf: 'center', flex: 1, top: '50%' }}>
+                <ActivityIndicator
+
+                    size='large'
+                    color="grey"
+                    animating={loader}
+
+                />
+            </View>
+
         </View>
     );
+
 }
 
 export default HomeScreen;
@@ -93,6 +122,10 @@ const styles = StyleSheet.create({
 
     offerCards: {
         backgroundColor: 'white'
+    },
+    lottie: {
+        width: 100,
+        height: 100
     }
 
 });

@@ -1,10 +1,9 @@
 import React from 'react';
 import { useState, useContext, useRef } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
-import { StyleSheet, Text, View, Image, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, TouchableOpacity,ActivityIndicator } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Firebase from "../firebaseConfig";
-import Counter from "react-native-counters";
 import { AntDesign } from '@expo/vector-icons'; 
 import Toast from 'react-native-simple-toast';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -22,6 +21,7 @@ export default function Cart(props) {
     const [addresses, setAddresses] = useState([])
     const [addressIndex, setAddressIndex] = useState(0)
     const [addressCall, setAddressCall] = useState(true)
+    const [loader,setLoader]=useState(true);
 
     const addressRBSheet = useRef();
 
@@ -57,6 +57,7 @@ export default function Cart(props) {
                 setWishlistItems(data.val().wishlist);
             }
             setListen(false);
+            setLoader(false);
         }
 
     })
@@ -338,7 +339,17 @@ export default function Cart(props) {
                         <Text style={{ color: 'white' }} >Proceed</Text>
                     </TouchableOpacity>
                 </RBSheet>
+                <View style={{ position: 'absolute', zIndex: 4, alignSelf: 'center', flex: 1, top: '50%' }}>
+                <ActivityIndicator
+
+                    size='large'
+                    color="grey"
+                    animating={loader}
+
+                />
             </View>
+            </View>
+            
         </ScrollView>
     );
 }

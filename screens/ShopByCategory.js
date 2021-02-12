@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image,ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Firebase from "../firebaseConfig";
 
@@ -9,6 +9,7 @@ export default function ShopByCategory({ navigation, route }) {
     var name = route.name;
     const [listen, setListen] = useState(true);
     const [items, setItem] = useState([]);
+    const [loader, setLoader] = useState(true);
     Firebase.database().ref(`DrawerItemsList/`).on('value', (data) => {
         if (listen) {
             if (data.val()) {
@@ -24,6 +25,7 @@ export default function ShopByCategory({ navigation, route }) {
                         setItem(item.SubCategories)
                     }
                 })
+                setLoader(false);
                 setListen(false);
             }
 
@@ -59,7 +61,15 @@ export default function ShopByCategory({ navigation, route }) {
                 )}>
 
             </FlatList>
+            <View style={{ position: 'absolute', zIndex: 4, alignSelf: 'center', flex: 1, top: '50%' }}>
+                <ActivityIndicator
 
+                    size='large'
+                    color="grey"
+                    animating={loader}
+
+                />
+            </View>
 
         </View>
     );
