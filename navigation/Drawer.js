@@ -73,7 +73,7 @@ const HomeStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
@@ -142,7 +142,7 @@ const ProfileStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Edit Profile</Text>
@@ -171,7 +171,7 @@ const ProfileStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Change Email</Text>
@@ -200,7 +200,7 @@ const ProfileStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Change Password</Text>
@@ -270,7 +270,7 @@ const WishListStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
@@ -343,10 +343,10 @@ const CartStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 					<View>
-						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Proceed</Text>
+						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Add Address</Text>
 					</View>
 					<TouchableOpacity style={{ position: 'absolute', right: 40 }} onPress={() => {
 						console.log("wishlist open");
@@ -372,7 +372,7 @@ const CartStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
@@ -401,7 +401,7 @@ const CartStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Place Order</Text>
@@ -468,7 +468,7 @@ const YourOrdersStack = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Your Orders</Text>
@@ -496,7 +496,7 @@ const YourOrdersStack = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Review</Text>
@@ -524,7 +524,7 @@ const YourOrdersStack = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Order Details</Text>
@@ -699,7 +699,7 @@ export default class Drawer extends React.Component {
 													backgroundColor: 'black'
 												},
 												headerTitle: () => (
-													<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+													<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 														<View>
 															<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Explore</Text>
@@ -727,7 +727,7 @@ export default class Drawer extends React.Component {
 													backgroundColor: 'black'
 												},
 												headerTitle: () => (
-													<View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+													<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
 
 														<View>
 															<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>

@@ -1,41 +1,63 @@
 import React from 'react';
-import { useState, useContext } from 'react';
-import { AuthContext } from '../navigation/AuthProvider';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import Firebase from "../firebaseConfig";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
-import Toast from 'react-native-simple-toast'
-
+import { useState } from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function OrderDetails(props) {
 
-    const { user } = useContext(AuthContext);
     const [item] = useState(props.route.params.item);
-
-    
-
-    
 
     return (
 
         <View style={styles.main}>
             <ScrollView style={{ flex: 1, marginTop: 10 }}>
-                
-                    
-                       
-                            <View style={styles.listContainer}>
-                                <Image source={item.image} style={styles.listimage} />
-                                <View style={styles.list}>
-                                    <Text style={{ color: 'black', fontWeight: 'bold' }}>Order Id: {item.orderId}</Text>
-                                    <Text style={{ color: 'black' }}>Product : {item.productName}</Text>
-                                    <Text style={{ color: 'purple' }}>Category : {item.category} :: {item.subCategory}</Text>
-                                    <Text style={{ color: 'blue' }}>Price: {item.finalPrice}</Text>
-                                    <Text style={{ color: 'black' }}>Delivered: {item.address.city + "," + item.address.state + " - " + item.address.pincode}</Text>
-                                    <Text style={{ color: 'red', marginBottom: 5 }}>{item.deliveryStatus}</Text>
-                                </View>
-                            </View>
-                    
-                    
+
+                <View >
+                    <Image source={item.image} style={styles.image} />
+                    <Text style={{ textTransform: 'capitalize', marginBottom: 5, textAlign: 'center' }}>{item.productName}</Text>
+                    <Text style={{ marginBottom: 5, textAlign: 'center' }}>{item.description}</Text>
+                    <Text style={{ marginBottom: 5, textAlign: 'center' }}>Category : {item.category}</Text>
+                    <Text style={{ marginBottom: 5, textAlign: 'center' }}>Sub-Category : {item.subCategory}</Text>
+                    <Text style={{ marginBottom: 5, textAlign: 'center' }}>{item.specs}</Text>
+                    <View
+                        style={{
+                            margin: 2,
+                            borderBottomColor: 'grey',
+                            borderBottomWidth: 5,
+                        }}
+                    />
+                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 16, marginLeft: 15, marginVertical: 7 }}>Order Id : {item.orderId}</Text>
+                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 16, marginLeft: 15, marginBottom: 7 }}>Order Date : {item.orderDate}</Text>
+                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 16, marginLeft: 15, marginBottom: 7 }}>Order Time : {item.orderTime}</Text>
+                    <Text style={{ color: (item.deliveryStatus === 'Pending') ? 'orange' : ((item.deliveryStatus === 'Delivered') ? 'green' : 'red'), fontWeight: 'bold', fontSize: 18, marginLeft: 15, marginBottom: 7 }}>Status : {item.deliveryStatus}</Text>
+                    <View
+                        style={{
+                            margin: 2,
+                            borderBottomColor: 'grey',
+                            borderBottomWidth: 5,
+                        }}
+                    />
+
+                    <Text style={{ fontWeight: 'bold', marginVertical: 5, marginLeft: 15, color: 'black', fontSize: 20 }}>Delivery Address</Text>
+                    <Text style={{ color: 'black', marginLeft: 15, marginBottom: 3 }}>{item.address.name}  |  {item.address.mobile}</Text>
+                    <Text style={{ color: 'gray', marginLeft: 15, marginBottom: 3 }}>{item.address.addressLine1} , {item.address.addressLine2}</Text>
+                    <Text style={{ color: 'gray', marginLeft: 15, marginBottom: 3 }}>{item.address.landmark} , {item.address.city} , {item.address.state} - {item.address.pincode}</Text>
+
+                    <View
+                        style={{
+                            margin: 2,
+                            borderBottomColor: 'grey',
+                            borderBottomWidth: 5,
+                        }}
+                    />
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                        <Text style={{ fontWeight: 'bold', marginVertical: 10, marginLeft: 15, color: 'black', fontSize: 20 }}>Order Price</Text>
+                        <Text style={{ color: 'gray', marginLeft: 15, marginVertical: 10, fontSize: 20 }}>₹ {item.finalPrice}</Text>
+                    </View>
+                </View>
+
+
             </ScrollView>
         </View>
     );
@@ -51,22 +73,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingTop: '50%'
     },
-    text: {
-        color: 'blue'
-    },
-    listContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderBottomWidth: 0.5,
-        borderColor: 'black',
-        paddingHorizontal: 20,
-        marginTop: 5
-    },
-    listimage: {
-        height: 10,
-        width: 10,
-        padding: 40,
-        marginHorizontal: 20,
+    image: {
+        height: 200,
+        resizeMode: 'contain',
+        marginBottom: 20,
     },
 });

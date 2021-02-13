@@ -77,7 +77,7 @@ export default function WriteReview(props) {
                 <View style={{ margin: 4, borderColor: 'white', borderRadius: 1, elevation: 1, flexDirection: 'row' }}>
                     <View style={{ borderColor: 'white', borderRadius: 1, elevation: 1, flex: 1 }}>
                         <Image
-                            style={{ padding: 2, height: 150, width: '98%', resizeMode: 'stretch', alignSelf: 'center', }}
+                            style={{ padding: 2, height: 150, width: '98%', resizeMode: 'contain', alignSelf: 'center', }}
                             source={{ uri: item.image.uri }}
                         />
                     </View>

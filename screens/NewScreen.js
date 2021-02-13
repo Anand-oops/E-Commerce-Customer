@@ -313,7 +313,7 @@ export default function NewScreen(props) {
                             <View style={{ margin: 4, borderColor: 'white', borderRadius: 1, elevation: 1 }}>
                                 <View style={{ borderColor: 'white', borderRadius: 1, elevation: 1 }}>
                                     <Image
-                                        style={{ padding: 2, height: 200, width: '98%', resizeMode: 'stretch', alignSelf: 'center', }}
+                                        style={{ padding: 2, height: 200, width: '98%', resizeMode: 'contain', alignSelf: 'center', }}
                                         source={{ uri: item.image.uri }}
                                     />
                                 </View>
@@ -327,7 +327,6 @@ export default function NewScreen(props) {
                             starSize={10}
                             fullStarColor={'#ffa500'}
                             emptyStarColor={'#ff4500'}
-                            // selectedStar={(rating) => { setRating(rating) }}
                         />
                         </View>
                                 </View>

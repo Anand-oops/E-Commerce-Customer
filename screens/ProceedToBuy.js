@@ -7,7 +7,7 @@ import Firebase from "../firebaseConfig";
 import Toast from 'react-native-simple-toast';
 
 
-export default function ProceedToBuy( props ) {
+export default function ProceedToBuy(props) {
 
     const { user } = useContext(AuthContext);
 
@@ -117,11 +117,15 @@ export default function ProceedToBuy( props ) {
                     </View>
                 </View>
                 <TouchableOpacity onPress={() => {
-                    if (name.length > 0 && mobile.length >= 10 && pincode.length == 6 && add1.length > 0 && add2.length > 0
+                    if (name.length > 0 && mobile.length == 10 && pincode.length == 6 && add1.length > 0 && add2.length > 0
                         && landmark.length > 0 && city.length > 0 && state.length > 0) {
                         saveChanges();
-                    } else
-                        Toast.show("Fill all fields", Toast.SHORT);
+                    } else if (mobile.length < 10)
+                        Toast.show("Mobile number shall have 10 digits", Toast.SHORT);
+                    else if (pincode.length < 6)
+                        Toast.show("Pin Code shall have 6 digits", Toast.SHORT);
+                    else
+                        Toast.show("Fill all fields...", Toast.SHORT);
                 }}>
                     <View style={{ borderRadius: 3, elevation: 1, margin: 6, padding: 4, backgroundColor: '#f4a460', height: 40, justifyContent: 'center' }}>
                         <Text style={{ alignSelf: 'center', fontWeight: 'bold' }}>SAVE CHANGES</Text>

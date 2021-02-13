@@ -21,9 +21,9 @@ export default function Cart(props) {
     const [addresses, setAddresses] = useState([])
     const [addressIndex, setAddressIndex] = useState(0)
     const [addressCall, setAddressCall] = useState(true);
-    const [cardcheck,setCardcheck]=useState(true);
-    const [loader,setLoader]=useState(true);
-    const [saleitems,setSaleItems]=useState([]);
+    const [cardcheck, setCardcheck] = useState(true);
+    const [loader, setLoader] = useState(true);
+    const [saleitems, setSaleItems] = useState([]);
 
     const addressRBSheet = useRef();
 
@@ -79,58 +79,50 @@ export default function Cart(props) {
     })
 
     Firebase.database().ref(`Cards`).on('value', (data) => {
-        
+
         if (cardcheck) {
             if (data.val()) {
-                
-                var list=[];
-                
-                
-                for(var i=0;i<data.val().length;i++){
 
-                    console.log("datad kyabai",data.val()[i]);
-                    var list2=[];
+                var list = [];
+
+
+                for (var i = 0; i < data.val().length; i++) {
+
+                    console.log("datad kyabai", data.val()[i]);
+                    var list2 = [];
                     list2.push(data.val()[i].images);
-                     for (var j=0;j<data.val()[i].images.length;j++){
-                         list.push(data.val()[i].images[j].key);
-                     }
+                    for (var j = 0; j < data.val()[i].images.length; j++) {
+                        list.push(data.val()[i].images[j].key);
+                    }
                 }
                 setSaleItems(list);
-                
-                console.log('sffsffsffsfs',saleitems);
-                
             }
-            
             setCardcheck(false);
-            
         }
-
     })
-    
-    
 
     const itemsPress = (item) => {
         console.log("clicked");
-        
-            props.navigation.navigate('ProductDetailsScreen', { item: item });
-        
-    
+        props.navigation.navigate('ProductDetailsScreen', { item: item });
     }
     const ButtonPress = () => {
-        console.log('proceed to buy');
-        let flag = true;
-        let name = '';
-        items.map(item => {
-            if (item.stocks <= 0) {
-                flag = false;
-                name = item.productName;
-            }
-        })
-        if (flag) {
-            addressRBSheet.current.open();
-            setAddressCall(true)
-        } else
-            Toast.show(name + ' is out of stock', Toast.SHORT);
+        if (items.length == 0) {
+            Toast.show("No Products in Cart", Toast.SHORT);
+        } else {
+            let flag = true;
+            let name = '';
+            items.map(item => {
+                if (item.stocks <= 0) {
+                    flag = false;
+                    name = item.productName;
+                }
+            })
+            if (flag) {
+                addressRBSheet.current.open();
+                setAddressCall(true)
+            } else
+                Toast.show(name + ' is out of stock', Toast.SHORT);
+        }
     }
 
     const CounterPlus = (index) => {
@@ -138,13 +130,13 @@ export default function Cart(props) {
         var spp = 0;
         var sfp = 0;
         for (var i = 0; i < items.length; i++) {
-            
+
             spp += items[i].productPrice * counters[i];
 
-            if(items[i].salePrice){
-            sfp += items[i].salePrice * counters[i];
-        }else
-        sfp += items[i].finalPrice * counters[i];
+            if (items[i].salePrice) {
+                sfp += items[i].salePrice * counters[i];
+            } else
+                sfp += items[i].finalPrice * counters[i];
         }
         setSumTotal(spp);
         setFinalTotal(sfp);
@@ -223,27 +215,25 @@ export default function Cart(props) {
     return (
         <ScrollView>
             <View style={styles.main}>
-
-
                 <FlatList style={{ padding: 4 }}
                     data={items}
-
                     renderItem={({ item }) => (
                         <View style={{ flex: 1, margin: 2 }}>
                             <View style={{ borderRadius: 1, elevation: 1, }}>
                                 <TouchableOpacity onPress={() => itemsPress(item)}>
-                                    <View style={{ margin: 4, borderColor: 'white', borderRadius: 1, elevation: 1, flexDirection: 'row' }}>
-                                        <View style={{ borderColor: 'white', borderRadius: 1, elevation: 1, flex: 1 }}>
+                                    <View style={{ margin: 4, flexDirection: 'row' }}>
+                                        <View style={{ flex: 1 }}>
                                             <Image
-                                                style={{ padding: 2, height: 100, width: '98%', resizeMode: 'stretch', alignSelf: 'center', }}
+                                                style={{ padding: 2, height: 100, width: '98%', resizeMode: 'contain', alignSelf: 'center', }}
                                                 source={{ uri: item.image.uri }}
                                             />
                                         </View>
                                         <View style={{ flex: 1 }}>
                                             <Text style={{ color: '#3b3a30', fontSize: 20, padding: 4, textTransform: 'capitalize' }}>{item.productName}</Text>
+                                            <Text style={{ color: 'black', fontSize: 12, padding: 4 }}>{item.category+" : "+item.subCategory}</Text>
                                             <Text style={{ color: 'black', fontSize: 10, paddingLeft: 4 }}>{item.description}</Text>
                                             <View style={{ flexDirection: 'row' }}>
-                                                <Text style={{ color: 'green', fontSize: 14, padding: 2, }}> ₹ { (saleitems.includes(item.key))?(item.salePrice):(item.finalPrice)}</Text>
+                                                <Text style={{ color: 'green', fontSize: 14, padding: 2, }}> ₹ {(saleitems.includes(item.key)) ? (item.salePrice) : (item.finalPrice)}</Text>
                                             </View>
                                         </View>
 
@@ -255,7 +245,7 @@ export default function Cart(props) {
                                     <TouchableOpacity style={{ borderRadius: 1, elevation: 1, margin: 4 }} onPress={() => CounterMinus(items.indexOf(item))}>
                                         <AntDesign name="minus" size={24} color="black" />
                                     </TouchableOpacity>
-                                    
+
                                     <Text style={{ marginVertical: 4, marginHorizontal: 10 }}>{counters[items.indexOf(item)]}</Text>
                                     <TouchableOpacity style={{ margin: 4, elevation: 1, borderRadius: 1 }} onPress={() => CounterPlus(items.indexOf(item))}>
                                         <AntDesign name="plus" size={24} color="black" />
@@ -367,8 +357,11 @@ export default function Cart(props) {
 
                     </ScrollView>
                     <TouchableOpacity style={styles.filterButton} onPress={() => {
-                        Toast.show("Proceed", Toast.SHORT);
-                        props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items })
+                        if (addresses[addressIndex] != null) {
+                            props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items })
+                        } else {
+                            Toast.show("Select Address first", Toast.SHORT);
+                        }
                         addressRBSheet.current.close()
                     }}>
                         <Text style={{ color: 'white' }} >Proceed</Text>

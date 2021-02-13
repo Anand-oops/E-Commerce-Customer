@@ -89,15 +89,15 @@ export default function WishList(props) {
 
                         <View style={{ flex: 1, margin: 2 }}>
                             <TouchableOpacity onPress={() => itemsPress(item)}>
-                                <View style={{ margin: 4, borderColor: 'white', borderRadius: 1, elevation: 1 }}>
-                                    <View style={{ borderColor: 'white', borderRadius: 1, elevation: 1 }}>
+                                <View style={{ margin: 4}}>
+                                    <View >
                                         <Image
-                                            style={{ padding: 2, height: 200, width: '98%', resizeMode: 'stretch', alignSelf: 'center', }}
+                                            style={{ padding: 2, height: 200, width: '98%', resizeMode: 'contain', alignSelf: 'center', }}
                                             source={{ uri: item.image.uri }}
                                         />
                                     </View>
-
                                     <Text style={{ color: '#3b3a30', fontSize: 20, paddingLeft: 4, textTransform: 'capitalize' }}>{item.productName}</Text>
+                                    <Text style={{ color: 'black', fontSize: 12, padding: 4 }}>{item.category+" : "+item.subCategory}</Text>
                                     <Text style={{ color: 'black', fontSize: 10, paddingLeft: 4 }}>{item.description}</Text>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Text style={{ color: 'grey', fontSize: 15, paddingLeft: 2 }}>{"₹" + item.finalPrice}</Text>

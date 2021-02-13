@@ -15,10 +15,12 @@ const Card = props => {
                             <View >
                                 <TouchableOpacity style={styles.Container} onPress={props.pressHandler.bind(this, itemData.item.product)}>
                                     <Image style={styles.image} source={itemData.item.image} />
-                                    <Text style={{color:'blue'}}>{itemData.item.product.subCategory}</Text>
-                                    <Text style={{color:'purple'}}>{itemData.item.product.productName}</Text>
-                                    <Text style={styles.text}>{itemData.item.textItem}</Text>
-                                    <Text style={styles.offerText}>{itemData.item.textOff+" % off !"}</Text>
+                                    <View style={{marginLeft:20}}>
+                                        <Text style={{ color: 'blue' }}>Sub-Category : {itemData.item.product.subCategory}</Text>
+                                        <Text style={{ color: 'purple' }}>Product Id : {itemData.item.product.productKey}</Text>
+                                        <Text style={styles.text}>Sale : {itemData.item.textItem}</Text>
+                                        <Text style={styles.offerText}>Sale discount : {itemData.item.textOff + " % off !"}</Text>
+                                    </View>
                                 </TouchableOpacity>
                             </View>
                         )} />
@@ -34,28 +36,22 @@ const styles = StyleSheet.create({
     headerContainer: {
         width: '90%',
         marginTop: 30,
-        backgroundColor: 'white',
+        backgroundColor: '#778899',
         padding: 10,
         paddingHorizontal: 20,
         borderWidth: 1,
-        alignSelf:'center',
+        alignSelf: 'center',
         borderColor: 'black',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderTopLeftRadius:30,
-        borderTopRightRadius:30
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 50
     },
 
     header: {
         fontSize: 18,
         fontWeight: 'bold',
         fontStyle: 'italic'
-    },
-
-    icon: {
-        height: 35,
-        width: 35,
-        paddingHorizontal: 15,
     },
 
     cardContainer: {
@@ -68,24 +64,23 @@ const styles = StyleSheet.create({
         elevation: 10,
         borderWidth: 1,
         borderColor: 'black',
-        backgroundColor: 'white',
-        borderBottomLeftRadius:30,
-        borderBottomRightRadius:30
+        backgroundColor: '#DCDCDC',
+        borderBottomLeftRadius: 50,
+        borderBottomRightRadius: 20
     },
 
     Container: {
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: 'row',
         borderColor: 'transparent',
         borderWidth: 0.3,
-        // padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
     },
 
     image: {
-        height: 80,
-        width: 80,
+        height: 100,
+        width: 100,
         marginVertical: 20,
         resizeMode: 'contain',
         justifyContent: 'center',
@@ -97,7 +92,6 @@ const styles = StyleSheet.create({
 
     offerText: {
         color: 'darkgreen',
-        fontSize: 16,
     }
 
 });
