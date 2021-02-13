@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Image,ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Firebase from "../firebaseConfig";
 
@@ -34,8 +34,7 @@ export default function ShopByCategory({ navigation, route }) {
 
     const itemsPress = (item) => {
         console.log("clicked");
-       navigation.navigate('NewScreen',{name:name,subitemName:item.subitemName});
-    // console.log(props.navigation.navigate);
+        navigation.navigate('NewScreen', { name: name, subitemName: item.subitemName });
     }
 
     return (

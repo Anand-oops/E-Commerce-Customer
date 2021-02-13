@@ -12,17 +12,11 @@ export default function OrderDetails(props) {
     const { user } = useContext(AuthContext);
     const [item] = useState(props.route.params.item);
 
-    
-
-    
-
     return (
 
         <View style={styles.main}>
             <ScrollView style={{ flex: 1, marginTop: 10 }}>
-                
-                    
-                       
+            
                             <View style={styles.listContainer}>
                                 <Image source={item.image} style={styles.listimage} />
                                 <View style={styles.list}>
