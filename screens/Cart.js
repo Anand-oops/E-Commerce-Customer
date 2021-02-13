@@ -111,10 +111,10 @@ export default function Cart(props) {
 
     const itemsPress = (item) => {
         console.log("clicked");
-        if (address[addressIndex] != null)
+        
             props.navigation.navigate('ProductDetailsScreen', { item: item });
-        else
-            Toast.show("Select Address", Toast.SHORT);
+        
+    
     }
     const ButtonPress = () => {
         console.log('proceed to buy');

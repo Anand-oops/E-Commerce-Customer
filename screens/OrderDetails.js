@@ -28,7 +28,7 @@ export default function OrderDetails(props) {
                                 <View style={styles.list}>
                                     <Text style={{ color: 'black', fontWeight: 'bold' }}>Order Id: {item.orderId}</Text>
                                     <Text style={{ color: 'black' }}>Product : {item.productName}</Text>
-                                    <Text style={{ color: 'purple' }}>Category : {item.category} :: {data.item.subCategory}</Text>
+                                    <Text style={{ color: 'purple' }}>Category : {item.category} :: {item.subCategory}</Text>
                                     <Text style={{ color: 'blue' }}>Price: {item.finalPrice}</Text>
                                     <Text style={{ color: 'black' }}>Delivered: {item.address.city + "," + item.address.state + " - " + item.address.pincode}</Text>
                                     <Text style={{ color: 'red', marginBottom: 5 }}>{item.deliveryStatus}</Text>

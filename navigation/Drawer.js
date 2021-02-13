@@ -19,14 +19,10 @@ import YourOrders from "../screens/YourOrders";
 import OrderPlacingScreen from '../screens/OrderPlacingScreen'
 import ReviewScreen from '../screens/ReviewScreen';
 import WriteReview from '../screens/WriteReview';
-<<<<<<< HEAD
-import OrderDetails from "../screens/OrderDetails";
-=======
 import ProfileDisplayScreen from '../screens/ProfileDisplayScreen'
 import ChangeEmailScreen from '../screens/ChangeEmailScreen'
 import ChangePasswordScreen from '../screens/ChangePasswordScreen'
->>>>>>> d3bd3a58de4f4e6d1173bba0165c48fded469519
-
+import OrderDetails from "../screens/OrderDetails";
 
 const addedItems = [];
 const DrawerNav = createDrawerNavigator();
