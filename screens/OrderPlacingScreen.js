@@ -12,6 +12,7 @@ export default function OrderPlacingScreen(props) {
 
     const address = props.route.params.address;
     const items = props.route.params.items;
+    const finalPrice = props.route.params.price;
 
     const ButtonPress = () => {
         for (var i = 0; i < items.length; i++) {
@@ -59,7 +60,7 @@ export default function OrderPlacingScreen(props) {
                 />
                 <View style={{ flexDirection: "row", margin: 2 }}>
                     <Text style={{ flex: 1 }}>Items : </Text>
-                    <Text>{"yahan price"}</Text>
+                    <Text>{finalPrice}</Text>
                 </View>
                 <View style={{ flexDirection: "row", margin: 2 }}>
                     <Text style={{ flex: 1 }}>ADDITIONAL CHARGES: </Text>
@@ -75,7 +76,7 @@ export default function OrderPlacingScreen(props) {
                 />
                 <View style={{ flexDirection: "row", margin: 2 }}>
                     <Text style={{ flex: 1, fontWeight: 'bold' }}>TOTAL AMOUNT </Text>
-                    <Text style={{ fontWeight: 'bold' }}>{'total'}</Text>
+                    <Text style={{ fontWeight: 'bold' }}>{finalPrice}</Text>
                 </View>
             </View>
             <TouchableOpacity onPress={() => ButtonPress()}>
