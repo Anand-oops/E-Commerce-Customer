@@ -20,8 +20,10 @@ export default function Cart(props) {
     const [wishlistItems, setWishlistItems] = useState([]);
     const [addresses, setAddresses] = useState([])
     const [addressIndex, setAddressIndex] = useState(0)
-    const [addressCall, setAddressCall] = useState(true)
+    const [addressCall, setAddressCall] = useState(true);
+    const [cardcheck,setCardcheck]=useState(true);
     const [loader,setLoader]=useState(true);
+    const [saleitems,setSaleItems]=useState([]);
 
     const addressRBSheet = useRef();
 
@@ -77,6 +79,37 @@ export default function Cart(props) {
         }
     })
 
+    Firebase.database().ref(`Cards`).on('value', (data) => {
+        
+        if (cardcheck) {
+            if (data.val()) {
+                
+                var list=[];
+                
+                
+                for(var i=0;i<data.val().length;i++){
+
+                    console.log("datad kyabai",data.val()[i]);
+                    var list2=[];
+                    list2.push(data.val()[i].images);
+                     for (var j=0;j<data.val()[i].images.length;j++){
+                         list.push(data.val()[i].images[j].key);
+                     }
+                }
+                setSaleItems(list);
+                
+                console.log('sffsffsffsfs',saleitems);
+                
+            }
+            
+            setCardcheck(false);
+            
+        }
+
+    })
+    
+    
+
     const itemsPress = (item) => {
         console.log("clicked");
         if (address[addressIndex] != null)
@@ -117,8 +150,13 @@ export default function Cart(props) {
            var spp = 0;
         var sfp = 0;
         for (var i = 0; i < items.length; i++) {
+            
             spp += items[i].productPrice * counters[i];
-            sfp += items[i].finalPrice * counters[i];
+
+            if(items[i].salePrice){
+            sfp += items[i].salePrice * counters[i];
+        }else
+        sfp += items[i].finalPrice * counters[i];
         }
         setSumTotal(spp);
         setFinalTotal(sfp);
@@ -210,7 +248,7 @@ export default function Cart(props) {
                                             <Text style={{ color: '#3b3a30', fontSize: 20, padding: 4, textTransform: 'capitalize' }}>{item.productName}</Text>
                                             <Text style={{ color: 'black', fontSize: 10, paddingLeft: 4 }}>{item.description}</Text>
                                             <View style={{ flexDirection: 'row' }}>
-                                                <Text style={{ color: 'green', fontSize: 14, padding: 2, }}>{"₹" + item.finalPrice}</Text>
+                                                <Text style={{ color: 'green', fontSize: 14, padding: 2, }}> ₹ { (saleitems.includes(item.key))?(item.salePrice):(item.finalPrice)}</Text>
                                             </View>
                                         </View>
 

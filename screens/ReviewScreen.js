@@ -18,6 +18,10 @@ export default function ReviewScreen(props) {
         console.log("clicked");
         props.navigation.navigate('WriteReview', { item: item });
     }
+    const getInfo = (item) => {
+        console.log("clicked");
+        props.navigation.navigate('OrderDetails', { item: item });
+    }
 
     const changeStatus = () => {
         Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).update({ deliveryStatus: 'Cancelled' });
@@ -81,21 +85,21 @@ export default function ReviewScreen(props) {
                 <View>
                     <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold', marginTop: 6, marginHorizontal: 4 }}>Order Info</Text>
                     <View style={{ borderRadius: 1, elevation: 1, padding: 2, margin: 10, height: 40, justifyContent: 'center' }}>
-                        <TouchableOpacity style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={()=>{getInfo(item)}}>
                             <Text style={{ fontSize: 15, marginHorizontal: 8, flex: 1 }}>Order Info</Text>
                             <View style={{ alignSelf: 'center', marginHorizontal: 4 }}>
                                 <AntDesign name="right" size={15} color="black" />
                             </View>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ borderRadius: 1, elevation: 1, padding: 2, margin: 10, height: 40, justifyContent: 'center' }}>
+                    {/* <View style={{ borderRadius: 1, elevation: 1, padding: 2, margin: 10, height: 40, justifyContent: 'center' }}>
                         <TouchableOpacity style={{ flexDirection: 'row' }}>
                             <Text style={{ fontSize: 15, marginHorizontal: 8, flex: 1 }}>Download Invoice</Text>
                             <View style={{ alignSelf: 'center', marginHorizontal: 4 }}>
                                 <AntDesign name="right" size={15} color="black" />
                             </View>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
 
                 </View>
                 <View
