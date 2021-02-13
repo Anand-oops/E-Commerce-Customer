@@ -38,7 +38,7 @@ export default function Cart(props) {
                     var key = keys[i]
                     var prod = data.val().cart[key];
                     temp.push(prod);
-                    temp2.push(0);
+                    temp2.push(1);
                     Firebase.database().ref(`ProductList/${prod.category}/${prod.subCategory}/${prod.key}`).once('value').then(snap => {
                         list.push(snap.val());
                         setItem(list);
@@ -152,12 +152,19 @@ export default function Cart(props) {
     }
 
     const CounterMinus = (index) => {
-        counters[index] = counters[index] - 1;
+        if(counters[index]>1){
+            counters[index] = counters[index] - 1;
+        }
+        
         var spp = 0;
         var sfp = 0;
         for (var i = 0; i < items.length; i++) {
             spp += items[i].productPrice * counters[i];
-            sfp += items[i].finalPrice * counters[i];
+
+            if(items[i].salePrice){
+            sfp += items[i].salePrice * counters[i];
+        }else
+        sfp += items[i].finalPrice * counters[i];
         }
         setSumTotal(spp);
         setFinalTotal(sfp);
