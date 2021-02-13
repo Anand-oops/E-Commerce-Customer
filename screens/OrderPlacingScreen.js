@@ -15,14 +15,17 @@ export default function OrderPlacingScreen(props) {
 
     const ButtonPress = () => {
         for (var i = 0; i < items.length; i++) {
-            var item = items[i];
+            var item = items[i]; 
             item.address = address;
             item.customer = {
                 customerId : user.uid,
                 customerName : user.firstName+" "+user.lastName
             } 
             item.deliveryStatus = 'Pending';
-            item.orderId = new Date().getTime().toString();
+            var date = new Date();
+            item.orderId = date.getTime().toString();
+            item.orderDate = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+            item.orderTime = date.getHours() + ":" + date.getMinutes() + ":" + date.getMilliseconds();
             
             Firebase.database().ref(`ProductList/${item.category}/${item.subCategory}/${item.key}/stocks`).transaction(function (currentStock) {
                 return currentStock-1;

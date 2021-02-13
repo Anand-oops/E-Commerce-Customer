@@ -1,22 +1,33 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { StyleSheet, Text, View, TextInput, Keyboard, TouchableOpacity, TouchableWithoutFeedback, Alert } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { windowWidth } from '../shared/Dimensions';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AuthContext } from '../navigation/AuthProvider';
 import { StatusBar } from 'expo-status-bar';
-import Firebase from '../firebaseConfig'
+import Firebase from '../firebaseConfig';
+import Entypo from 'react-native-vector-icons/Entypo'
+import RBSheet from 'react-native-raw-bottom-sheet';
+import Toast from 'react-native-simple-toast';
+import firebase from 'firebase';
 
 const LoginScreen = ({ navigation }) => {
 
-	const { login, googleLogin } = useContext(AuthContext);
+	const { login } = useContext(AuthContext);
+	const [call, setCall] = useState(true)
+	const [customerUsers, setCustomerUsers] = useState([])
 	const [data, setData] = useState({
 		email: '',
 		password: '',
 		securityStatus: true,
 	});
+
+	const resetPassSheet = useRef();
+
+	const [forgotEmail, setForgotEmail] = useState('')
 
 	const updateSecurityStatus = () => {
 		setData({
@@ -24,52 +35,70 @@ const LoginScreen = ({ navigation }) => {
 			securityStatus: !data.securityStatus
 		});
 	}
-	var customerUsers = []
 
 	Firebase.database().ref('Customers/').once('value').then(snapshot => {
-        if (snapshot.val()) {
-            var keys = Object.keys(snapshot.val())
-            for (var i = 0; i < keys.length; i++) {
-                var key = keys[i]
-                customerUsers.push(snapshot.val()[key].email)
-            }
-        }
-    })
+		if (call) {
+			if (snapshot.val()) {
+				var list = [];
+				var keys = Object.keys(snapshot.val())
+				for (var i = 0; i < keys.length; i++) {
+					var key = keys[i]
+					list.push(snapshot.val()[key].email)
+				}
+				setCustomerUsers(list)
+				setCall(false);
+			}
+		}
+	})
 
-	function loginWithEmail(){
-		if (data.email.length<=4) {
+	function loginWithEmail() {
+		if (data.email.length <= 4) {
 			Alert.alert("Credentials error",
 				"Invalid E-mail",
 				[
-					{text:"Retry"}
-				], {cancelable:false});
+					{ text: "Retry" }
+				], { cancelable: false });
 		}
-		else if (data.password<6) {
+		else if (data.password < 6) {
 			Alert.alert("Credentials error",
 				"Password should be at least 6 characters",
 				[
-					{text:"Retry"}
-				], {cancelable:false});
+					{ text: "Retry" }
+				], { cancelable: false });
 		}
-		else{
+		else {
 			const index = customerUsers.findIndex((email) => email === data.email)
-            if (index === -1) {
-                Alert.alert("Login Error !",
-                    "No Customer account linked with this email. Try Signing In...",
-                    [
-                        { text: "OK"}
-                    ], { cancelable: false });
-            } else  
-				login(data.email,data.password);
-		}		
+			if (index === -1) {
+				Alert.alert("Login Error !",
+					"No Customer account linked with this email. Try Signing In...",
+					[
+						{ text: "OK" }
+					], { cancelable: false });
+			} else
+				login(data.email, data.password);
+		}
 	}
-	
+
+	function forgotPass() {
+		if (forgotEmail.length == 0) {
+			Toast.show("Enter email first..", Toast.SHORT);
+		} else {
+			resetPassSheet.current.close();
+			firebase.auth().sendPasswordResetEmail(forgotEmail).then(function () {
+				alert("Check your email...")
+			}).catch((error) => {
+				console.log(error);
+				alert(error)
+			});
+		}
+	}
+
 	return (
 		<TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
 			<View style={styles.container}>
 
-			<StatusBar style="auto" />
-			
+				<StatusBar style="auto" />
+
 				<LinearGradient
 					colors={['#20527e', '#f08080']}
 					style={{ flex: 1 }}
@@ -141,14 +170,82 @@ const LoginScreen = ({ navigation }) => {
 						</View>
 
 						<TouchableOpacity>
-							<Text
+							<Text onPress={() => resetPassSheet.current.open()}
 								style={{ color: 'red', textAlign: 'right', marginRight: '15%', fontSize: 16, fontWeight: 'bold' }}>
 								Forgot password?</Text>
+
+							<RBSheet
+								ref={resetPassSheet}
+								closeOnDragDown={true}
+								closeOnPressMask={true}
+								height={300}
+								animationType='fade'
+								customStyles={{
+									container: {
+										backgroundColor: '#778899'
+									},
+									wrapper: {
+										backgroundColor: 'rgba(52, 52, 52, 0.8)',
+									},
+									draggableIcon: {
+										backgroundColor: "#000"
+									}
+								}}
+							>
+								<View style={{ marginTop: 20, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
+									<MaterialCommunityIcons name='lock-reset' size={40} color={'black'} style={{ alignSelf: 'center' }} />
+									<Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20, marginTop: 10, textAlign: 'center' }}>Reset Password</Text>
+
+									<View style={{ flexDirection: 'row' }} >
+										<Entypo
+											style={{ padding: 10, marginVertical: 10 }}
+											name="email"
+											size={24}
+											color='red' />
+
+										<View style={styles.inputView} >
+											<TextInput
+												style={styles.inputText}
+												placeholder=" Enter Email"
+												keyboardType="email-address"
+												autoCapitalize="none"
+												autoCorrect={false}
+												placeholderTextColor='#dcdcdc'
+												onChangeText={(entry) => setForgotEmail(entry)}
+											/>
+										</View>
+									</View>
+
+									<TouchableOpacity
+										style={{
+											marginTop: 20,
+											paddingTop: 10,
+											paddingBottom: 10,
+											backgroundColor: 'red',
+											borderRadius: 100,
+											width: '40%',
+										}}
+										onPress={() => { Keyboard.dismiss(), forgotPass() }}
+										underlayColor='#fff'>
+										<Text style={{
+											color: 'white',
+											textAlign: 'center',
+											paddingLeft: 10,
+											fontWeight: 'bold',
+											paddingRight: 10,
+											fontSize: 14
+										}}>Reset</Text>
+									</TouchableOpacity>
+									<TouchableOpacity onPress={() => resetPassSheet.current.close()}>
+										<Text style={{ borderBottomWidth: 1, marginTop: 15 }}>Cancel</Text>
+									</TouchableOpacity>
+								</View>
+							</RBSheet>
 						</TouchableOpacity>
 
 						<TouchableOpacity
 							style={styles.loginButton}
-							onPress={() => {Keyboard.dismiss() ;console.log(data.email,data.password); loginWithEmail()}} >
+							onPress={() => { Keyboard.dismiss(); console.log(data.email, data.password); loginWithEmail() }} >
 							<Text style={styles.loginText}>LOGIN</Text>
 						</TouchableOpacity>
 

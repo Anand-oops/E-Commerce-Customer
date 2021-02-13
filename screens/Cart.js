@@ -1,10 +1,10 @@
 import React from 'react';
 import { useState, useContext, useRef } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
-import { StyleSheet, Text, View, Image, Alert, TouchableOpacity,ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Firebase from "../firebaseConfig";
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 import Toast from 'react-native-simple-toast';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { CheckBox } from 'react-native-elements';
@@ -41,7 +41,6 @@ export default function Cart(props) {
                     temp2.push(0);
                     Firebase.database().ref(`ProductList/${prod.category}/${prod.subCategory}/${prod.key}`).once('value').then(snap => {
                         list.push(snap.val());
-                        // console.log("bjeibdjdkb", snap.val());
                         setItem(list);
                     })
                 }
@@ -134,20 +133,9 @@ export default function Cart(props) {
             Toast.show(name + ' is out of stock', Toast.SHORT);
     }
 
-    // const CounterPressHandler = (value, index) => {
-    //     counters[index] = value;
-    //     var spp = 0;
-    //     var sfp = 0;
-    //     for (var i = 0; i < items.length; i++) {
-    //         spp += items[i].productPrice * counters[i];
-    //         sfp += items[i].finalPrice * counters[i];
-    //     }
-    //     setSumTotal(spp);
-    //     setFinalTotal(sfp);
-    // }
-    const CounterPlus=(index)=>{
-           counters[index]=counters[index]+1;
-           var spp = 0;
+    const CounterPlus = (index) => {
+        counters[index] = counters[index] + 1;
+        var spp = 0;
         var sfp = 0;
         for (var i = 0; i < items.length; i++) {
             
@@ -163,18 +151,18 @@ export default function Cart(props) {
 
     }
 
-    const CounterMinus=(index)=>{
-        counters[index]=counters[index]-1;
+    const CounterMinus = (index) => {
+        counters[index] = counters[index] - 1;
         var spp = 0;
-     var sfp = 0;
-     for (var i = 0; i < items.length; i++) {
-         spp += items[i].productPrice * counters[i];
-         sfp += items[i].finalPrice * counters[i];
-     }
-     setSumTotal(spp);
-     setFinalTotal(sfp);
+        var sfp = 0;
+        for (var i = 0; i < items.length; i++) {
+            spp += items[i].productPrice * counters[i];
+            sfp += items[i].finalPrice * counters[i];
+        }
+        setSumTotal(spp);
+        setFinalTotal(sfp);
 
- }
+    }
     function DeleteItem(index) {
         console.log("deleted", index);
         const newArray = items;
@@ -254,14 +242,16 @@ export default function Cart(props) {
 
                                     </View>
                                 </TouchableOpacity>
-                                <View style={{ margin: 4 ,flexDirection:'row'}}>
-                                    <TouchableOpacity style={{borderRadius:1,elevation:1,margin:4}} onPress={()=>CounterMinus(items.indexOf(item))}>
-                                <AntDesign name="minus" size={24} color="black" />
-                                </TouchableOpacity>
-                                    {/* <Counter start={0} onChange={value => CounterPressHandler(value, items.indexOf(item))} /> */}
-                                    <Text style={{marginVertical:4,marginHorizontal:10}}>{counters[items.indexOf(item)]}</Text>
-                                    <TouchableOpacity style={{margin:4,elevation:1,borderRadius:1}} onPress={()=>CounterPlus(items.indexOf(item))}>
-                                    <AntDesign name="plus" size={24} color="black" />
+
+                                <View style={{ margin: 4, flexDirection: 'row' }}>
+
+                                    <TouchableOpacity style={{ borderRadius: 1, elevation: 1, margin: 4 }} onPress={() => CounterMinus(items.indexOf(item))}>
+                                        <AntDesign name="minus" size={24} color="black" />
+                                    </TouchableOpacity>
+                                    
+                                    <Text style={{ marginVertical: 4, marginHorizontal: 10 }}>{counters[items.indexOf(item)]}</Text>
+                                    <TouchableOpacity style={{ margin: 4, elevation: 1, borderRadius: 1 }} onPress={() => CounterPlus(items.indexOf(item))}>
+                                        <AntDesign name="plus" size={24} color="black" />
                                     </TouchableOpacity>
                                 </View>
 
@@ -378,16 +368,16 @@ export default function Cart(props) {
                     </TouchableOpacity>
                 </RBSheet>
                 <View style={{ position: 'absolute', zIndex: 4, alignSelf: 'center', flex: 1, top: '50%' }}>
-                <ActivityIndicator
+                    <ActivityIndicator
 
-                    size='large'
-                    color="grey"
-                    animating={loader}
+                        size='large'
+                        color="grey"
+                        animating={loader}
 
-                />
+                    />
+                </View>
             </View>
-            </View>
-            
+
         </ScrollView>
     );
 }
