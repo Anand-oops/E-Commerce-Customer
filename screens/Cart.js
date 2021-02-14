@@ -35,24 +35,22 @@ export default function Cart(props) {
                 var temp2 = [];
                 var keys = Object.keys(data.val().cart);
                 for (var i = 0; i < keys.length; i++) {
+                    
                     var key = keys[i]
                     var prod = data.val().cart[key];
                     temp.push(prod);
-                    temp2.push(0);
+                    temp2.push(1);
                     Firebase.database().ref(`ProductList/${prod.category}/${prod.subCategory}/${prod.key}`).once('value').then(snap => {
                         list.push(snap.val());
                         setItem(list);
+                        calculate(keys.length,list);
                     })
                 }
                 setCounters(temp2);
-                var spp = sumTotalPrice;
-                var sfp = sumFinalPrice;
-                for (var i = 0; i < items.length; i++) {
-                    spp += items[i].productPrice * temp2[i];
-                    sfp += items[i].finalPrice * temp2[i];
-                }
-                setSumTotal(spp);
-                setFinalTotal(sfp);
+                console.log("sddsdsds",list);
+                
+
+
             }
             if (data.val().wishlist) {
                 setWishlistItems(data.val().wishlist);
@@ -105,6 +103,29 @@ export default function Cart(props) {
         console.log("clicked");
         props.navigation.navigate('ProductDetailsScreen', { item: item });
     }
+
+    function calculate(length,list) {
+        console.log("nbjkfdbfjkbf",length);
+        if(list.length==length){
+            console.log("give")
+        var spp = 0;
+        var sfp = 0;
+        console.log(list.length);
+        
+        for (var i = 0; i < list.length; i++) {
+            console.log("i",list[i]);
+            spp += list[i].productPrice ;
+
+            if (list[i].salePrice) {
+                sfp += list[i].salePrice ;
+            } else
+                sfp +=list[i].finalPrice ;
+        }
+        setSumTotal(spp);
+        setFinalTotal(sfp);
+        }
+        
+    }
     const ButtonPress = () => {
         if (items.length == 0) {
             Toast.show("No Products in Cart", Toast.SHORT);
@@ -144,12 +165,19 @@ export default function Cart(props) {
     }
 
     const CounterMinus = (index) => {
-        counters[index] = counters[index] - 1;
+        if(counters[index]>1){
+            counters[index] = counters[index] - 1;
+        }
+        
         var spp = 0;
         var sfp = 0;
         for (var i = 0; i < items.length; i++) {
             spp += items[i].productPrice * counters[i];
-            sfp += items[i].finalPrice * counters[i];
+
+            if(items[i].salePrice){
+            sfp += items[i].salePrice * counters[i];
+        }else
+        sfp += items[i].finalPrice * counters[i];
         }
         setSumTotal(spp);
         setFinalTotal(sfp);
@@ -351,7 +379,7 @@ export default function Cart(props) {
                     </ScrollView>
                     <TouchableOpacity style={styles.filterButton} onPress={() => {
                         if (addresses[addressIndex] != null) {
-                            props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items })
+                            props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items,price:sumFinalPrice })
                         } else {
                             Toast.show("Select Address first", Toast.SHORT);
                         }
