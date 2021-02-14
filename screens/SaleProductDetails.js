@@ -22,13 +22,13 @@ export default function SaleProductDetails(props) {
     const [cartItems, setCart] = useState([]);
     const [reviews, setReviews] = useState([]);
 
-    Firebase.database().ref(`ProductList/${product.category}/${product.subCategory}/${product.productKey}`).once('value').then((data) => {
+    Firebase.database().ref(`ProductList/${product.category}/${product.subCategory}/${product.productKey}`).on('value',(data) => {
         if (check) {
             if (data.val()) {
                 setItem(data.val())
                 setImages(data.val().images)
-                setCheck(false);
             }
+            setCheck(false);
         }
     })
 
@@ -42,8 +42,8 @@ export default function SaleProductDetails(props) {
                 if (data.val().cart) {
                     setCart(data.val().cart);
                 }
-                setCheck2(false);
             }
+            setCheck2(false);
         }
 
     })
@@ -58,8 +58,8 @@ export default function SaleProductDetails(props) {
                 }
                 setReviews(temp);
                 console.log("data2", reviews);
-                setCheck3(false);
             }
+            setCheck3(false);
         }
 
     })

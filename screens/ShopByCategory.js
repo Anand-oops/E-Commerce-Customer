@@ -25,10 +25,9 @@ export default function ShopByCategory({ navigation, route }) {
                         setItem(item.SubCategories)
                     }
                 })
-                setLoader(false);
-                setListen(false);
             }
-
+            setLoader(false);
+            setListen(false);
         }
     })
 

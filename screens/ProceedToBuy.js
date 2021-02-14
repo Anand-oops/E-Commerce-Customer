@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
-import { StyleSheet, Text, View, FlatList, Image, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Firebase from "../firebaseConfig";
 import Toast from 'react-native-simple-toast';
@@ -22,12 +22,12 @@ export default function ProceedToBuy(props) {
     const [state, setState] = useState('');
     const [addresses, setAddresses] = useState([])
 
-    Firebase.database().ref(`Customers/${user.uid}/Address`).once('value').then(data => {
+    Firebase.database().ref(`Customers/${user.uid}/Address`).on('value',data => {
         if (call) {
             if (data.val()) {
                 setAddresses(data.val());
-                setCall(false);
             }
+            setCall(false);
         }
     })
 

@@ -63,7 +63,7 @@ export default function Cart(props) {
 
     })
 
-    Firebase.database().ref(`Customers/${user.uid}/Address`).once('value', data => {
+    Firebase.database().ref(`Customers/${user.uid}/Address`).on('value', data => {
         if (addressCall) {
             if (data.val()) {
                 var keys = Object.keys(data.val())
@@ -73,8 +73,8 @@ export default function Cart(props) {
                     list.push(data.val()[key])
                 }
                 setAddresses(list);
-                setAddressCall(false)
             }
+            setAddressCall(false)
         }
     })
 

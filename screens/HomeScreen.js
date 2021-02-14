@@ -27,30 +27,20 @@ const HomeScreen = ({ navigation }) => {
         if (imagesDeckCall) {
             if (data.val()) {
                 setImagesDeck(data.val())
-                setImagesDeckCall(false);
-                setLoader(false)
             }
+            setImagesDeckCall(false);
+            setLoader(false)
         }
     })
 
-    Firebase.database().ref('ImagesDeck/').on('child_changed', function () {
-        console.log("ImagesDeck Child Changed")
-        setImagesDeckCall(true)
-    })
-
-    Firebase.database().ref('Cards/').once('value', function (data) {
+    Firebase.database().ref('Cards/').on('value', function (data) {
         if (cardsCall) {
             if (data.val()) {
                 setCards(data.val())
-                setCardsCall(false);
             }
+            setCardsCall(false);
         }
     })
-
-    Firebase.database().ref('Cards/').on('child_changed', function () {
-        console.log("Card Child Changed")
-        setCardsCall(true);
-    });
 
     return (
         <View style={styles.screen}>
@@ -100,7 +90,7 @@ const styles = StyleSheet.create({
         height: 175,
         borderColor: 'black',
         borderWidth: 1,
-        backgroundColor:'#778899'
+        backgroundColor: '#778899'
     },
 
     offerCards: {

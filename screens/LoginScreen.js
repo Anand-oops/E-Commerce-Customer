@@ -36,7 +36,7 @@ const LoginScreen = ({ navigation }) => {
 		});
 	}
 
-	Firebase.database().ref('Customers/').once('value').then(snapshot => {
+	Firebase.database().ref('Customers/').on('value',snapshot => {
 		if (call) {
 			if (snapshot.val()) {
 				var list = [];
@@ -46,8 +46,8 @@ const LoginScreen = ({ navigation }) => {
 					list.push(snapshot.val()[key].email)
 				}
 				setCustomerUsers(list)
-				setCall(false);
 			}
+			setCall(false);
 		}
 	})
 

@@ -22,7 +22,6 @@ export default function WriteReview(props) {
     Firebase.database().ref(`ProductList/${item.category}/${item.subCategory}/${item.key}/Reviews`).once('value').then(data => {
         if (call) {
             if (data.val()) {
-                // console.log(data.val())
                 setCount(Object.keys(data.val()).length)
                 var item = data.val()[user.uid];
                 setTitleReview(item.revTitle);
