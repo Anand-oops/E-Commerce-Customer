@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, Alert, TouchableOpacity } from 'react-na
 import { ScrollView } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import Firebase from "../firebaseConfig";
+import Toast from 'react-native-simple-toast';
 
 export default function ReviewScreen(props) {
 
@@ -17,10 +18,11 @@ export default function ReviewScreen(props) {
         props.navigation.navigate('OrderDetails', { item: item });
     }
 
-    const changeStatus = () => {
-        Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).update({ deliveryStatus: 'Cancelled' });
-        Firebase.database().ref(`Customers/${item.customer.customerId}/Orders/${item.orderId}`).update({ deliveryStatus: 'Cancelled' });
-        props.navigation.navigate('YourOrders');
+    const changeStatus = (text) => {
+        Toast.show("Change Status : "+text,Toast.SHORT);
+        // Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).update({ deliveryStatus: text });
+        // Firebase.database().ref(`Customers/${item.customer.customerId}/Orders/${item.orderId}`).update({ deliveryStatus: text });
+        // props.navigation.navigate('YourOrders');
     }
 
     return (
@@ -100,18 +102,24 @@ export default function ReviewScreen(props) {
                     justifyContent: 'center', alignSelf: 'center', borderRadius: 10,
                     shadowOpacity: 'transparent',
                     shadowColor: 'white',
-                    backgroundColor: (item.deliveryStatus === 'Pending') ? 'orange' : 'transparent', opacity: (item.deliveryStatus === 'Cancelled' || item.deliveryStatus === 'Delivered') ? 0 : 1
+                    backgroundColor: (item.deliveryStatus === 'Pending') ? 'orange' : ( (item.deliveryStatus === 'Delivered') ? 'green' : 'transparent'), opacity: (item.deliveryStatus === 'Cancelled' || item.deliveryStatus === 'Retruned') ? 0 : 1
                 }}
                     onPress={() => {
                         if (item.deliveryStatus === 'Pending')
                             Alert.alert("Cancel Order ?", "Your order will be cancelled !",
                                 [
                                     { text: 'Cancel' },
-                                    { text: 'Proceed', onPress: () => changeStatus() },
+                                    { text: 'Proceed', onPress: () => changeStatus('Cancelled') },
                                 ])
+                        else if (item.deliveryStatus === 'Delivered')
+                        Alert.alert("Return Order ?", "Return will be requested !",
+                        [
+                            { text: 'Cancel' },
+                            { text: 'Proceed', onPress: () => changeStatus("Returned") },
+                        ])
                     }}>
                     <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>
-                        Cancel Order</Text>
+                        {(item.deliveryStatus === 'Pending')?'Cancel Order':'Return Order'}</Text>
                 </TouchableOpacity>
             </View>
 

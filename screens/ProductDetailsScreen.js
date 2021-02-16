@@ -111,8 +111,8 @@ export default function ProductDetailsScreen(props) {
                         <View style={{ flex: 1 }}>
                             <Text style={{ textTransform: 'uppercase', fontSize: 18, fontWeight: 'bold', paddingBottom: 4 }}>{item.productName}</Text>
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ color: '#2f4f4f', fontSize: 15, marginRight: 6, fontWeight: 'bold' }}>{"₹" + item.finalPrice}</Text>
-                                <Text style={{ color: 'grey', fontSize: 15, marginRight: 6, textDecorationLine: 'line-through' }}>{"₹" + item.productPrice}</Text>
+                                <Text style={{ color: '#2f4f4f', fontSize: 15, marginRight: 6, fontWeight: 'bold' }}>{"₹" + parseFloat(item.finalPrice).toFixed(2)}</Text>
+                                <Text style={{ color: 'grey', fontSize: 15, marginRight: 6, textDecorationLine: 'line-through' }}>{"₹" + parseFloat(item.productPrice).toFixed(2)}</Text>
                                 <Text style={{ color: '#ff4500', fontSize: 15, marginRight: 6 }}>{"(" + item.discount + " OFF)"}</Text>
                             </View>
                             <Text style={{ fontSize: 12, color: 'green', fontWeight: 'bold' }}>{"inclusive of all taxes"}</Text>
