@@ -651,12 +651,22 @@ export default class Drawer extends React.Component {
 						cartColor:'red'
 					})
 					cart = 'red';
+				}else{
+					this.setState({
+						cartColor:'white'
+					})
+					cart = 'white';
 				}
 				if(data.val().wishlist){
 					this.setState({
 						wishColor:'red'
 					})
 					wish = 'red';
+				}else{
+					this.setState({
+						wishColor:'white'
+					})
+					wish = 'white';
 				}
 			}
 		})
