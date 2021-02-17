@@ -99,7 +99,7 @@ export default function YourOrders({ navigation }) {
             if (ret)
                 checked.push('Returned')
             orders.map((prod) => {
-                if (checked.includes(prod.status)) {
+                if (checked.includes(prod.deliveryStatus)) {
                     filtered.push(prod)
                 }
             })
@@ -137,6 +137,7 @@ export default function YourOrders({ navigation }) {
                                 <Image source={data.item.image} style={styles.listimage} />
                                 <View style={styles.list}>
                                     <Text style={{ color: 'black', fontWeight: 'bold' }}>Order Id: {data.item.orderId}</Text>
+                                    <Text style={{ color: 'blue' }}>Order Date: {data.item.orderDate}</Text>
                                     <Text style={{ color: 'black' }}>Product : {data.item.productName}</Text>
                                     <Text style={{ color: 'purple' }}>Category : {data.item.category} :: {data.item.subCategory}</Text>
                                     <Text style={{ color: 'blue' }}>Price: {data.item.finalPrice}</Text>
