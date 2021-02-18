@@ -8,6 +8,8 @@ import { AntDesign } from '@expo/vector-icons';
 import Toast from 'react-native-simple-toast';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { CheckBox } from 'react-native-elements';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons'
 
 export default function Cart(props) {
 
@@ -35,7 +37,7 @@ export default function Cart(props) {
                 var temp2 = [];
                 var keys = Object.keys(data.val().cart);
                 for (var i = 0; i < keys.length; i++) {
-                    
+
                     var key = keys[i]
                     var prod = data.val().cart[key];
                     temp.push(prod);
@@ -43,17 +45,16 @@ export default function Cart(props) {
                     Firebase.database().ref(`ProductList/${prod.category}/${prod.subCategory}/${prod.key}`).once('value').then(snap => {
                         list.push(snap.val());
                         setItem(list);
-                        calculate(keys.length,list);
+                        calculate(keys.length, list);
                     })
                 }
                 setCounters(temp2);
-                console.log("sddsdsds",list);
-                
-
 
             }
             if (data.val().wishlist) {
                 setWishlistItems(data.val().wishlist);
+            } else {
+                setWishlistItems([]);
             }
             setListen(false);
             setLoader(false);
@@ -83,10 +84,7 @@ export default function Cart(props) {
 
                 var list = [];
 
-
                 for (var i = 0; i < data.val().length; i++) {
-
-                    console.log("datad kyabai", data.val()[i]);
                     var list2 = [];
                     list2.push(data.val()[i].images);
                     for (var j = 0; j < data.val()[i].images.length; j++) {
@@ -104,27 +102,24 @@ export default function Cart(props) {
         props.navigation.navigate('ProductDetailsScreen', { item: item });
     }
 
-    function calculate(length,list) {
-        console.log("nbjkfdbfjkbf",length);
-        if(list.length==length){
-            console.log("give")
-        var spp = 0;
-        var sfp = 0;
-        console.log(list.length);
-        
-        for (var i = 0; i < list.length; i++) {
-            console.log("i",list[i]);
-            spp += list[i].productPrice ;
+    function calculate(length, list) {
+        if (list.length == length) {
+            var spp = 0;
+            var sfp = 0;
+            console.log(list.length);
 
-            if (list[i].salePrice) {
-                sfp += list[i].salePrice ;
-            } else
-                sfp +=list[i].finalPrice ;
+            for (var i = 0; i < list.length; i++) {
+                spp += list[i].productPrice;
+
+                if (list[i].salePrice) {
+                    sfp += list[i].salePrice;
+                } else
+                    sfp += list[i].finalPrice;
+            }
+            setSumTotal(spp);
+            setFinalTotal(sfp);
         }
-        setSumTotal(spp);
-        setFinalTotal(sfp);
-        }
-        
+
     }
     const ButtonPress = () => {
         if (items.length == 0) {
@@ -165,19 +160,19 @@ export default function Cart(props) {
     }
 
     const CounterMinus = (index) => {
-        if(counters[index]>1){
+        if (counters[index] > 1) {
             counters[index] = counters[index] - 1;
         }
-        
+
         var spp = 0;
         var sfp = 0;
         for (var i = 0; i < items.length; i++) {
             spp += items[i].productPrice * counters[i];
 
-            if(items[i].salePrice){
-            sfp += items[i].salePrice * counters[i];
-        }else
-        sfp += items[i].finalPrice * counters[i];
+            if (items[i].salePrice) {
+                sfp += items[i].salePrice * counters[i];
+            } else
+                sfp += items[i].finalPrice * counters[i];
         }
         setSumTotal(spp);
         setFinalTotal(sfp);
@@ -208,14 +203,12 @@ export default function Cart(props) {
         })
     }
 
-    const addToWishlist = (prod) => {
+    const addToWishlist = (item) => {
         var list = [...wishlistItems]
-        console.log("add to wishlist");
-
         var present = false;
-
+        console.log("WishList Items", list);
         for (var i = 0; i < list.length; i++) {
-            if (list[i].key == prod.key) {
+            if (list[i].key == item.key) {
                 present = true;
                 break;
             }
@@ -223,11 +216,9 @@ export default function Cart(props) {
         if (present) {
             Toast.show("Already added !! ", Toast.SHORT);
         } else {
-            list.push(prod);
-            setWishlistItems(list);
-            console.log('items', wishlistItems);
-            var items = [...item];
-            items.splice(items.indexOf(prod),1);
+            list.push(item);
+            var items = [...items];
+            items.splice(items.indexOf(item), 1);
             setItem(items);
             Firebase.database().ref(`Customers/${user.uid}/cart`).set(items).then(() => {
                 setListen(true);
@@ -257,7 +248,7 @@ export default function Cart(props) {
                                         </View>
                                         <View style={{ flex: 1 }}>
                                             <Text style={{ color: '#3b3a30', fontSize: 20, padding: 4, textTransform: 'capitalize' }}>{item.productName}</Text>
-                                            <Text style={{ color: 'black', fontSize: 12, padding: 4 }}>{item.category+" : "+item.subCategory}</Text>
+                                            <Text style={{ color: 'black', fontSize: 12, padding: 4 }}>{item.category + " : " + item.subCategory}</Text>
                                             <Text style={{ color: 'black', fontSize: 10, paddingLeft: 4 }}>{item.description}</Text>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <Text style={{ color: 'green', fontSize: 14, padding: 2, }}> ₹ {(saleitems.includes(item.key)) ? (item.salePrice) : (item.finalPrice)}</Text>
@@ -282,19 +273,22 @@ export default function Cart(props) {
                                 <View style={{ flexDirection: 'row' }}>
                                     <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: 'white', alignItems: 'center', }}
                                         onPress={() => {
-                                            Alert.alert("Delete", "Are you sure ?",
+                                            Alert.alert("Remove from Cart", "Are you sure ?",
                                                 [
                                                     { text: "No" },
                                                     { text: "Yes", onPress: () => DeleteItem(items.indexOf(item)) }
                                                 ], { cancelable: false }
                                             );
                                         }}>
-
-                                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10 }}>Delete</Text>
+                                            
+                                        <Fontisto name='shopping-basket-remove' size={20} color='red' />
+                                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10 }}>Remove from Cart</Text>
                                     </TouchableOpacity>
+                                    
                                     <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: 'white', alignItems: 'center', }}
                                         onPress={() => addToWishlist(item)}>
 
+                                        <MaterialCommunityIcons name="heart-plus" color='red' size={20} />
                                         <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10 }}>Move to WishList</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -385,7 +379,7 @@ export default function Cart(props) {
                     </ScrollView>
                     <TouchableOpacity style={styles.filterButton} onPress={() => {
                         if (addresses[addressIndex] != null) {
-                            props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items,price:sumFinalPrice })
+                            props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items, price: sumFinalPrice })
                         } else {
                             Toast.show("Select Address first", Toast.SHORT);
                         }

@@ -4,6 +4,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 import { StyleSheet, Text, View, FlatList, Image, ScrollView, TouchableOpacity, Alert,ActivityIndicator } from 'react-native';
 import Firebase from "../firebaseConfig";
 import Toast from 'react-native-simple-toast'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 export default function WishList(props) {
@@ -21,8 +22,7 @@ export default function WishList(props) {
             if (data.val().wishlist) {
                 var temp = [];
                 var keys = Object.keys(data.val().wishlist);
-                console.log('keys', keys);
-
+                
                 for (var i = 0; i < keys.length; i++) {
                     var key = keys[i]
                     temp.push(data.val().wishlist[key])
@@ -31,6 +31,8 @@ export default function WishList(props) {
             }
             if (data.val().cart) {
                 setCart(data.val().cart);
+            }else {
+                setCart([]);
             }
             setListen(false);
             setLoader(false);
@@ -54,14 +56,13 @@ export default function WishList(props) {
         })
 
     }
-    const addToCart = (prod) => {
-        console.log('add to cart ', prod);
+    const addToCart = (item) => {
         var list = [...cartItems];
-
         var present = false;
+        console.log("Cart Items",list);
 
         for (var i = 0; i < list.length; i++) {
-            if (list[i].key == prod.key) {
+            if (list[i].key == item.key) {
                 present = true;
                 break;
             }
@@ -69,15 +70,14 @@ export default function WishList(props) {
         if (present) {
             Toast.show("Already added !! ", Toast.SHORT);
         } else {
-            list.push(prod);
-            setCart(list);
-            var items = [...item];
-            items.splice(items.indexOf(prod),1);
+            list.push(item);
+            var items = [...items];
+            items.splice(items.indexOf(item),1);
             setItem(items);
             Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(items).then(() => {
-                setListen(true);
             })
             Firebase.database().ref(`Customers/${user.uid}/cart`).set(list).then(() => {
+                setListen(true);
                 Toast.show("Added to Cart", Toast.SHORT);
             })
         }
@@ -116,20 +116,20 @@ export default function WishList(props) {
                             <View style={{ flexDirection: 'row' }}>
                                 <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: 'white', alignItems: 'center', }}
                                     onPress={() => {
-                                        Alert.alert("Delete", "Are you sure ?",
+                                        Alert.alert("Remove from Wishlist", "Are you sure ?",
                                             [
                                                 { text: "No" },
                                                 { text: "Yes", onPress: () => DeleteItem(items.indexOf(item)) }
                                             ], { cancelable: false }
                                         );
                                     }}>
-
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10 }}>Delete</Text>
+                                    <MaterialCommunityIcons name="heart-remove" color='red' size={20} />
+                                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black', marginLeft: 5 }}>Remove from Wishlist</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: 'white', alignItems: 'center', }}
                                     onPress={() => addToCart(item)}>
-
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10 }}>Cart</Text>
+                                    <MaterialCommunityIcons name="cart-arrow-right" color='red' size={20} />
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10}}> Move to Cart</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

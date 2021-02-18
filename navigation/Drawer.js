@@ -609,23 +609,21 @@ function DrawerContent(props) {
 	})
 	return (
 		<SafeAreaView style={{ flex: 1, }}>
-
-			<View style={{ flexDirection: 'row', height: 100, backgroundColor: 'white', alignItems: 'center', marginTop: 10, paddingTop: 15, paddingLeft: 15 }}>
-				<Image style={{
-					width: 60,
-					height: 60,
-					borderRadius: 63,
-					borderWidth: 4,
-					borderColor: "white",
-					marginTop: 10,
-				}}
-					source={{ uri: profileImage }} />
-				<TouchableOpacity onPress={() => { props.navigation.navigate('Profile') }}>
-					{/* <AntDesign name="user" size={40} color="black" /> */}
+			<TouchableOpacity onPress={() => { props.navigation.navigate('Profile') }}>
+				<View style={{ flexDirection: 'row', height: 100, backgroundColor: '#778899', alignItems: 'center', padding: 15, paddingTop: 20 }}>
+					<Image style={{
+						width: 60,
+						height: 60,
+						borderRadius: 63,
+						borderWidth: 4,
+						borderColor: "white",
+						marginTop: 10,
+					}}
+						source={{ uri: profileImage }} />
 
 					<Text style={{ marginTop: 10, fontSize: 20 }}> {"Hey " + name + "!!"}</Text>
-				</TouchableOpacity>
-			</View>
+				</View>
+			</TouchableOpacity>
 
 			<ScrollView>
 				<DrawerItemList  {...props} />
@@ -653,7 +651,7 @@ export default class Drawer extends React.Component {
 		super(props);
 		this.state = {
 			cartColor: 'white',
-			wishColor:'white',
+			wishColor: 'white',
 			arr: [],
 		};
 	}
@@ -664,32 +662,32 @@ export default class Drawer extends React.Component {
 		console.log("CustomerLength", customerItems.length);
 
 		var user = Firebase.auth().currentUser;
-		Firebase.database().ref(`Customers/${user.uid}`).on('value',(data) => {
-			if(this._isMounted){
-				if(data.val().cart){
+		Firebase.database().ref(`Customers/${user.uid}`).on('value', (data) => {
+			if (this._isMounted) {
+				if (data.val().cart) {
 					this.setState({
-						cartColor:'red'
+						cartColor: 'red'
 					})
 					cart = 'red';
-				}else{
+				} else {
 					this.setState({
-						cartColor:'white'
+						cartColor: 'white'
 					})
 					cart = 'white';
 				}
-				if(data.val().wishlist){
+				if (data.val().wishlist) {
 					this.setState({
-						wishColor:'red'
+						wishColor: 'red'
 					})
 					wish = 'red';
-				}else{
+				} else {
 					this.setState({
-						wishColor:'white'
+						wishColor: 'white'
 					})
 					wish = 'white';
 				}
 
-				Toast.show(wish+" "+cart,Toast.SHORT);
+				Toast.show(wish + " " + cart, Toast.SHORT);
 			}
 		})
 

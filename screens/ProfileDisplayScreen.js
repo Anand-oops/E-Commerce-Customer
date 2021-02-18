@@ -16,12 +16,11 @@ const ProfileDisplayScreen = ({ navigation }) => {
     const [email, setEmail] = useState('email@example.com')
     const [first, setFirst] = useState('FirstName')
     const [last, setLast] = useState('LastName')
-    const [mobile, setMobile] = useState('Mobile No.')
-    const [city, setCity] = useState('City');
-    const [accNo, setAccNO] = useState('0')
-    const [ifsc, setIfsc] = useState('0');
-
-    const [profileImage,setProfileImage]=useState(Image.resolveAssetSource(dummyImage).uri);
+    const [mobile, setMobile] = useState('Mobile No. ?')
+    const [city, setCity] = useState('City ?')
+    const [accNo, setAccNO] = useState('Account No. ?')
+    const [ifsc, setIfsc] = useState('IFSC Code ?');
+    const [profileImage, setProfileImage] = useState(Image.resolveAssetSource(dummyImage).uri);
     
 
     Firebase.database().ref(`Customers/${user.uid}`).on('value', function (data) {
@@ -41,9 +40,8 @@ const ProfileDisplayScreen = ({ navigation }) => {
                     setAccNO(data.val().AccountNumber);
                 if (data.val().IfscCode)
                     setIfsc(data.val().IfscCode);
-                    if(data.val().profileImage)
+                if (data.val().profileImage)
                     setProfileImage(data.val().profileImage);
-
             }
             setListen(false);
         }

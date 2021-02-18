@@ -1,14 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Button, Alert, Modal, Keyboard, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import Firebase from "../firebaseConfig";
 import Toast from 'react-native-simple-toast';
+import { useState } from 'react';
 
 export default function ReviewScreen(props) {
 
 
     const item = props.route.params.item;
+    const [showModal,setShowModal] = useState(false);
+    const [reason,setReason] = useState('');
+    const [task,setTask] = useState('')
+
     const giveReview = (item) => {
         console.log("clicked");
         props.navigation.navigate('WriteReview', { item: item });
@@ -18,12 +23,19 @@ export default function ReviewScreen(props) {
         props.navigation.navigate('OrderDetails', { item: item });
     }
 
-    const changeStatus = (text) => {
-        Toast.show("Change Status : "+text,Toast.SHORT);
-        // Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).update({ deliveryStatus: text });
-        // Firebase.database().ref(`Customers/${item.customer.customerId}/Orders/${item.orderId}`).update({ deliveryStatus: text });
-        // props.navigation.navigate('YourOrders');
+    const changeStatus = () => {
+        var text = '';
+        if (item.deliveryStatus === 'Pending')
+            text = 'Cancelled'
+        else text = 'Returned';
+        Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).update({ deliveryStatus: text, reason : reason});
+        Firebase.database().ref(`Customers/${item.customer.customerId}/Orders/${item.orderId}`).update({ deliveryStatus: text, reason : reason });
+        Toast.show("Product "+text,Toast.SHORT);
+        props.navigation.navigate('YourOrders');
+        setReason('') 
     }
+
+    const closeModal = () => { setShowModal(false), setReason('') }
 
     return (
         <ScrollView>
@@ -109,20 +121,53 @@ export default function ReviewScreen(props) {
                             Alert.alert("Cancel Order ?", "Your order will be cancelled !",
                                 [
                                     { text: 'Cancel' },
-                                    { text: 'Proceed', onPress: () => changeStatus('Cancelled') },
+                                    { text: 'Proceed', onPress: () => {setShowModal(true)} },
                                 ])
                         else if (item.deliveryStatus === 'Delivered')
                         Alert.alert("Return Order ?", "Return will be requested !",
                         [
                             { text: 'Cancel' },
-                            { text: 'Proceed', onPress: () => changeStatus("Returned") },
+                            { text: 'Proceed', onPress: () => {setShowModal(true)} },
                         ])
                     }}>
                     <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>
                         {(item.deliveryStatus === 'Pending')?'Cancel Order':'Return Order'}</Text>
                 </TouchableOpacity>
             </View>
+            <Modal
+					animationType='fade'
+					visible={showModal}
+					position='center'
+					transparent={true}
+					onRequestClose={() => closeModal()}>
+					<View style={styles.modalContainer}>
+						<View style={styles.cardModalScreen}>
+                        <Text style={{ paddingLeft: 15, marginTop: 10, }}>Reason for : {(item.deliveryStatus === 'Delivered')?'Return' : 'Cancellation'}</Text>
+							<View style={{ alignItems: 'center', justifyContent: 'center', }}>
+								<TextInput style={styles.modalTextInput} onChangeText={(text) => setReason(text)} value={reason} />
+							</View>
 
+							<View style={styles.modalButtonContainer}>
+								<View style={{ padding: 10, width: '30%' }}>
+									<Button title='Cancel' onPress={() => { Keyboard.dismiss(), closeModal() }} />
+								</View>
+								<View style={{ padding: 10, width: '30%' }}>
+									<Button title='OK' onPress={() => { 
+                                        if(reason.length == 0){
+                                            Keyboard.dismiss()
+                                            Toast.show("Enter the reason first",Toast.SHORT);
+                                        }else{
+                                            Keyboard.dismiss(),
+                                            setShowModal(false)
+                                            changeStatus() }}
+                                        }  />
+
+								</View>
+							</View>
+
+						</View>
+					</View>
+				</Modal>
 
 
         </ScrollView>
@@ -134,6 +179,36 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%'
     },
-
-
+    modalContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: 'rgba(52, 52, 52, 0.8)'
+	},
+    cardModalScreen: {
+		height: 200,
+		width: '85%',
+		borderRadius: 15,
+		justifyContent: 'center',
+		elevation: 20,
+		borderWidth: 1,
+		borderColor: 'black',
+		backgroundColor: 'white'
+	},
+	modalTextInput: {
+		width: '90%',
+		marginVertical: 10,
+		padding: 5,
+		paddingLeft: 15,
+		borderWidth: 1,
+		borderColor: 'black',
+		borderRadius: 10,
+		backgroundColor: 'white'
+	},
+	modalButtonContainer: {
+		zIndex: 0,
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		marginVertical: 15,
+	},
 });
