@@ -54,14 +54,14 @@ export default function WishList(props) {
         })
 
     }
-    const addToCart = (item) => {
-        console.log('add to cart ', item);
+    const addToCart = (prod) => {
+        console.log('add to cart ', prod);
         var list = [...cartItems];
 
         var present = false;
 
         for (var i = 0; i < list.length; i++) {
-            if (list[i].key == item.key) {
+            if (list[i].key == prod.key) {
                 present = true;
                 break;
             }
@@ -69,8 +69,14 @@ export default function WishList(props) {
         if (present) {
             Toast.show("Already added !! ", Toast.SHORT);
         } else {
-            list.push(item);
+            list.push(prod);
             setCart(list);
+            var items = [...item];
+            items.splice(items.indexOf(prod),1);
+            setItem(items);
+            Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(items).then(() => {
+                setListen(true);
+            })
             Firebase.database().ref(`Customers/${user.uid}/cart`).set(list).then(() => {
                 Toast.show("Added to Cart", Toast.SHORT);
             })

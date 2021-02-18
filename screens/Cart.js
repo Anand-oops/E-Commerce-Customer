@@ -208,14 +208,14 @@ export default function Cart(props) {
         })
     }
 
-    const addToWishlist = (item) => {
+    const addToWishlist = (prod) => {
         var list = [...wishlistItems]
         console.log("add to wishlist");
 
         var present = false;
 
         for (var i = 0; i < list.length; i++) {
-            if (list[i].key == item.key) {
+            if (list[i].key == prod.key) {
                 present = true;
                 break;
             }
@@ -223,9 +223,15 @@ export default function Cart(props) {
         if (present) {
             Toast.show("Already added !! ", Toast.SHORT);
         } else {
-            list.push(item);
+            list.push(prod);
             setWishlistItems(list);
             console.log('items', wishlistItems);
+            var items = [...item];
+            items.splice(items.indexOf(prod),1);
+            setItem(items);
+            Firebase.database().ref(`Customers/${user.uid}/cart`).set(items).then(() => {
+                setListen(true);
+            })
             Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(list).then(() => {
                 Toast.show("Added to WishList", Toast.SHORT);
             })
