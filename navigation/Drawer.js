@@ -5,7 +5,7 @@ import Firebase from "../firebaseConfig";
 import { AuthContext } from './AuthProvider'
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import { View, TouchableOpacity, SafeAreaView, Text, ScrollView, Alert } from 'react-native';
+import { View, TouchableOpacity, SafeAreaView, Text, ScrollView, Alert, Image } from 'react-native';
 import ProductDetailsScreen from "../screens/ProductDetailsScreen";
 import ShopByCategory from '../screens/ShopByCategory';
 import HomeScreen from '../screens/HomeScreen';
@@ -23,8 +23,8 @@ import ProfileDisplayScreen from '../screens/ProfileDisplayScreen'
 import ChangeEmailScreen from '../screens/ChangeEmailScreen'
 import ChangePasswordScreen from '../screens/ChangePasswordScreen'
 import OrderDetails from "../screens/OrderDetails";
+import dummyImage from "../assets/avatar.png";
 import Toast from 'react-native-simple-toast';
-
 const addedItems = [];
 const DrawerNav = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -75,7 +75,7 @@ const HomeStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
@@ -144,7 +144,7 @@ const ProfileStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Edit Profile</Text>
@@ -173,7 +173,7 @@ const ProfileStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Change Email</Text>
@@ -202,7 +202,7 @@ const ProfileStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Change Password</Text>
@@ -272,7 +272,7 @@ const WishListStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
@@ -345,7 +345,7 @@ const CartStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Add Address</Text>
@@ -374,7 +374,7 @@ const CartStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
@@ -403,7 +403,7 @@ const CartStackScreen = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Place Order</Text>
@@ -470,7 +470,7 @@ const YourOrdersStack = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Your Orders</Text>
@@ -498,7 +498,7 @@ const YourOrdersStack = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Review</Text>
@@ -526,7 +526,7 @@ const YourOrdersStack = ({ navigation }) => (
 				backgroundColor: 'black'
 			},
 			headerTitle: () => (
-				<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+				<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 					<View>
 						<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Order Details</Text>
@@ -593,19 +593,38 @@ function DrawerContent(props) {
 
 
 	const { user, logout } = useContext(AuthContext);
-	var name = "User"
+	var name = "User";
+	var profileImage = Image.resolveAssetSource(dummyImage).uri;
 	const ref = Firebase.database().ref(`Customers/${user.uid}`);
 	ref.on('value', function (snapshot) {
 		var data = snapshot.val();
-		if(data.firstName)
+
+		if (data.firstName) {
 			name = data.firstName;
+		}
+
+		if (data.profileImage) {
+			profileImage = data.profileImage;
+		}
 	})
 	return (
 		<SafeAreaView style={{ flex: 1, }}>
 
 			<View style={{ flexDirection: 'row', height: 100, backgroundColor: 'white', alignItems: 'center', marginTop: 10, paddingTop: 15, paddingLeft: 15 }}>
-				<AntDesign name="user" size={40} color="black" />
-				<Text style={{ marginTop: 10, fontSize: 20 }}> {"Hey " + name + "!!"}</Text>
+				<Image style={{
+					width: 60,
+					height: 60,
+					borderRadius: 63,
+					borderWidth: 4,
+					borderColor: "white",
+					marginTop: 10,
+				}}
+					source={{ uri: profileImage }} />
+				<TouchableOpacity onPress={() => { props.navigation.navigate('Profile') }}>
+					{/* <AntDesign name="user" size={40} color="black" /> */}
+
+					<Text style={{ marginTop: 10, fontSize: 20 }}> {"Hey " + name + "!!"}</Text>
+				</TouchableOpacity>
 			</View>
 
 			<ScrollView>
@@ -640,7 +659,7 @@ export default class Drawer extends React.Component {
 	}
 
 	componentDidMount() {
-		customerItems=[...drawerItems];
+		customerItems = [...drawerItems];
 		this._isMounted = true;
 		console.log("CustomerLength", customerItems.length);
 
@@ -736,7 +755,7 @@ export default class Drawer extends React.Component {
 													backgroundColor: 'black'
 												},
 												headerTitle: () => (
-													<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+													<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 														<View>
 															<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Explore</Text>
@@ -764,7 +783,7 @@ export default class Drawer extends React.Component {
 													backgroundColor: 'black'
 												},
 												headerTitle: () => (
-													<View style={{ height: '100%', width: '100%', flexDirection: 'row'}}>
+													<View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
 														<View>
 															<Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
