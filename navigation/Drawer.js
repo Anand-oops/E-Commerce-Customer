@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
 import Firebase from "../firebaseConfig";
@@ -24,12 +24,13 @@ import ChangeEmailScreen from '../screens/ChangeEmailScreen'
 import ChangePasswordScreen from '../screens/ChangePasswordScreen'
 import OrderDetails from "../screens/OrderDetails";
 import dummyImage from "../assets/avatar.png";
-
+import Toast from 'react-native-simple-toast';
 const addedItems = [];
 const DrawerNav = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-
+var wish = 'white';
+var cart = 'white';
 
 const HomeStackScreen = ({ navigation }) => (
 	<Stack.Navigator screenOptions={{
@@ -54,14 +55,14 @@ const HomeStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -83,14 +84,14 @@ const HomeStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -123,14 +124,14 @@ const ProfileStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -152,14 +153,14 @@ const ProfileStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -181,14 +182,14 @@ const ProfileStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -210,14 +211,14 @@ const ProfileStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -251,14 +252,14 @@ const WishListStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -280,14 +281,14 @@ const WishListStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -323,14 +324,14 @@ const CartStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -353,14 +354,14 @@ const CartStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -382,14 +383,14 @@ const CartStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -411,14 +412,14 @@ const CartStackScreen = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -450,14 +451,14 @@ const YourOrdersStack = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -478,14 +479,14 @@ const YourOrdersStack = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -506,14 +507,14 @@ const YourOrdersStack = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -534,14 +535,14 @@ const YourOrdersStack = ({ navigation }) => (
 						console.log("wishlist open");
 						navigation.navigate('WishList');
 					}}>
-						<AntDesign name="hearto" size={22} color="white" />
+						<AntDesign name="heart" size={22} color={wish} />
 					</TouchableOpacity>
 
 					<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 						console.log("cart open");
 						navigation.navigate('Cart');
 					}}>
-						<AntDesign name="shoppingcart" size={24} color="white" />
+						<Entypo name="shopping-cart" size={24} color={cart} />
 					</TouchableOpacity>
 
 				</View>
@@ -651,6 +652,8 @@ export default class Drawer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			cartColor: 'white',
+			wishColor:'white',
 			arr: [],
 		};
 	}
@@ -659,6 +662,38 @@ export default class Drawer extends React.Component {
 		customerItems = [...drawerItems];
 		this._isMounted = true;
 		console.log("CustomerLength", customerItems.length);
+
+		var user = Firebase.auth().currentUser;
+		Firebase.database().ref(`Customers/${user.uid}`).on('value',(data) => {
+			if(this._isMounted){
+				if(data.val().cart){
+					this.setState({
+						cartColor:'red'
+					})
+					cart = 'red';
+				}else{
+					this.setState({
+						cartColor:'white'
+					})
+					cart = 'white';
+				}
+				if(data.val().wishlist){
+					this.setState({
+						wishColor:'red'
+					})
+					wish = 'red';
+				}else{
+					this.setState({
+						wishColor:'white'
+					})
+					wish = 'white';
+				}
+
+				Toast.show(wish+" "+cart,Toast.SHORT);
+			}
+		})
+
+
 		Firebase.database().ref('/DrawerItemsList').once('value', (data) => {
 			if (this._isMounted) {
 				if (data.val()) {
@@ -701,14 +736,14 @@ export default class Drawer extends React.Component {
 															console.log("wishlist open");
 															navigation.navigate('WishList');
 														}}>
-															<AntDesign name="hearto" size={22} color="white" />
+															<AntDesign name="heart" size={22} color={this.state.wishColor} />
 														</TouchableOpacity>
 
 														<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 															console.log("cart open");
 															navigation.navigate('Cart');
 														}}>
-															<AntDesign name="shoppingcart" size={24} color="white" />
+															<Entypo name="shopping-cart" size={24} color={this.state.cartColor} />
 														</TouchableOpacity>
 
 													</View>
@@ -729,14 +764,14 @@ export default class Drawer extends React.Component {
 															console.log("wishlist open");
 															navigation.navigate('WishList');
 														}}>
-															<AntDesign name="hearto" size={22} color="white" />
+															<AntDesign name="heart" size={22} color={this.state.wishColor} />
 														</TouchableOpacity>
 
 														<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 															console.log("cart open");
 															navigation.navigate('Cart');
 														}}>
-															<AntDesign name="shoppingcart" size={24} color="white" />
+															<Entypo name="shopping-cart" size={24} color={this.state.cartColor} />
 														</TouchableOpacity>
 
 													</View>
@@ -757,14 +792,14 @@ export default class Drawer extends React.Component {
 															console.log("wishlist open");
 															navigation.navigate('WishList');
 														}}>
-															<AntDesign name="hearto" size={22} color="white" />
+															<AntDesign name="heart" size={22} color={this.state.wishColor} />
 														</TouchableOpacity>
 
 														<TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
 															console.log("cart open");
 															navigation.navigate('Cart');
 														}}>
-															<AntDesign name="shoppingcart" size={24} color="white" />
+															<Entypo name="shopping-cart" size={24} color={this.state.cartColor} />
 														</TouchableOpacity>
 
 													</View>
