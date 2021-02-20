@@ -187,7 +187,7 @@ export default function Cart(props) {
         setItem(newArray);
         setCounters(newCounters);
         Firebase.database().ref(`Customers/${user.uid}/cart`).set(newArray).then(() => {
-            Toast.show("Deleted", Toast.SHORT);
+            Toast.show("Removed from Cart", Toast.SHORT);
             setListen(true);
         })
 
@@ -224,7 +224,7 @@ export default function Cart(props) {
                 setListen(true);
             })
             Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(list).then(() => {
-                Toast.show("Added to WishList", Toast.SHORT);
+                Toast.show("Moved to WishList", Toast.SHORT);
             })
         }
 

@@ -51,7 +51,7 @@ export default function WishList(props) {
         newArray.splice(index, 1);
         setItem(newArray);
         Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(newArray).then(() => {
-            Toast.show("Deleted", Toast.SHORT);
+            Toast.show("Removed from Wishlist", Toast.SHORT);
             setListen(true);
         })
 
@@ -78,7 +78,7 @@ export default function WishList(props) {
             })
             Firebase.database().ref(`Customers/${user.uid}/cart`).set(list).then(() => {
                 setListen(true);
-                Toast.show("Added to Cart", Toast.SHORT);
+                Toast.show("Moved to Cart", Toast.SHORT);
             })
         }
 
