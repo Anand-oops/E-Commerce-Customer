@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
 import Firebase from "../firebaseConfig";
 import { AuthContext } from './AuthProvider'
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { View, TouchableOpacity, SafeAreaView, Text, ScrollView, Alert, Image } from 'react-native';
 import ProductDetailsScreen from "../screens/ProductDetailsScreen";
 import ShopByCategory from '../screens/ShopByCategory';
@@ -24,7 +24,7 @@ import ChangePasswordScreen from '../screens/ChangePasswordScreen'
 import OrderDetails from "../screens/OrderDetails";
 import dummyImage from "../assets/avatar.png";
 import { Icon, withBadge } from 'react-native-elements'
-
+import { useIsFocused } from '@react-navigation/native'
 
 function DrawerContent(props) {
 
@@ -64,17 +64,20 @@ function DrawerContent(props) {
             <ScrollView>
                 <DrawerItemList  {...props} />
             </ScrollView>
-            <TouchableOpacity >
+            <TouchableOpacity
+            style={{ flexDirection:'row' ,width: '100%', backgroundColor: '#778899', height: 50, paddingTop: 10 }}
+            onPress={() => {
+                Alert.alert("Logout", "You will be logged out...",
+                    [
+                        { text: "Cancel" },
+                        { text: "Proceed", onPress: () => logout() }
+                    ], { cancelable: false }
+                );
+            }} >
+                <MaterialCommunityIcons name='logout' size={25} style={{paddingLeft:10}}/>
                 <Text
-                    style={{ width: '100%', backgroundColor: '#778899', color: 'black', fontSize: 20, fontWeight: 'bold', height: 50, textAlign: 'center', paddingTop: 10 }}
-                    onPress={() => {
-                        Alert.alert("Logout", "You will be logged out...",
-                            [
-                                { text: "Cancel" },
-                                { text: "Proceed", onPress: () => logout() }
-                            ], { cancelable: false }
-                        );
-                    }}>
+                    style={{ color: 'black', fontSize: 20, fontWeight: 'bold', textAlign: 'center',flex:1}}
+                    >
                     SIGN OUT</Text>
             </TouchableOpacity>
         </SafeAreaView>
@@ -82,7 +85,7 @@ function DrawerContent(props) {
 }
 
 export default function Drawer() {
-    const [listenCheck, setListenCheck] = useState(true);
+    
     const { user } = useContext(AuthContext);
     const DrawerNav = createDrawerNavigator();
     const Stack = createStackNavigator();
@@ -645,19 +648,143 @@ export default function Drawer() {
     const [drawerItems, setDrawerItems] = useState(fixedItems)
     const [cartCount, setCartCount] = useState(0);
     const [wishCount, setWishCount] = useState(0)
-    var addedItems = [];
     const CartBadge = withBadge(cartCount)(Icon)
     const WishBadge = withBadge(wishCount)(Icon)
 
-    // useEffect(() => {
-    //     console.log("Effect", cartCount, wishCount)
-    //     // setListenCheck(true);
-    // })
+    useEffect(() => {
+        Firebase.database().ref('DrawerItemsList').on('value', data => {
+                checkLength();
+                var customerItems = fixedItems;
+                if (data.val()) {
+                    var addedItems = [];
+                    var list = data.val();
+                    for (var index = 0; index < list.length; index++) {
+                        if (addedItems.includes(list[index].itemName) === false)
+                            addedItems.push(list[index].itemName)
+                    }
+                    if (addedItems.length != 0) {
+    
+                        addedItems.map((text) => {
+    
+                            customerItems.push(
+                                <DrawerNav.Screen name={text} component={
+    
+                                    ({ navigation }) => (
+    
+                                        <Stack.Navigator screenOptions={{
+                                            headerTintColor: 'white',
+                                            headerTitleStyle: {
+                                                fontWeight: 'bold',
+                                                alignSelf: 'center'
+                                            },
+                                        }}>
+    
+                                            <Stack.Screen name={text} component={ShopByCategory} options={{
+                                                title: text,
+                                                headerStyle: {
+                                                    backgroundColor: 'black'
+                                                },
+                                                headerTitle: () => (
+                                                    <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                                        <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{ position: 'absolute', left: 3 }} />
+                                                        <View>
+                                                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>{text}</Text>
+                                                        </View>
+                                                        <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
+                                                            console.log("wishlist open");
+                                                            navigation.navigate('WishList');
+                                                        }}>
+                                                            <WishBadge type='antdesign' name='heart' size={22} color='white' />
+                                                        </TouchableOpacity>
+    
+                                                        <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
+                                                            console.log("cart open");
+                                                            navigation.navigate('Cart');
+                                                        }}>
+                                                            <CartBadge type='entypo' name='shopping-cart' size={24} color='white' />
+                                                        </TouchableOpacity>
+    
+                                                    </View>
+                                                )
+                                            }} />
+                                            <Stack.Screen name="NewScreen" component={NewScreen} options={{
+                                                title: "Explore",
+                                                headerStyle: {
+                                                    backgroundColor: 'black'
+                                                },
+                                                headerTitle: () => (
+                                                    <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
+    
+                                                        <View>
+                                                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Explore</Text>
+                                                        </View>
+                                                        <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
+                                                            console.log("wishlist open");
+                                                            navigation.navigate('WishList');
+                                                        }}>
+                                                            <WishBadge type='antdesign' name='heart' size={22} color='white' />
+                                                        </TouchableOpacity>
+    
+                                                        <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
+                                                            console.log("cart open");
+                                                            navigation.navigate('Cart');
+                                                        }}>
+                                                            <CartBadge type='entypo' name='shopping-cart' size={24} color='white' />
+                                                        </TouchableOpacity>
+    
+                                                    </View>
+                                                )
+                                            }} />
+                                            <Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} options={{
+                                                title: "Details",
+                                                headerStyle: {
+                                                    backgroundColor: 'black'
+                                                },
+                                                headerTitle: () => (
+                                                    <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
+    
+                                                        <View>
+                                                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
+                                                        </View>
+                                                        <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
+                                                            console.log("wishlist open");
+                                                            navigation.navigate('WishList');
+                                                        }}>
+                                                            <WishBadge type='antdesign' name='heart' size={22} color='white' />
+                                                        </TouchableOpacity>
+    
+                                                        <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
+                                                            console.log("cart open");
+                                                            navigation.navigate('Cart');
+                                                        }}>
+                                                            <CartBadge type='entypo' name='shopping-cart' size={24} color='white' />
+                                                        </TouchableOpacity>
+    
+                                                    </View>
+                                                )
+                                            }} />
+    
+                                        </Stack.Navigator>
+                                    )
+                                }
+                                    options={{
+    
+                                        drawerLabel: text,
+                                        title: text,
+                                    }}
+                                />
+                            )
+                        });
+                    }
+                setDrawerItems(customerItems);
+            }
+        })
+    },[cartCount,wishCount])
 
 
     const checkLength = () => {
-        console.log("Length Checked")
         Firebase.database().ref(`Customers/${user.uid}`).on('value', (data) => {
+            console.log("Length Checked")
             if (data.val().cart) {
                 setCartCount(data.val().cart.length)
             } else {
@@ -667,139 +794,11 @@ export default function Drawer() {
                 setWishCount(data.val().wishlist.length);
             } else {
                 setWishCount(0);
-            } setListenCheck(true);
+            } 
         })
     }
 
-    Firebase.database().ref('DrawerItemsList').on('value', data => {
-        if (listenCheck) {
-            checkLength();
-            var customerItems = fixedItems;
-            if (data.val()) {
-                var list = data.val();
-                for (var index = 0; index < list.length; index++) {
-                    if (addedItems.includes(list[index].itemName) === false)
-                        addedItems.push(list[index].itemName)
-                }
-                if (addedItems.length != 0) {
-
-                    addedItems.map((text) => {
-
-                        customerItems.push(
-                            <DrawerNav.Screen name={text} component={
-
-                                ({ navigation }) => (
-
-                                    <Stack.Navigator screenOptions={{
-                                        headerTintColor: 'white',
-                                        headerTitleStyle: {
-                                            fontWeight: 'bold',
-                                            alignSelf: 'center'
-                                        },
-                                    }}>
-
-                                        <Stack.Screen name={text} component={ShopByCategory} options={{
-                                            title: text,
-                                            headerStyle: {
-                                                backgroundColor: 'black'
-                                            },
-                                            headerTitle: () => (
-                                                <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                                    <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{ position: 'absolute', left: 3 }} />
-                                                    <View>
-                                                        <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>{text}</Text>
-                                                    </View>
-                                                    <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
-                                                        console.log("wishlist open");
-                                                        navigation.navigate('WishList');
-                                                    }}>
-                                                        <WishBadge type='antdesign' name='heart' size={22} color='white' />
-                                                    </TouchableOpacity>
-
-                                                    <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
-                                                        console.log("cart open");
-                                                        navigation.navigate('Cart');
-                                                    }}>
-                                                        <CartBadge type='entypo' name='shopping-cart' size={24} color='white' />
-                                                    </TouchableOpacity>
-
-                                                </View>
-                                            )
-                                        }} />
-                                        <Stack.Screen name="NewScreen" component={NewScreen} options={{
-                                            title: "Explore",
-                                            headerStyle: {
-                                                backgroundColor: 'black'
-                                            },
-                                            headerTitle: () => (
-                                                <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
-
-                                                    <View>
-                                                        <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Explore</Text>
-                                                    </View>
-                                                    <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
-                                                        console.log("wishlist open");
-                                                        navigation.navigate('WishList');
-                                                    }}>
-                                                        <WishBadge type='antdesign' name='heart' size={22} color='white' />
-                                                    </TouchableOpacity>
-
-                                                    <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
-                                                        console.log("cart open");
-                                                        navigation.navigate('Cart');
-                                                    }}>
-                                                        <CartBadge type='entypo' name='shopping-cart' size={24} color='white' />
-                                                    </TouchableOpacity>
-
-                                                </View>
-                                            )
-                                        }} />
-                                        <Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} options={{
-                                            title: "Details",
-                                            headerStyle: {
-                                                backgroundColor: 'black'
-                                            },
-                                            headerTitle: () => (
-                                                <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
-
-                                                    <View>
-                                                        <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
-                                                    </View>
-                                                    <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
-                                                        console.log("wishlist open");
-                                                        navigation.navigate('WishList');
-                                                    }}>
-                                                        <WishBadge type='antdesign' name='heart' size={22} color='white' />
-                                                    </TouchableOpacity>
-
-                                                    <TouchableOpacity style={{ position: 'absolute', right: 3 }} onPress={() => {
-                                                        console.log("cart open");
-                                                        navigation.navigate('Cart');
-                                                    }}>
-                                                        <CartBadge type='entypo' name='shopping-cart' size={24} color='white' />
-                                                    </TouchableOpacity>
-
-                                                </View>
-                                            )
-                                        }} />
-
-                                    </Stack.Navigator>
-                                )
-                            }
-                                options={{
-
-                                    drawerLabel: text,
-                                    title: text,
-                                }}
-                            />
-                        )
-                    });
-                }
-            }
-            setDrawerItems(customerItems);
-            setListenCheck(false);
-        }
-    })
+    
 
     return (
         <DrawerNav.Navigator initialRouteName="HomeScreen" drawerContentOptions={{ activeBackgroundColor: '#fff', activeTintColor: '#ff788f' }}
