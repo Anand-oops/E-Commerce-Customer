@@ -16,7 +16,7 @@ const Card = props => {
                                 <TouchableOpacity style={styles.Container} onPress={props.pressHandler.bind(this, itemData.item.product)}>
                                     <Image style={styles.image} source={itemData.item.image} />
                                     <View style={{marginLeft:20}}>
-                                        <Text style={{ color: 'blue' }}>Sub-Category : {itemData.item.product.subCategory}</Text>
+                                        <Text style={{ color: '#000a1a' }}>Sub-Category : {itemData.item.product.subCategory}</Text>
                                         <Text style={styles.text}>Sale : {itemData.item.textItem}</Text>
                                         <Text style={styles.offerText}>Sale discount : {itemData.item.textOff + " % off !"}</Text>
                                     </View>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        color: 'red',
+        color: '#223240',
     },
 
     offerText: {

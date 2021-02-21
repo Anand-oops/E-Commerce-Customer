@@ -16,22 +16,22 @@ export default function OrderPlacingScreen(props) {
 
     const ButtonPress = () => {
         for (var i = 0; i < items.length; i++) {
-            var item = items[i]; 
+            var item = items[i];
             item.address = address;
             item.customer = {
-                customerId : user.uid,
-                customerName : user.firstName+" "+user.lastName
-            } 
+                customerId: user.uid,
+                customerName: user.firstName + " " + user.lastName
+            }
             item.deliveryStatus = 'Pending';
             var date = new Date();
             item.orderId = date.getTime().toString();
             item.orderDate = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
             item.orderTime = date.getHours() + ":" + date.getMinutes() + ":" + date.getMilliseconds();
-            
+
             Firebase.database().ref(`ProductList/${item.category}/${item.subCategory}/${item.key}/stocks`).transaction(function (currentStock) {
-                return currentStock-1;
+                return currentStock - 1;
             })
-            
+
             Firebase.database().ref(`Customers/${user.uid}/Orders/${item.orderId}`).set(item);
             Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).set(item);
         }
@@ -46,37 +46,37 @@ export default function OrderPlacingScreen(props) {
 
         <View style={styles.main}>
 
-            <View style={{ margin: 4, borderRadius: 1, elevation: 1 }}>
-                <Text style={{ margin: 2, fontWeight: 'bold', fontSize: 18 }}>Shipping to :</Text>
-                <Text style={{ margin: 2, fontWeight: 'normal', fontStyle: 'italic' }}>
+            <View style={styles.card}>
+                <Text style={{ margin: 2, fontWeight: 'bold', fontSize: 20 }}>Shipping to :</Text>
+                <Text style={{ margin: 2, fontStyle: 'italic', fontSize: 16, letterSpacing: 0.5, color: '#DCDCDC' }}>
                     {address.name + '\n' + address.mobile + '\n' + address.addressLine1 + '\n' + address.addressLine2 + '\n' + address.city + ' , ' + address.state + ' - ' + address.pincode}
                 </Text>
                 <View
                     style={{
                         margin: 2,
-                        borderBottomColor: 'grey',
+                        borderBottomColor: '#000a1a',
                         borderBottomWidth: 1,
                     }}
                 />
                 <View style={{ flexDirection: "row", margin: 2 }}>
-                    <Text style={{ flex: 1 }}>Items : </Text>
-                    <Text>{finalPrice}</Text>
+                    <Text style={{ flex: 1, fontSize: 18 }}>Price : </Text>
+                    <Text style={{ fontSize: 18, color: '#DCDCDC' }}>{finalPrice}</Text>
                 </View>
                 <View style={{ flexDirection: "row", margin: 2 }}>
                     <Text style={{ flex: 1 }}>ADDITIONAL CHARGES: </Text>
-                    <Text>00.00</Text>
+                    <Text style={{ color: '#DCDCDC' }}>00.00</Text>
                 </View>
 
                 <View
                     style={{
                         margin: 2,
-                        borderBottomColor: 'grey',
+                        borderBottomColor: '#000a1a',
                         borderBottomWidth: 1,
                     }}
                 />
                 <View style={{ flexDirection: "row", margin: 2 }}>
-                    <Text style={{ flex: 1, fontWeight: 'bold' }}>TOTAL AMOUNT </Text>
-                    <Text style={{ fontWeight: 'bold' }}>{finalPrice}</Text>
+                    <Text style={{ flex: 1, fontWeight: 'bold', fontSize: 20 }}>TOTAL AMOUNT </Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 0.5, color: '#DCDCDC' }}>{finalPrice}</Text>
                 </View>
             </View>
             <TouchableOpacity onPress={() => ButtonPress()}>
@@ -93,14 +93,22 @@ export default function OrderPlacingScreen(props) {
 const styles = StyleSheet.create({
     main: {
         height: '100%',
-        width: '100%'
+        width: '100%',
+        backgroundColor: '#a6b8ca',
     },
-    container: {
-        flex: 1,
-        alignItems: "center",
-        paddingTop: '50%'
-    },
-    text: {
-        color: 'blue'
+    card: {
+        marginTop: 8,
+        padding: 5,
+        borderRadius: 10,
+        elevation: 3,
+        backgroundColor: '#778899',
+        shadowOffset: { width: 1, height: 1 },
+        shadowColor: '#333',
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        borderWidth: 2,
+        borderColor: '#DCDCDC',
+        marginHorizontal: 4,
+        marginVertical: 6,
     }
 });

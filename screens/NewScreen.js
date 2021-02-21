@@ -308,35 +308,35 @@ export default function NewScreen(props) {
                 data={filteredProducts}
                 numColumns={2}
                 renderItem={({ item }) => (
-                    <View style={{ flex: 1, margin: 2 }}>
+                    <View style={styles.card}>
                         <TouchableOpacity onPress={() => itemsPress(item)}>
-                            <View style={{ margin: 4, borderColor: 'white', borderRadius: 1, elevation: 1 }}>
-                                <View style={{ borderColor: 'white', borderRadius: 1, elevation: 1 }}>
+                            <View >
+                                <View >
                                     <Image
-                                        style={{ padding: 2, height: 200, width: '98%', resizeMode: 'contain', alignSelf: 'center', }}
+                                        style={{ padding: 2, height: 150, width: '98%', resizeMode: 'contain', alignSelf: 'center', }}
                                         source={{ uri: item.image.uri }}
                                     />
                                 </View>
-                                <View style={{flexDirection:'row'}}>
-                                <Text style={{ color: '#3b3a30', fontSize: 20, padding: 4 ,flex:1}}>{item.productName}</Text>
-                                <View style={{padding:4}}>
-                                <StarRating
-                            disabled={false}
-                            maxStars={5}
-                            rating={item.rating}
-                            starSize={10}
-                            fullStarColor={'#ffa500'}
-                            emptyStarColor={'#ff4500'}
-                        />
-                        </View>
-                                </View>
-                                <Text style={{ color: 'black', fontSize: 10, paddingLeft: 4 }}>{item.description}</Text>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <Text style={{ color: 'grey', fontSize: 18, padding: 2, flex: 1 }}>{"₹" + item.finalPrice}</Text>
-
+                                    <Text style={{ color: '#3b3a30', fontSize: 18, paddingLeft: 4, textTransform: 'capitalize', flex: 1 }}>{item.productName}</Text>
+                                    <View style={{ marginRight: 10 }}>
+                                        <StarRating
+                                            disabled={false}
+                                            maxStars={5}
+                                            rating={item.rating}
+                                            starSize={15}
+                                            fullStarColor={'#ffa500'}
+                                            emptyStarColor={'#ff4500'}
+                                        />
+                                    </View>
+                                </View>
+                                <Text style={{ color: '#DCDCDC', fontSize: 12, paddingLeft: 4 }}>{item.description}</Text>
+                                <Text style={{ color: '#DCDCDC', fontSize: 12, paddingLeft: 4 }}>{item.specs}</Text>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Text style={{ color: '#3b3a30', fontSize: 18, padding: 2, flex: 1 }}>{"₹" + item.finalPrice}</Text>
                                     <Text style={{ color: '#82b74b', fontSize: 18, padding: 2, flex: 1 }}>{item.discount + "off "}</Text>
                                 </View>
-                                <Text style={{ color: 'grey', fontSize: 10, paddingLeft: 4, paddingBottom: 2 ,textDecorationLine:'line-through'}}>{"₹"+item.productPrice}</Text>
+                                <Text style={{ color: '#3b3a30', fontSize: 10, paddingLeft: 4, paddingBottom: 2, textDecorationLine: 'line-through' }}>{"₹" + item.productPrice}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -350,6 +350,9 @@ export default function NewScreen(props) {
                     height={300}
                     animationType='fade'
                     customStyles={{
+                        container: {
+                            backgroundColor: '#d8eafd'
+                        },
                         wrapper: {
                             backgroundColor: 'rgba(52, 52, 52, 0.8)',
                         },
@@ -415,6 +418,9 @@ export default function NewScreen(props) {
                     height={350}
                     animationType='fade'
                     customStyles={{
+                        container: {
+                            backgroundColor: '#d8eafd'
+                        },
                         wrapper: {
                             backgroundColor: 'rgba(52, 52, 52, 0.8)',
                         },
@@ -482,15 +488,8 @@ export default function NewScreen(props) {
 const styles = StyleSheet.create({
     main: {
         height: '100%',
-        width: '100%'
-    },
-    container: {
-        flex: 1,
-        alignItems: "center",
-        paddingTop: '50%'
-    },
-    text: {
-        color: 'blue'
+        width: '100%',
+        backgroundColor: '#a6b8ca'
     },
     filterButton: {
         width: windowWidth / 2,
@@ -499,8 +498,24 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         alignItems: 'center',
-        backgroundColor: 'black',
+        backgroundColor: '#000a1a',
         padding: 15,
         elevation: 10,
+    },
+    card: {
+        marginTop: 8,
+        padding: 5,
+        borderRadius: 10,
+        elevation: 3,
+        flex: 1,
+        backgroundColor: '#778899',
+        shadowOffset: { width: 1, height: 1 },
+        shadowColor: '#333',
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        borderWidth: 2,
+        borderColor: '#DCDCDC',
+        marginHorizontal: 4,
+        marginVertical: 6,
     }
 });

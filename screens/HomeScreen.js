@@ -67,7 +67,7 @@ const HomeScreen = ({ navigation }) => {
             <View style={{ position: 'absolute', zIndex: 4, alignSelf: 'center', flex: 1, top: '50%' }}>
                 <ActivityIndicator
                     size='large'
-                    color="grey"
+                    color="#000a1a"
                     animating={loader}
                 />
             </View>
@@ -81,6 +81,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
     screen: {
+        backgroundColor:'#a6b8ca', 
         paddingTop: 0,
         flex: 1,
     },
@@ -92,13 +93,4 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#778899'
     },
-
-    offerCards: {
-        backgroundColor: 'white'
-    },
-    lottie: {
-        width: 100,
-        height: 100
-    }
-
 });

@@ -10,9 +10,8 @@ export default function ReviewScreen(props) {
 
 
     const item = props.route.params.item;
-    const [showModal,setShowModal] = useState(false);
-    const [reason,setReason] = useState('');
-    const [task,setTask] = useState('')
+    const [showModal, setShowModal] = useState(false);
+    const [reason, setReason] = useState('');
 
     const giveReview = (item) => {
         console.log("clicked");
@@ -28,41 +27,41 @@ export default function ReviewScreen(props) {
         if (item.deliveryStatus === 'Pending')
             text = 'Cancelled'
         else text = 'Returned';
-        Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).update({ deliveryStatus: text, reason : reason});
-        Firebase.database().ref(`Customers/${item.customer.customerId}/Orders/${item.orderId}`).update({ deliveryStatus: text, reason : reason });
-        Toast.show("Product "+text,Toast.SHORT);
+        Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).update({ deliveryStatus: text, reason: reason });
+        Firebase.database().ref(`Customers/${item.customer.customerId}/Orders/${item.orderId}`).update({ deliveryStatus: text, reason: reason });
+        Toast.show("Product " + text, Toast.SHORT);
         props.navigation.navigate('YourOrders');
-        setReason('') 
+        setReason('')
     }
 
     const closeModal = () => { setShowModal(false), setReason('') }
 
     return (
-        <ScrollView>
+        <ScrollView style={{ backgroundColor: '#a6b8ca' }}>
             <View style={styles.main}>
-                <TouchableOpacity >
-                    <View style={{ margin: 4, flexDirection: 'row' }}>
-                        <View style={{ flex: 1 }}>
-                            <Image
-                                style={{ padding: 2, height: 150, width: '98%', resizeMode: 'contain', alignSelf: 'center', }}
-                                source={{ uri: item.image.uri }}
-                            />
-                        </View>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ color: '#3b3a30', fontSize: 20, padding: 4, textTransform: 'capitalize' }}>{item.productName}</Text>
-                            <Text style={{ color: 'black', fontSize: 12, padding: 4 }}>{item.category + " : " + item.subCategory}</Text>
-                            <Text style={{ color: 'black', fontSize: 10, paddingLeft: 4 }}>{item.description}</Text>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ color: 'green', fontSize: 14, padding: 2, }}>{"₹" + item.finalPrice}</Text>
-                            </View>
-                        </View>
-
+                <View style={{ margin: 4, flexDirection: 'row' }}>
+                    <View style={{ flex: 1 }}>
+                        <Image
+                            style={{ padding: 2, height: 150, width: '98%', resizeMode: 'contain', alignSelf: 'center', }}
+                            source={{ uri: item.image.uri }}
+                        />
                     </View>
-                </TouchableOpacity>
+                    <View style={{ flex: 1 , justifyContent:'center'}}>
+                        <Text style={{ color: '#3b3a30', fontSize: 24, paddingLeft: 4, textTransform: 'capitalize' }}>{item.productName}</Text>
+                        <Text style={{ color: '#3b3a30', fontSize: 16, paddingLeft: 4, textTransform: 'capitalize' }}>ID : {item.orderId}</Text>
+                        <Text style={{ color: 'gray', fontSize: 18, paddingLeft: 4 }}>{item.category + " : " + item.subCategory}</Text>
+                        <Text style={{ color: 'gray', fontSize: 16, paddingLeft: 4 }}>{item.description}</Text>
+                        <Text style={{ color: 'gray', fontSize: 16, paddingLeft: 4 }}>{item.specs}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={{ color: 'green', fontSize: 18, paddingLeft: 4, }}> ₹ {(item.finalPrice)}</Text>
+                        </View>
+                    </View>
+
+                </View>
                 <View
                     style={{
                         marginTop: 5,
-                        borderBottomColor: 'grey',
+                        borderBottomColor: '#000a1a',
                         borderBottomWidth: 5,
                     }}
                 />
@@ -77,7 +76,7 @@ export default function ReviewScreen(props) {
                             }}>
                             <Text style={{ fontSize: 15, marginHorizontal: 8, flex: 1 }}>Give Review</Text>
                             <View style={{ alignSelf: 'center', marginHorizontal: 4 }}>
-                                <AntDesign name="right" size={15} color="black" />
+                                <AntDesign name="right" size={15} color="#000a1a" />
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -85,7 +84,7 @@ export default function ReviewScreen(props) {
                 <View
                     style={{
                         marginTop: 5,
-                        borderBottomColor: 'grey',
+                        borderBottomColor: '#000a1a',
                         borderBottomWidth: 5,
                     }}
                 />
@@ -95,7 +94,7 @@ export default function ReviewScreen(props) {
                         <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => { getInfo(item) }}>
                             <Text style={{ fontSize: 15, marginHorizontal: 8, flex: 1 }}>Order Info</Text>
                             <View style={{ alignSelf: 'center', marginHorizontal: 4 }}>
-                                <AntDesign name="right" size={15} color="black" />
+                                <AntDesign name="right" size={15} color="#000a1a" />
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -104,7 +103,7 @@ export default function ReviewScreen(props) {
                 <View
                     style={{
                         marginTop: 5,
-                        borderBottomColor: 'grey',
+                        borderBottomColor: '#000a1a',
                         borderBottomWidth: 5,
                     }}
                 />
@@ -114,62 +113,60 @@ export default function ReviewScreen(props) {
                     justifyContent: 'center', alignSelf: 'center', borderRadius: 10,
                     shadowOpacity: 'transparent',
                     shadowColor: 'white',
-                    backgroundColor: (item.deliveryStatus === 'Pending') ? 'orange' : ( (item.deliveryStatus === 'Delivered') ? 'green' : 'transparent'), opacity: (item.deliveryStatus === 'Cancelled' || item.deliveryStatus === 'Retruned') ? 0 : 1
+                    backgroundColor: (item.deliveryStatus === 'Pending') ? 'orange' : ((item.deliveryStatus === 'Delivered') ? 'green' : 'transparent'), opacity: (item.deliveryStatus === 'Cancelled' || item.deliveryStatus === 'Retruned') ? 0 : 1
                 }}
                     onPress={() => {
                         if (item.deliveryStatus === 'Pending')
                             Alert.alert("Cancel Order ?", "Your order will be cancelled !",
                                 [
                                     { text: 'Cancel' },
-                                    { text: 'Proceed', onPress: () => {setShowModal(true)} },
+                                    { text: 'Proceed', onPress: () => { setShowModal(true) } },
                                 ])
                         else if (item.deliveryStatus === 'Delivered')
-                        Alert.alert("Return Order ?", "Return will be requested !",
-                        [
-                            { text: 'Cancel' },
-                            { text: 'Proceed', onPress: () => {setShowModal(true)} },
-                        ])
+                            Alert.alert("Return Order ?", "Return will be requested !",
+                                [
+                                    { text: 'Cancel' },
+                                    { text: 'Proceed', onPress: () => { setShowModal(true) } },
+                                ])
                     }}>
                     <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>
-                        {(item.deliveryStatus === 'Pending')?'Cancel Order':'Return Order'}</Text>
+                        {(item.deliveryStatus === 'Pending') ? 'Cancel Order' : 'Return Order'}</Text>
                 </TouchableOpacity>
             </View>
             <Modal
-					animationType='fade'
-					visible={showModal}
-					position='center'
-					transparent={true}
-					onRequestClose={() => closeModal()}>
-					<View style={styles.modalContainer}>
-						<View style={styles.cardModalScreen}>
-                        <Text style={{ paddingLeft: 15, marginTop: 10, }}>Reason for : {(item.deliveryStatus === 'Delivered')?'Return' : 'Cancellation'}</Text>
-							<View style={{ alignItems: 'center', justifyContent: 'center', }}>
-								<TextInput style={styles.modalTextInput} onChangeText={(text) => setReason(text)} value={reason} />
-							</View>
+                animationType='fade'
+                visible={showModal}
+                position='center'
+                transparent={true}
+                onRequestClose={() => closeModal()}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.cardModalScreen}>
+                        <Text style={{ paddingLeft: 15, marginTop: 10, }}>Reason for : {(item.deliveryStatus === 'Delivered') ? 'Return' : 'Cancellation'}</Text>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', }}>
+                            <TextInput style={styles.modalTextInput} onChangeText={(text) => setReason(text)} value={reason} />
+                        </View>
 
-							<View style={styles.modalButtonContainer}>
-								<View style={{ padding: 10, width: '30%' }}>
-									<Button title='Cancel' onPress={() => { Keyboard.dismiss(), closeModal() }} />
-								</View>
-								<View style={{ padding: 10, width: '30%' }}>
-									<Button title='OK' onPress={() => { 
-                                        if(reason.length == 0){
-                                            Keyboard.dismiss()
-                                            Toast.show("Enter the reason first",Toast.SHORT);
-                                        }else{
-                                            Keyboard.dismiss(),
+                        <View style={styles.modalButtonContainer}>
+                            <View style={{ padding: 10, width: '30%' }}>
+                                <Button title='Cancel' onPress={() => { Keyboard.dismiss(), closeModal() }} />
+                            </View>
+                            <View style={{ padding: 10, width: '30%' }}>
+                                <Button title='OK' onPress={() => {
+                                    if (reason.length == 0) {
+                                        Keyboard.dismiss()
+                                        Toast.show("Enter the reason first", Toast.SHORT);
+                                    } else {
+                                        Keyboard.dismiss(),
                                             setShowModal(false)
-                                            changeStatus() }}
-                                        }  />
-
-								</View>
-							</View>
-
-						</View>
-					</View>
-				</Modal>
-
-
+                                        changeStatus()
+                                    }
+                                }
+                                } />
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </ScrollView>
     );
 }
@@ -180,35 +177,36 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     modalContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'rgba(52, 52, 52, 0.8)'
-	},
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(52, 52, 52, 0.8)'
+    },
     cardModalScreen: {
-		height: 200,
-		width: '85%',
-		borderRadius: 15,
-		justifyContent: 'center',
-		elevation: 20,
-		borderWidth: 1,
-		borderColor: 'black',
-		backgroundColor: 'white'
-	},
-	modalTextInput: {
-		width: '90%',
-		marginVertical: 10,
-		padding: 5,
-		paddingLeft: 15,
-		borderWidth: 1,
-		borderColor: 'black',
-		borderRadius: 10,
-		backgroundColor: 'white'
-	},
-	modalButtonContainer: {
-		zIndex: 0,
-		flexDirection: 'row',
-		justifyContent: 'space-around',
-		marginVertical: 15,
-	},
+        height: 200,
+        width: '85%',
+        borderRadius: 15,
+        justifyContent: 'center',
+        elevation: 20,
+        borderWidth: 1,
+        borderColor: 'black',
+        backgroundColor: '#d8eafd'
+    },
+    modalTextInput: {
+        width: '90%',
+        marginVertical: 10,
+        padding: 5,
+        paddingLeft: 15,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 10,
+        backgroundColor: 'white'
+    },
+    modalButtonContainer: {
+        zIndex: 0,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginVertical: 15,
+    },
+
 });

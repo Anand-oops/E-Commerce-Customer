@@ -22,7 +22,7 @@ export default function OrderDetails(props) {
                     <View
                         style={{
                             margin: 2,
-                            borderBottomColor: 'grey',
+                            borderBottomColor: '#000a1a',
                             borderBottomWidth: 5,
                         }}
                     />
@@ -33,7 +33,7 @@ export default function OrderDetails(props) {
                     <View
                         style={{
                             margin: 2,
-                            borderBottomColor: 'grey',
+                            borderBottomColor: '#000a1a',
                             borderBottomWidth: 5,
                         }}
                     />
@@ -46,7 +46,7 @@ export default function OrderDetails(props) {
                     <View
                         style={{
                             margin: 2,
-                            borderBottomColor: 'grey',
+                            borderBottomColor: '#000a1a',
                             borderBottomWidth: 5,
                         }}
                     />
@@ -66,12 +66,8 @@ export default function OrderDetails(props) {
 const styles = StyleSheet.create({
     main: {
         height: '100%',
-        width: '100%'
-    },
-    container: {
-        flex: 1,
-        alignItems: "center",
-        paddingTop: '50%'
+        width: '100%',
+        backgroundColor:'#a6b8ca'
     },
     image: {
         height: 200,

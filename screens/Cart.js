@@ -78,19 +78,15 @@ export default function Cart(props) {
     })
 
     Firebase.database().ref(`Cards`).on('value', (data) => {
-
         if (cardcheck) {
             if (data.val()) {
-
                 var list = [];
-
                 for (var i = 0; i < data.val().length; i++) {
-                    var list2 = [];
-                    list2.push(data.val()[i].images);
                     for (var j = 0; j < data.val()[i].images.length; j++) {
                         list.push(data.val()[i].images[j].key);
                     }
                 }
+                console.log("Sale",list)
                 setSaleItems(list);
             }
             setCardcheck(false);
@@ -231,174 +227,173 @@ export default function Cart(props) {
     }
 
     return (
-        <ScrollView>
-            <View style={styles.main}>
-                <FlatList style={{ padding: 4 }}
-                    data={items}
-                    renderItem={({ item }) => (
-                        <View style={{ flex: 1, margin: 2 }}>
-                            <View style={{ borderRadius: 1, elevation: 1, }}>
-                                <TouchableOpacity onPress={() => itemsPress(item)}>
-                                    <View style={{ margin: 4, flexDirection: 'row' }}>
-                                        <View style={{ flex: 1 }}>
-                                            <Image
-                                                style={{ padding: 2, height: 100, width: '98%', resizeMode: 'contain', alignSelf: 'center', }}
-                                                source={{ uri: item.image.uri }}
-                                            />
-                                        </View>
-                                        <View style={{ flex: 1 }}>
-                                            <Text style={{ color: '#3b3a30', fontSize: 20, padding: 4, textTransform: 'capitalize' }}>{item.productName}</Text>
-                                            <Text style={{ color: 'black', fontSize: 12, padding: 4 }}>{item.category + " : " + item.subCategory}</Text>
-                                            <Text style={{ color: 'black', fontSize: 10, paddingLeft: 4 }}>{item.description}</Text>
-                                            <View style={{ flexDirection: 'row' }}>
-                                                <Text style={{ color: 'green', fontSize: 14, padding: 2, }}> ₹ {(saleitems.includes(item.key)) ? (item.salePrice) : (item.finalPrice)}</Text>
-                                            </View>
-                                        </View>
-
+        <ScrollView style={styles.main}>
+            <FlatList
+                data={items}
+                renderItem={({ item }) => (
+                    <View style={styles.card}>
+                        <TouchableOpacity onPress={() => itemsPress(item)}>
+                            <View style={{ margin: 4, flexDirection: 'row' }}>
+                                <View style={{ flex: 1 }}>
+                                    <Image
+                                        style={{ padding: 2, height: 100, width: '98%', resizeMode: 'contain', alignSelf: 'center', }}
+                                        source={{ uri: item.image.uri }}
+                                    />
+                                </View>
+                                <View style={{ flex: 1 }}>
+                                    <Text style={{ color: '#3b3a30', fontSize: 20, paddingLeft: 4, textTransform: 'capitalize' }}>{item.productName}</Text>
+                                    <Text style={{ color: '#DCDCDC', fontSize: 12, paddingLeft: 4 }}>{item.category + " : " + item.subCategory}</Text>
+                                    <Text style={{ color: '#DCDCDC', fontSize: 10, paddingLeft: 4 }}>{item.description}</Text>
+                                    <Text style={{ color: '#DCDCDC', fontSize: 10, paddingLeft: 4 }}>{item.specs}</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={{ color: '#82b74b', fontSize: 14, paddingLeft: 4, }}> ₹ {(saleitems.includes(item.key)) ? (item.salePrice) : (item.finalPrice)}</Text>
                                     </View>
-                                </TouchableOpacity>
-
-                                <View style={{ margin: 4, flexDirection: 'row' }}>
-
-                                    <TouchableOpacity style={{ borderRadius: 1, elevation: 1, margin: 4 }} onPress={() => CounterMinus(items.indexOf(item))}>
-                                        <AntDesign name="minus" size={24} color="black" />
-                                    </TouchableOpacity>
-
-                                    <Text style={{ marginVertical: 4, marginHorizontal: 10 }}>{counters[items.indexOf(item)]}</Text>
-                                    <TouchableOpacity style={{ margin: 4, elevation: 1, borderRadius: 1 }} onPress={() => CounterPlus(items.indexOf(item))}>
-                                        <AntDesign name="plus" size={24} color="black" />
-                                    </TouchableOpacity>
                                 </View>
 
-                                <View style={{ flexDirection: 'row' }}>
-                                    <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: 'white', alignItems: 'center', }}
-                                        onPress={() => {
-                                            Alert.alert("Remove from Cart", "Are you sure ?",
-                                                [
-                                                    { text: "No" },
-                                                    { text: "Yes", onPress: () => DeleteItem(items.indexOf(item)) }
-                                                ], { cancelable: false }
-                                            );
-                                        }}>
-                                            
-                                        <Fontisto name='shopping-basket-remove' size={20} color='red' />
-                                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10 }}>Remove from Cart</Text>
-                                    </TouchableOpacity>
-                                    
-                                    <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: 'white', alignItems: 'center', }}
-                                        onPress={() => addToWishlist(item)}>
-
-                                        <MaterialCommunityIcons name="heart-plus" color='red' size={20} />
-                                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10 }}>Move to WishList</Text>
-                                    </TouchableOpacity>
-                                </View>
                             </View>
-                        </View>
-                    )}>
-
-                </FlatList>
-                <View style={{ margin: 4, borderRadius: 1, elevation: 1 }}>
-                    <Text style={{ margin: 2, fontWeight: 'bold' }}>PRICE DETAILS :</Text>
-                    <View
-                        style={{
-                            margin: 2,
-                            borderBottomColor: 'grey',
-                            borderBottomWidth: 1,
-                        }}
-                    />
-                    <View style={{ flexDirection: "row", margin: 2 }}>
-                        <Text style={{ flex: 1 }}>TOTAL MRP </Text>
-                        <Text>{sumTotalPrice}</Text>
-                    </View>
-                    <View style={{ flexDirection: "row", margin: 2 }}>
-                        <Text style={{ flex: 1 }}>DISCOUNTED PRICE </Text>
-                        <Text>{sumFinalPrice}</Text>
-                    </View>
-                    <View style={{ flexDirection: "row", margin: 2 }}>
-                        <Text style={{ flex: 1 }}>ADDITIONAL CHARGES </Text>
-                        <Text>00.00</Text>
-                    </View>
-                    <View
-                        style={{
-                            margin: 2,
-                            borderBottomColor: 'grey',
-                            borderBottomWidth: 1,
-                        }}
-                    />
-                    <View style={{ flexDirection: "row", margin: 2 }}>
-                        <Text style={{ flex: 1, fontWeight: 'bold' }}>TOTAL AMOUNT </Text>
-                        <Text style={{ fontWeight: 'bold' }}>{sumFinalPrice}</Text>
-                    </View>
-                </View>
-                <TouchableOpacity onPress={() => ButtonPress()}>
-                    <View style={{ borderRadius: 3, elevation: 1, margin: 6, padding: 4, backgroundColor: '#f4a460', height: 40, justifyContent: 'center' }}>
-                        <Text style={{ alignSelf: 'center', fontWeight: 'bold' }}>PROCEED TO BUY</Text>
-                    </View>
-                </TouchableOpacity>
-
-                <RBSheet
-                    ref={addressRBSheet}
-                    closeOnDragDown={true}
-                    closeOnPressMask={true}
-                    height={400}
-                    animationType='fade'
-                    customStyles={{
-                        wrapper: {
-                            backgroundColor: 'rgba(52, 52, 52, 0.8)',
-                        },
-                        draggableIcon: {
-                            backgroundColor: "#000"
-                        }
-                    }}
-                >
-                    <ScrollView >
-                        <Text style={{ fontSize: 18, textAlign: 'center', marginBottom: 5 }}>Select Address</Text>
-
-                        <FlatList data={addresses}
-                            renderItem={data => (
-                                <CheckBox
-                                    title={data.item.name + '\n' + data.item.mobile + '\n' + data.item.addressLine1 + '\n' + data.item.addressLine2 + '\n' + data.item.city + ' , ' + data.item.state + '  ' + data.item.pincode}
-                                    checked={(data.index === addressIndex) ? true : false}
-                                    onLongPress={() => {
-                                        Alert.alert("Delete", "Remove Address ?",
-                                            [
-                                                { text: "No" },
-                                                { text: "Yes", onPress: () => deleteAddress(data.index) }
-                                            ], { cancelable: false }
-                                        );
-                                    }}
-                                    onPress={() => { setAddressIndex(data.index) }}
-                                />
-                            )}
-                        />
-                        <TouchableOpacity style={{ borderColor: 'black', borderWidth: 1, borderRadius: 10, backgroundColor: 'black', alignSelf: 'center', width: 150, justifyContent: 'center', margin: 10 }}
-                            onPress={() => { setAddressCall(true), addressRBSheet.current.close(), props.navigation.navigate('ProceedToBuy') }}>
-                            <Text style={{ fontSize: 16, textAlign: 'center', color: 'white' }}>Add New</Text>
                         </TouchableOpacity>
 
-                    </ScrollView>
-                    <TouchableOpacity style={styles.filterButton} onPress={() => {
-                        if (addresses[addressIndex] != null) {
-                            props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items, price: sumFinalPrice })
-                        } else {
-                            Toast.show("Select Address first", Toast.SHORT);
-                        }
-                        addressRBSheet.current.close()
-                    }}>
-                        <Text style={{ color: 'white' }} >Proceed</Text>
-                    </TouchableOpacity>
-                </RBSheet>
-                <View style={{ position: 'absolute', zIndex: 4, alignSelf: 'center', flex: 1, top: '50%' }}>
-                    <ActivityIndicator
+                        <View style={{ margin: 4, flexDirection: 'row' }}>
 
-                        size='large'
-                        color="grey"
-                        animating={loader}
+                            <TouchableOpacity style={{ padding: 2, elevation: 1, borderRadius: 5, backgroundColor: '#d8eafd' }} onPress={() => CounterMinus(items.indexOf(item))}>
+                                <AntDesign name="minus" size={24} color="#000a1a" />
+                            </TouchableOpacity>
 
-                    />
+                            <Text style={{ marginVertical: 4, marginHorizontal: 10 }}>{counters[items.indexOf(item)]}</Text>
+                            <TouchableOpacity style={{ padding: 2, elevation: 1, borderRadius: 5, backgroundColor: '#d8eafd' }} onPress={() => CounterPlus(items.indexOf(item))}>
+                                <AntDesign name="plus" size={24} color="#000a1a" />
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: '#d8eafd', alignItems: 'center', }}
+                                onPress={() => {
+                                    Alert.alert("Remove from Cart", "Are you sure ?",
+                                        [
+                                            { text: "No" },
+                                            { text: "Yes", onPress: () => DeleteItem(items.indexOf(item)) }
+                                        ], { cancelable: false }
+                                    );
+                                }}>
+
+                                <Fontisto name='shopping-basket-remove' size={20} color='red' />
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000a1a', marginLeft: 10 }}>Remove from Cart</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: '#d8eafd', alignItems: 'center', }}
+                                onPress={() => addToWishlist(item)}>
+
+                                <MaterialCommunityIcons name="heart-plus" color='red' size={20} />
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000a1a', marginLeft: 10 }}>Move to WishList</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                )}>
+
+            </FlatList>
+            <View style={styles.card}>
+                <Text style={{ margin: 2, fontWeight: 'bold' }}>PRICE DETAILS :</Text>
+                <View
+                    style={{
+                        margin: 2,
+                        borderBottomColor: '#000a1a',
+                        borderBottomWidth: 1,
+                    }}
+                />
+                <View style={{ flexDirection: "row", margin: 2 }}>
+                    <Text style={{ flex: 1 }}>TOTAL MRP </Text>
+                    <Text>{sumTotalPrice}</Text>
+                </View>
+                <View style={{ flexDirection: "row", margin: 2 }}>
+                    <Text style={{ flex: 1 }}>DISCOUNTED PRICE </Text>
+                    <Text>{sumFinalPrice}</Text>
+                </View>
+                <View style={{ flexDirection: "row", margin: 2 }}>
+                    <Text style={{ flex: 1 }}>ADDITIONAL CHARGES </Text>
+                    <Text>00.00</Text>
+                </View>
+                <View
+                    style={{
+                        margin: 2,
+                        borderBottomColor: '#000a1a',
+                        borderBottomWidth: 1,
+                    }}
+                />
+                <View style={{ flexDirection: "row", margin: 2 }}>
+                    <Text style={{ flex: 1, fontWeight: 'bold' }}>TOTAL AMOUNT </Text>
+                    <Text style={{ fontWeight: 'bold' }}>{sumFinalPrice}</Text>
                 </View>
             </View>
+            <TouchableOpacity onPress={() => ButtonPress()}>
+                <View style={{ borderRadius: 3, elevation: 1, margin: 6, padding: 4, backgroundColor: '#f4a460', height: 40, justifyContent: 'center' }}>
+                    <Text style={{ alignSelf: 'center', fontWeight: 'bold' }}>PROCEED TO BUY</Text>
+                </View>
+            </TouchableOpacity>
 
+            <RBSheet
+                ref={addressRBSheet}
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                height={400}
+                animationType='fade'
+                customStyles={{
+                    container: {
+                        backgroundColor: '#d8eafd'
+                    },
+                    wrapper: {
+                        backgroundColor: 'rgba(52, 52, 52, 0.8)',
+                    },
+                    draggableIcon: {
+                        backgroundColor: "#000"
+                    }
+                }}
+            >
+                <ScrollView >
+                    <Text style={{ fontSize: 18, textAlign: 'center', marginBottom: 5 }}>Select Address</Text>
+
+                    <FlatList data={addresses}
+                        renderItem={data => (
+                            <CheckBox
+                                title={data.item.name + '\n' + data.item.mobile + '\n' + data.item.addressLine1 + '\n' + data.item.addressLine2 + '\n' + data.item.city + ' , ' + data.item.state + '  ' + data.item.pincode}
+                                checked={(data.index === addressIndex) ? true : false}
+                                onLongPress={() => {
+                                    Alert.alert("Delete", "Remove Address ?",
+                                        [
+                                            { text: "No" },
+                                            { text: "Yes", onPress: () => deleteAddress(data.index) }
+                                        ], { cancelable: false }
+                                    );
+                                }}
+                                onPress={() => { setAddressIndex(data.index) }}
+                            />
+                        )}
+                    />
+                    <TouchableOpacity style={{ borderColor: 'black', borderWidth: 1, borderRadius: 10, backgroundColor: 'black', alignSelf: 'center', width: 150, justifyContent: 'center', margin: 10 }}
+                        onPress={() => { setAddressCall(true), addressRBSheet.current.close(), props.navigation.navigate('ProceedToBuy') }}>
+                        <Text style={{ fontSize: 16, textAlign: 'center', color: 'white' }}>Add New</Text>
+                    </TouchableOpacity>
+
+                </ScrollView>
+                <TouchableOpacity style={styles.filterButton} onPress={() => {
+                    if (addresses[addressIndex] != null) {
+                        props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items, price: sumFinalPrice })
+                    } else {
+                        Toast.show("Select Address first", Toast.SHORT);
+                    }
+                    addressRBSheet.current.close()
+                }}>
+                    <Text style={{ color: 'white' }} >Proceed</Text>
+                </TouchableOpacity>
+            </RBSheet>
+            <View style={{ position: 'absolute', zIndex: 4, alignSelf: 'center', flex: 1, top: '50%' }}>
+                <ActivityIndicator
+
+                    size='large'
+                    color="#000a1a"
+                    animating={loader}
+
+                />
+            </View>
         </ScrollView>
     );
 }
@@ -406,15 +401,8 @@ export default function Cart(props) {
 const styles = StyleSheet.create({
     main: {
         height: '100%',
-        width: '100%'
-    },
-    container: {
-        flex: 1,
-        alignItems: "center",
-        paddingTop: '50%'
-    },
-    text: {
-        color: 'blue'
+        width: '100%',
+        backgroundColor: '#a6b8ca'
     },
     filterButton: {
         textAlign: 'center',
@@ -422,8 +410,24 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         alignItems: 'center',
-        backgroundColor: 'black',
+        backgroundColor: '#000a1a',
         padding: 15,
         elevation: 10,
+    },
+    card: {
+        marginTop: 8,
+        padding: 5,
+        borderRadius: 10,
+        elevation: 3,
+        flex: 1,
+        backgroundColor: '#778899',
+        shadowOffset: { width: 1, height: 1 },
+        shadowColor: '#333',
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        borderWidth: 2,
+        borderColor: '#DCDCDC',
+        marginHorizontal: 4,
+        marginVertical: 6,
     }
 });

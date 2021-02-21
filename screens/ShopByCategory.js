@@ -39,36 +39,32 @@ export default function ShopByCategory({ navigation, route }) {
     return (
 
         <View style={styles.main}>
-            <FlatList style={{ flex: 1, padding: 4 }}
+            <FlatList 
                 data={items}
                 numColumns={2}
                 renderItem={({ item }) => (
-                    <View style={{ flex: 1, margin: 2 }}>
+                    <View style={styles.card}>
                         <TouchableOpacity onPress={() => itemsPress(item)}>
-                            <View style={{ margin: 1, borderColor: 'white', borderRadius: 1, elevation: 1, height: 110, flexDirection: 'row' }}>
-                                <View style={{ borderColor: 'white', borderRadius: 1, elevation: 1 }}>
+                            <View style={{ margin: 2, borderRadius: 1,height: 110, flexDirection: 'row' }}>
                                     <Image
                                         style={{ padding: 2, height: 120, width: 100, resizeMode: 'contain', alignSelf: 'center', }}
                                         source={{ uri: item.uri }}
                                     />
-                                </View>
-                                <Text style={{ color: '#3b3a30', fontSize: 10, padding: 4, alignSelf: 'center', flex: 1 }}>{item.subitemName}</Text>
+                                <Text style={{ color: '#000a1a', fontSize: 12, alignSelf: 'center',paddingLeft:5}}>{item.subitemName}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
                 )}>
 
             </FlatList>
+
             <View style={{ position: 'absolute', zIndex: 4, alignSelf: 'center', flex: 1, top: '50%' }}>
                 <ActivityIndicator
-
                     size='large'
-                    color="grey"
+                    color="#000a1a"
                     animating={loader}
-
                 />
             </View>
-
         </View>
     );
 }
@@ -76,14 +72,23 @@ export default function ShopByCategory({ navigation, route }) {
 const styles = StyleSheet.create({
     main: {
         height: '100%',
-        width: '100%'
+        width: '100%',
+        backgroundColor: '#a6b8ca'
     },
-    container: {
+    card: {
+        marginTop: 8,
+        padding: 5,
+        borderRadius: 10,
+        elevation: 3,
         flex: 1,
-        alignItems: "center",
-        paddingTop: '50%'
-    },
-    text: {
-        color: 'blue'
+        backgroundColor: '#778899',
+        shadowOffset: { width: 1, height: 1 },
+        shadowColor: '#333',
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        borderWidth: 2,
+        borderColor: '#DCDCDC',
+        marginHorizontal: 4,
+        marginVertical: 6,
     }
 });

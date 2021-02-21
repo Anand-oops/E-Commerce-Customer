@@ -55,14 +55,14 @@ export default function ProceedToBuy(props) {
             <ScrollView style={{ marginTop: 10 }}>
 
                 <View >
-                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8 }}>
+                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8,backgroundColor:'#d8eafd' }}>
                         <TextInput
                             placeholder='Full Name'
                             placeholderTextColor='gray'
                             onChangeText={(val) => setName(val)}
                         />
                     </View>
-                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8 }}>
+                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8,backgroundColor:'#d8eafd' }}>
                         <TextInput
                             placeholder='Mobile Number'
                             placeholderTextColor='gray'
@@ -71,7 +71,7 @@ export default function ProceedToBuy(props) {
                             onChangeText={(val) => setMobile(val)}
                         />
                     </View>
-                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8 }}>
+                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8,backgroundColor:'#d8eafd' }}>
                         <TextInput
                             placeholder='PIN CODE'
                             placeholderTextColor='gray'
@@ -80,35 +80,35 @@ export default function ProceedToBuy(props) {
                             onChangeText={(val) => setPincode(val)}
                         />
                     </View>
-                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8 }}>
+                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8,backgroundColor:'#d8eafd' }}>
                         <TextInput
                             placeholder='Flat,House no.,Building,Company,Apartment'
                             placeholderTextColor='gray'
                             onChangeText={(val) => setAdd1(val)}
                         />
                     </View>
-                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8 }}>
+                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8,backgroundColor:'#d8eafd' }}>
                         <TextInput
                             placeholder='Area,Colony,Street,Sector,Village'
                             placeholderTextColor='gray'
                             onChangeText={(val) => setAdd2(val)}
                         />
                     </View>
-                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8 }}>
+                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8,backgroundColor:'#d8eafd' }}>
                         <TextInput
                             placeholder='Landmark e.g. near Apoolo hospital'
                             placeholderTextColor='gray'
                             onChangeText={(val) => setLandmark(val)}
                         />
                     </View>
-                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8 }}>
+                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8,backgroundColor:'#d8eafd' }}>
                         <TextInput
                             placeholder='Town/City'
                             placeholderTextColor='gray'
                             onChangeText={(val) => setCity(val)}
                         />
                     </View>
-                    <View style={{ borderRadius: 1, elevation: 1, margin: 8, padding: 8 }}>
+                    <View style={{ borderRadius: 5, elevation: 1, margin: 8, padding: 8,backgroundColor:'#d8eafd'}}>
                         <TextInput
                             placeholder='State'
                             placeholderTextColor='gray'
@@ -142,14 +142,23 @@ export default function ProceedToBuy(props) {
 const styles = StyleSheet.create({
     main: {
         height: '100%',
-        width: '100%'
+        width: '100%',
+        backgroundColor: '#a6b8ca',
     },
-    container: {
-        flex: 1,
-        alignItems: "center",
-        paddingTop: '50%'
-    },
-    text: {
-        color: 'blue'
+    card: {
+        marginTop: 8,
+        padding: 5,
+        borderRadius: 10,
+        elevation: 3,
+        backgroundColor: '#778899',
+        shadowOffset: { width: 1, height: 1 },
+        shadowColor: '#333',
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        borderWidth: 2,
+        borderColor: '#DCDCDC',
+        marginHorizontal: 4,
+        marginVertical: 6,
     }
+    
 });

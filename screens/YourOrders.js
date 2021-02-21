@@ -131,18 +131,19 @@ export default function YourOrders({ navigation }) {
             </View>
             <ScrollView style={{ flex: 1, marginTop: 10 }}>
                 <FlatList data={filtered}
+                    keyExtractor={(item) => item.orderId}
                     renderItem={data => (
                         <TouchableOpacity onPress={() => pressHandler(data.item)}>
                             <View style={styles.listContainer}>
                                 <Image source={data.item.image} style={styles.listimage} />
                                 <View style={styles.list}>
-                                    <Text style={{ color: 'black', fontWeight: 'bold' }}>Order Id: {data.item.orderId}</Text>
-                                    <Text style={{ color: 'blue' }}>Order Date: {data.item.orderDate}</Text>
-                                    <Text style={{ color: 'black' }}>Product : {data.item.productName}</Text>
-                                    <Text style={{ color: 'purple' }}>Category : {data.item.category} :: {data.item.subCategory}</Text>
-                                    <Text style={{ color: 'blue' }}>Price: {data.item.finalPrice}</Text>
-                                    <Text style={{ color: 'black' }}>Delivered: {data.item.address.city + "," + data.item.address.state + " - " + data.item.address.pincode}</Text>
-                                    <Text style={{ color: 'red', marginBottom: 5 }}>{data.item.deliveryStatus}</Text>
+                                    <Text style={{ color: 'black', fontWeight: 'bold', letterSpacing: 0.5 }}>Order Id: {data.item.orderId}</Text>
+                                    <Text style={{ color: 'black', fontWeight: 'bold', letterSpacing: 0.5 }}>Order Date: {data.item.orderDate}</Text>
+                                    <Text style={{ color: 'black', fontWeight: 'bold', letterSpacing: 0.5 }}>Product : {data.item.productName}</Text>
+                                    <Text style={{ color: 'black', fontWeight: 'bold', letterSpacing: 0.5 }}>Category : {data.item.category} :: {data.item.subCategory}</Text>
+                                    <Text style={{ color: 'black', fontWeight: 'bold', letterSpacing: 0.5 }}>Price : {data.item.finalPrice}</Text>
+                                    <Text style={{ color: 'black', fontWeight: 'bold', letterSpacing: 0.5 }}>Delivered : {data.item.address.city + "," + data.item.address.state + " - " + data.item.address.pincode}</Text>
+                                    <Text style={{ color: 'white', fontWeight: 'bold', letterSpacing: 0.5 }}>Delivery Status : {data.item.deliveryStatus}</Text>
                                 </View>
                             </View>
                         </TouchableOpacity>
@@ -156,6 +157,9 @@ export default function YourOrders({ navigation }) {
                     height={300}
                     animationType='fade'
                     customStyles={{
+                        container: {
+                            backgroundColor: '#d8eafd'
+                        },
                         wrapper: {
                             backgroundColor: 'rgba(52, 52, 52, 0.8)',
                         },
@@ -215,7 +219,7 @@ export default function YourOrders({ navigation }) {
                 <ActivityIndicator
 
                     size='large'
-                    color="grey"
+                    color="#000a1a"
                     animating={loader}
 
                 />
@@ -227,30 +231,23 @@ export default function YourOrders({ navigation }) {
 const styles = StyleSheet.create({
     main: {
         height: '100%',
-        width: '100%'
-    },
-    container: {
-        flex: 1,
-        alignItems: "center",
-        paddingTop: '50%'
-    },
-    text: {
-        color: 'blue'
+        width: '100%',
+        backgroundColor: '#a6b8ca'
     },
     listContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomWidth: 0.5,
-        borderColor: 'black',
+        borderColor: '#000a1a',
         paddingHorizontal: 20,
-        marginTop: 5
+        paddingVertical: 10
     },
     listimage: {
         height: 10,
         width: 10,
         padding: 40,
-        marginHorizontal: 20,
+        marginHorizontal: 10,
     },
     filterButton: {
         width: windowWidth / 2,
@@ -259,8 +256,8 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         alignItems: 'center',
-        backgroundColor: 'black',
+        backgroundColor: '#000a1a',
         padding: 15,
         elevation: 10,
-    }
+    },
 });

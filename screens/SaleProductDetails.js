@@ -113,8 +113,7 @@ export default function SaleProductDetails(props) {
     }
 
     return (
-        <View style={styles.screen}>
-            <ScrollView>
+        <ScrollView style={styles.screen}>
                 <View style={styles.display}>
                     <View style={styles.imageContainer}>
                         <SliderBox
@@ -200,240 +199,40 @@ export default function SaleProductDetails(props) {
                                         }}
                                     />
                                     <Text style={{ margin: 4 }}>{item.revDesc}</Text>
-
                                 </View>
-
                             )}
                         />
                     </View>
-
                 </View>
             </ScrollView>
-
-        </View>
-
     );
 }
 
 
 const styles = StyleSheet.create({
     screen: {
+        backgroundColor: '#a6b8ca',
         flex: 1,
     },
 
     display: {
         borderBottomWidth: 10,
-        borderBottomColor: '#D0D0D0',
-        padding: 10,
-        paddingHorizontal: 20,
-        marginVertical: 20,
+        borderBottomColor: '#000a1a',
+        paddingHorizontal: 10,
+        paddingBottom: 10
+
     },
 
     descriptionContainer: {
         borderBottomWidth: 10,
-        borderBottomColor: '#D0D0D0',
+        borderBottomColor: '#000a1a',
     },
 
     imageContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 30,
+        marginBottom: 10,
         elevation: 5,
         height: 375,
-    },
-
-    productlink: {
-        color: 'blue',
-        paddingLeft: 20,
-        fontSize: 18,
-        marginVertical: 10
-    },
-
-    mainImage: {
-        flex: 1,
-        resizeMode: 'contain',
-        width: 300,
-        height: 450,
-    },
-
-    iconContainer: {
-        position: 'absolute',
-        top: 10,
-        right: 0,
-        height: 40,
-        width: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#FAFAFA',
-        borderRadius: 100,
-        borderWidth: 0.2,
-        elevation: 1,
-    },
-
-    icon: {
-        height: 30,
-        width: 30,
-    },
-
-    strike: {
-        textDecorationLine: 'line-through',
-        textDecorationStyle: 'solid',
-        fontSize: 16,
-        marginVertical: 5,
-    },
-
-    price: {
-        color: 'red',
-        fontSize: 24,
-    },
-
-    body: {
-        flex: 1,
-    },
-
-    descriptionHeader: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        marginLeft: 20,
-    },
-
-    description: {
-        fontStyle: 'italic',
-        fontSize: 18,
-        marginVertical: 10,
-        marginLeft: 30,
-    },
-
-    reviewContainer: {
-        justifyContent: 'space-between',
-        padding: 10,
-        flexDirection: 'row',
-    },
-
-    modalContainer: {
-        flex: 1,
-
-        alignItems: 'center',
-    },
-
-    container: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-    },
-
-    modalScreen: {
-        height: 300,
-        width: '90%',
-        elevation: 1,
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-    },
-
-    rating: {
-        width: '70%',
-        marginBottom: 10,
-        alignItems: 'center',
-    },
-
-    ratingText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        padding: 10,
-    },
-
-    rateProduct: {
-        padding: 10,
-        elevation: 2,
-        borderWidth: 0.1,
-    },
-
-    review: {
-        padding: 20,
-        backgroundColor: '#FAFAFA'
-    },
-
-    link: {
-        marginVertical: 20,
-        color: 'blue',
-        fontSize: 16,
-    },
-
-    text: {
-        fontSize: 20,
-    },
-
-    comments: {
-        paddingHorizontal: 10,
-        padding: 10,
-    },
-
-    commentBox: {
-        elevation: 1,
-        borderRadius: 10,
-        marginVertical: 10,
-        padding: 10,
-    },
-
-    userContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-
-    row: {
-        flexDirection: 'row',
-    },
-
-    image: {
-        height: 40,
-        width: 40,
-    },
-
-    user: {
-        marginHorizontal: 10,
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-
-    starCotainer: {
-        width: '20%',
-        marginVertical: 10,
-    },
-
-    dateText: {
-        marginLeft: 20,
-        marginVertical: 10,
-    },
-
-    commentText: {
-        marginVertical: 5,
-        fontSize: 16,
-    },
-
-    textInputContainer: {
-        marginVertical: 20,
-        width: '100%',
-    },
-
-    textInput: {
-        height: 50,
-        borderRadius: 10,
-        borderWidth: 1,
-        elevation: 1,
-        borderColor: 'black',
-        backgroundColor: '#FAFAFA',
-        paddingHorizontal: 8,
-        fontSize: 16,
-    },
-    saveButton: {
-        padding: 15,
-        elevation: 10,
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30,
-        backgroundColor: 'black',
-        alignItems: 'center',
     },
 });

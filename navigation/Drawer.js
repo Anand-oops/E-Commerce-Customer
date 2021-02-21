@@ -24,7 +24,6 @@ import ChangePasswordScreen from '../screens/ChangePasswordScreen'
 import OrderDetails from "../screens/OrderDetails";
 import dummyImage from "../assets/avatar.png";
 import { Icon, withBadge } from 'react-native-elements'
-import { useIsFocused } from '@react-navigation/native'
 
 function DrawerContent(props) {
 
@@ -101,7 +100,7 @@ export default function Drawer() {
             <Stack.Screen name="HomeScreen" component={HomeScreen} options={{
                 title: 'HomeScreen',
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -130,7 +129,7 @@ export default function Drawer() {
             <Stack.Screen name="SaleProductDetails" component={SaleProductDetails} options={{
                 title: 'SaleProductDetails',
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -171,7 +170,7 @@ export default function Drawer() {
             <Stack.Screen name="ProfileDisplay" component={ProfileDisplayScreen} options={{
                 title: 'Profile',
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -200,7 +199,7 @@ export default function Drawer() {
             <Stack.Screen name="Edit Profile" component={ProfileScreen} options={{
                 title: 'Edit Profile',
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -229,7 +228,7 @@ export default function Drawer() {
             <Stack.Screen name="Change Email" component={ChangeEmailScreen} options={{
                 title: 'Change Email',
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -258,7 +257,7 @@ export default function Drawer() {
             <Stack.Screen name="Change Password" component={ChangePasswordScreen} options={{
                 title: 'Change Password',
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -292,14 +291,12 @@ export default function Drawer() {
             headerTitleStyle: {
                 fontWeight: 'bold',
                 alignSelf: 'center'
-
-
             },
         }}>
             <Stack.Screen name="WishList" component={WishList} options={{
                 title: 'WishList',
                 headerStyle: {
-                    backgroundColor: 'black',
+                    backgroundColor: '#223240',
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -328,7 +325,7 @@ export default function Drawer() {
             <Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} options={{
                 title: "Details",
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -371,7 +368,7 @@ export default function Drawer() {
             <Stack.Screen name="Cart" component={Cart} options={{
                 title: 'Cart',
                 headerStyle: {
-                    backgroundColor: 'black',
+                    backgroundColor: '#223240',
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -401,7 +398,7 @@ export default function Drawer() {
             <Stack.Screen name="ProceedToBuy" component={ProceedToBuy} options={{
                 title: 'Proceed to Buy',
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -430,7 +427,7 @@ export default function Drawer() {
             <Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} options={{
                 title: "Details",
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -459,7 +456,7 @@ export default function Drawer() {
             <Stack.Screen name="OrderPlacingScreen" component={OrderPlacingScreen} options={{
                 title: "Place Order",
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -498,7 +495,7 @@ export default function Drawer() {
             <Stack.Screen name="YourOrders" component={YourOrders} options={{
                 title: 'Your Orders',
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -526,7 +523,7 @@ export default function Drawer() {
             <Stack.Screen name="ReviewScreen" component={ReviewScreen} options={{
                 title: 'Your Order Details',
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -554,7 +551,7 @@ export default function Drawer() {
             <Stack.Screen name="WriteReview" component={WriteReview} options={{
                 title: 'Review',
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -582,7 +579,7 @@ export default function Drawer() {
             <Stack.Screen name="OrderDetails" component={OrderDetails} options={{
                 title: 'Order Details',
                 headerStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: '#223240'
                 },
                 headerTitle: () => (
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -652,6 +649,7 @@ export default function Drawer() {
     const WishBadge = withBadge(wishCount)(Icon)
 
     useEffect(() => {
+        console.log("Effected")
         Firebase.database().ref('DrawerItemsList').on('value', data => {
                 checkLength();
                 var customerItems = fixedItems;
@@ -682,7 +680,7 @@ export default function Drawer() {
                                             <Stack.Screen name={text} component={ShopByCategory} options={{
                                                 title: text,
                                                 headerStyle: {
-                                                    backgroundColor: 'black'
+                                                    backgroundColor: '#223240'
                                                 },
                                                 headerTitle: () => (
                                                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -710,7 +708,7 @@ export default function Drawer() {
                                             <Stack.Screen name="NewScreen" component={NewScreen} options={{
                                                 title: "Explore",
                                                 headerStyle: {
-                                                    backgroundColor: 'black'
+                                                    backgroundColor: '#223240'
                                                 },
                                                 headerTitle: () => (
                                                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -738,7 +736,7 @@ export default function Drawer() {
                                             <Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} options={{
                                                 title: "Details",
                                                 headerStyle: {
-                                                    backgroundColor: 'black'
+                                                    backgroundColor: '#223240'
                                                 },
                                                 headerTitle: () => (
                                                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
@@ -784,7 +782,6 @@ export default function Drawer() {
 
     const checkLength = () => {
         Firebase.database().ref(`Customers/${user.uid}`).on('value', (data) => {
-            console.log("Length Checked")
             if (data.val().cart) {
                 setCartCount(data.val().cart.length)
             } else {
@@ -801,7 +798,7 @@ export default function Drawer() {
     
 
     return (
-        <DrawerNav.Navigator initialRouteName="HomeScreen" drawerContentOptions={{ activeBackgroundColor: '#fff', activeTintColor: '#ff788f' }}
+        <DrawerNav.Navigator initialRouteName="HomeScreen" drawerContentOptions={{activeBackgroundColor: '#a6b8ca', activeTintColor: '#0001a1'}}
             drawerContent={props => <DrawerContent {...props} />} >
             {drawerItems}
         </DrawerNav.Navigator>
