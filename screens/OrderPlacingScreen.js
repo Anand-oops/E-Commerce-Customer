@@ -13,9 +13,12 @@ export default function OrderPlacingScreen(props) {
     const address = props.route.params.address;
     const items = props.route.params.items;
     const finalPrice = props.route.params.price;
+    const counters = props.route.params.counters;
 
     const ButtonPress = () => {
         for (var i = 0; i < items.length; i++) {
+            console.log("Count",counters[i])
+            var check = true;
             var item = items[i];
             item.address = address;
             item.customer = {
@@ -24,19 +27,29 @@ export default function OrderPlacingScreen(props) {
             }
             item.deliveryStatus = 'Pending';
             var date = new Date();
+            item.orderCount = counters[i];
             item.orderId = date.getTime().toString();
             item.orderDate = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
             item.orderTime = date.getHours() + ":" + date.getMinutes() + ":" + date.getMilliseconds();
 
             Firebase.database().ref(`ProductList/${item.category}/${item.subCategory}/${item.key}/stocks`).transaction(function (currentStock) {
-                return currentStock - 1;
+                console.log("Current",currentStock)
+                if (parseInt(currentStock)  < parseInt(counters[i])) {
+                    Toast.show("Selected quantity of "+item.productName+ " is not in stock", Toast.SHORT);
+                    check = false;
+                    return currentStock;
+                }else{
+                    return parseInt(currentStock) - parseInt(counters[i]) ;
+                }
             })
-
-            Firebase.database().ref(`Customers/${user.uid}/Orders/${item.orderId}`).set(item);
-            Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).set(item);
+            if (check) {
+                console.log("SETTTT")
+                Firebase.database().ref(`Customers/${user.uid}/Orders/${item.orderId}`).set(item);
+                Firebase.database().ref(`Customers/${user.uid}/cart/${i}`).remove();
+                Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).set(item);
+            }
         }
 
-        Firebase.database().ref(`Customers/${user.uid}/cart`).set(null)
         Toast.show("Order Placed");
         props.navigation.navigate('Cart');
 

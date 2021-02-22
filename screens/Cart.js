@@ -121,19 +121,22 @@ export default function Cart(props) {
         if (items.length == 0) {
             Toast.show("No Products in Cart", Toast.SHORT);
         } else {
+            console.log("Counter",counters)
             let flag = true;
             let name = '';
             items.map(item => {
-                if (item.stocks <= 0) {
+                console.log("CTR",counters[items.indexOf(item)])
+                if (item.stocks < counters[items.indexOf(item)]) {
                     flag = false;
                     name = item.productName;
+                    Toast.show("Selected quantity of "+name+ " is not in stock", Toast.SHORT);
                 }
             })
             if (flag) {
                 addressRBSheet.current.open();
                 setAddressCall(true)
-            } else
-                Toast.show(name + ' is out of stock', Toast.SHORT);
+            } 
+                
         }
     }
 
@@ -376,7 +379,7 @@ export default function Cart(props) {
                 </ScrollView>
                 <TouchableOpacity style={styles.filterButton} onPress={() => {
                     if (addresses[addressIndex] != null) {
-                        props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items, price: sumFinalPrice })
+                        props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items, price: sumFinalPrice,counters:counters })
                     } else {
                         Toast.show("Select Address first", Toast.SHORT);
                     }

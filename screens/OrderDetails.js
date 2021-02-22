@@ -18,6 +18,7 @@ export default function OrderDetails(props) {
                     <Text style={{ marginBottom: 5, textAlign: 'center' }}>{item.description}</Text>
                     <Text style={{ marginBottom: 5, textAlign: 'center' }}>Category : {item.category}</Text>
                     <Text style={{ marginBottom: 5, textAlign: 'center' }}>Sub-Category : {item.subCategory}</Text>
+                    <Text style={{ marginBottom: 5, textAlign: 'center' }}>Ordered : {item.orderCount}</Text>
                     <Text style={{ marginBottom: 5, textAlign: 'center' }}>{item.specs}</Text>
                     <View
                         style={{
