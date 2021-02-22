@@ -23,7 +23,8 @@ import ChangeEmailScreen from '../screens/ChangeEmailScreen'
 import ChangePasswordScreen from '../screens/ChangePasswordScreen'
 import OrderDetails from "../screens/OrderDetails";
 import dummyImage from "../assets/avatar.png";
-import { Icon, withBadge } from 'react-native-elements'
+import { Icon, withBadge } from 'react-native-elements';
+import Notifications from "../screens/Notifications";
 
 function DrawerContent(props) {
 
@@ -638,6 +639,12 @@ export default function Drawer() {
 
             options={{
                 title: 'Your Orders',
+            }}
+        />,
+        <DrawerNav.Screen name="Notifications" component={Notifications}
+
+            options={{
+                title: 'Notifications',
             }}
         />
     ]
