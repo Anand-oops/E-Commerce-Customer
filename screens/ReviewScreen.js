@@ -31,7 +31,9 @@ export default function ReviewScreen(props) {
         Firebase.database().ref(`Customers/${item.customer.customerId}/Orders/${item.orderId}`).update({ deliveryStatus: text, reason: reason });
         Toast.show("Product " + text, Toast.SHORT);
         props.navigation.navigate('YourOrders');
-        setReason('')
+        setReason('');
+        var notif="Order "+text+" from userId: "+item.customer.customerId;
+        Firebase.database().ref(`Dealers/${item.dealerId}/Notifications`).push(notif);
     }
 
     const closeModal = () => { setShowModal(false), setReason('') }

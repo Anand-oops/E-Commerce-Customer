@@ -17,7 +17,7 @@ export default function OrderPlacingScreen(props) {
 
     const ButtonPress = () => {
         for (var i = 0; i < items.length; i++) {
-            console.log("Count",counters[i])
+            console.log("Count", counters[i])
             var check = true;
             var item = items[i];
             item.address = address;
@@ -33,13 +33,13 @@ export default function OrderPlacingScreen(props) {
             item.orderTime = date.getHours() + ":" + date.getMinutes() + ":" + date.getMilliseconds();
 
             Firebase.database().ref(`ProductList/${item.category}/${item.subCategory}/${item.key}/stocks`).transaction(function (currentStock) {
-                console.log("Current",currentStock)
-                if (parseInt(currentStock)  < parseInt(counters[i])) {
-                    Toast.show("Selected quantity of "+item.productName+ " is not in stock", Toast.SHORT);
+                console.log("Current", currentStock)
+                if (parseInt(currentStock) < parseInt(counters[i])) {
+                    Toast.show("Selected quantity of " + item.productName + " is not in stock", Toast.SHORT);
                     check = false;
                     return currentStock;
-                }else{
-                    return parseInt(currentStock) - parseInt(counters[i]) ;
+                } else {
+                    return parseInt(currentStock) - parseInt(counters[i]);
                 }
             })
             if (check) {
@@ -47,6 +47,8 @@ export default function OrderPlacingScreen(props) {
                 Firebase.database().ref(`Customers/${user.uid}/Orders/${item.orderId}`).set(item);
                 Firebase.database().ref(`Customers/${user.uid}/cart/${i}`).remove();
                 Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).set(item);
+                var notif = "Order placed from Id: " + user.uid;
+                Firebase.database().ref(`Dealers/${item.dealerId}/Notifications`).push(notif);
             }
         }
 
