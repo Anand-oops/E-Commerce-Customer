@@ -94,10 +94,16 @@ export default function YourOrders({ navigation }) {
                 checked.push('Pending')
             if (del)
                 checked.push('Delivered')
-            if (can)
-                checked.push('Cancelled')
-            if (ret)
-                checked.push('Returned')
+            if (can){
+                checked.push('Cancelled : Pending')
+                checked.push('Cancelled : Accepted')
+                checked.push('Cancelled : Rejected')
+            }   
+            if (ret){
+                checked.push('Returned : Pending')
+                checked.push('Returned : Accepted')
+                checked.push('Returned : Rejected')
+            }
             orders.map((prod) => {
                 if (checked.includes(prod.deliveryStatus)) {
                     filtered.push(prod)

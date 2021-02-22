@@ -25,8 +25,8 @@ export default function ReviewScreen(props) {
     const changeStatus = () => {
         var text = '';
         if (item.deliveryStatus === 'Pending')
-            text = 'Cancelled'
-        else text = 'Returned';
+            text = 'Cancelled : Pending'
+        else text = 'Returned : Pending';
         Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).update({ deliveryStatus: text, reason: reason });
         Firebase.database().ref(`Customers/${item.customer.customerId}/Orders/${item.orderId}`).update({ deliveryStatus: text, reason: reason });
         Toast.show("Product " + text, Toast.SHORT);
@@ -119,7 +119,7 @@ export default function ReviewScreen(props) {
                 }}
                     onPress={() => {
                         if (item.deliveryStatus === 'Pending')
-                            Alert.alert("Cancel Order ?", "Your order will be cancelled !",
+                            Alert.alert("Cancel Order ?", "Your order cancellation will be requested !",
                                 [
                                     { text: 'Cancel' },
                                     { text: 'Proceed', onPress: () => { setShowModal(true) } },
