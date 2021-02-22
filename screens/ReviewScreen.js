@@ -34,6 +34,8 @@ export default function ReviewScreen(props) {
         setReason('');
         var notif="Order "+text+" from userId: "+item.customer.customerId;
         Firebase.database().ref(`Dealers/${item.dealerId}/Notifications`).push(notif);
+        var notif2="Order "+text+" from userId: "+item.customer.customerId+" for productId: "+item.orderId+ "and dealerId: "+item.dealerId;
+        Firebase.database().ref(`Admin/Notificaions`).push(notif2);
     }
 
     const closeModal = () => { setShowModal(false), setReason('') }

@@ -49,6 +49,8 @@ export default function OrderPlacingScreen(props) {
                 Firebase.database().ref(`CustomerOrders/${item.dealerId}/${item.orderId}`).set(item);
                 var notif = "Order placed from Id: " + user.uid;
                 Firebase.database().ref(`Dealers/${item.dealerId}/Notifications`).push(notif);
+                var notif2 = "Order placed from Id: " + user.uid +" with OrderID: "+item.orderId+" for dealer having dealerId: "+item.dealerId;
+                Firebase.database().ref(`Admin/Notifications`).push(notif2);
             }
         }
 
