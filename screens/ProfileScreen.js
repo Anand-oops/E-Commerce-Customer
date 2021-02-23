@@ -25,24 +25,30 @@ const ProfileScreen = ({ navigation}) => {
 	const ref = Firebase.database().ref(`Customers/${user.uid}`);
 	ref.on('value', function (snapshot) {
 		if (listen) {
-			setValue({
-				firstName: snapshot.val().firstName,
-				lastName: snapshot.val().lastName,
-				mobile: snapshot.val().mobile,
-				city:snapshot.val().city,
-				AccountNumber:snapshot.val().AccountNumber,
-				IfscCode:snapshot.val().IfscCode
-			})
+			console.log("Snapshot", snapshot.val())
+			if (snapshot.val().firstName)
+				setValue({ firstName: snapshot.val().firstName })
+			if (snapshot.val().lastName)
+				setValue({ lastName: snapshot.val().lastName })
+			if (snapshot.val().mobile)
+				setValue({ mobile: snapshot.val().mobile })
+			if (snapshot.val().city)
+				setValue({ city: snapshot.val().city })
+			if (snapshot.val().AccountNumber)
+				setValue({ AccountNumber: snapshot.val().AccountNumber })
+			if (snapshot.val().IfscCode)
+				setValue({ IfscCode: snapshot.val().IfscCode })
 			setListen(false);
 		}
 	})
 
 
 	function saveUser() {
-		if (value.firstName.length == 0 || value.lastName.length == 0) {
-			alert("Empty Name");
-		} else if (value.mobile.length < 10) {
-			alert("Invalid number");
+		console.log("Value",value)
+		if (!value.firstName || !value.lastName ) {
+			Toast.show("Enter Full Name", Toast.SHORT);
+		} else if (value.mobile == '' || value.mobile.length < 10) {
+			Toast.show("Enter 10 digit number", Toast.SHORT);
 		} else {
 			Firebase.database().ref(`/Customers/${user.uid}`).update({
 				firstName: value.firstName,
@@ -68,7 +74,7 @@ const ProfileScreen = ({ navigation}) => {
 
 					<View style={{ marginVertical: 10, width: '90%'}}>
 						<FloatingLabelInput
-							padding={10}
+							padding={6}
 							fontSize={18}
 							label={'First Name'}
 							value={value.firstName}
@@ -83,7 +89,7 @@ const ProfileScreen = ({ navigation}) => {
 					<View style={{ marginVertical: 10, width: '90%' }}>
 						<FloatingLabelInput
 							label={'Last Name'}
-							padding={10}
+							padding={6}
                             fontSize={18}
 							value={value.lastName}
 							blurOnSubmit={true}
@@ -99,7 +105,7 @@ const ProfileScreen = ({ navigation}) => {
 							label={'Mobile'}
 							value={value.mobile}
 							blurOnSubmit={true}
-							padding={10}
+							padding={6}
                             fontSize={18}
 							maxLength={10}
 							keyboardType={'number-pad'}
@@ -114,7 +120,7 @@ const ProfileScreen = ({ navigation}) => {
 							label={'City'}
 							value={value.city}
 							blurOnSubmit={true}
-							padding={10}
+							padding={6}
                             fontSize={18}
 							autoCapitalize={'words'}
 							leftComponent={
@@ -127,7 +133,7 @@ const ProfileScreen = ({ navigation}) => {
 							label={'Account Number'}
 							value={value.AccountNumber}
 							blurOnSubmit={true}
-							padding={10}
+							padding={6}
                             fontSize={18}
 							autoCapitalize={'words'}
 							leftComponent={
@@ -140,7 +146,7 @@ const ProfileScreen = ({ navigation}) => {
 							label={'Ifsc Code'}
 							value={value.IfscCode}
 							blurOnSubmit={true}
-							padding={10}
+							padding={6}
                             fontSize={18}
 							autoCapitalize={'words'}
 							leftComponent={
