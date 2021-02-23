@@ -1,19 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { StyleSheet, View, Image, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { SearchBar } from 'react-native-elements'
-import { StatusBar } from 'expo-status-bar';
 import Firebase from '../firebaseConfig';
 import { AuthContext } from '../navigation/AuthProvider';
 import Toast from 'react-native-simple-toast';
-import Collapsible from 'react-native-collapsible';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Alert } from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { Entypo } from '@expo/vector-icons';
 
 
-const NotificationsScreen = (props) => {
+const NotificationsScreen = () => {
 
     const [listen, setListen] = useState(true)
     const [notif, setNotif] = useState([])
@@ -45,7 +40,6 @@ const NotificationsScreen = (props) => {
         <View style={styles.main}>
 
             <FlatList data={notif}
-                // keyExtractor={(item) => item.orderId}
                 renderItem={(data) => (
                     <TouchableOpacity style={{ borderRadius: 2, elevation: 1, margin: 8, backgroundColor: 'pink', padding: 8 }} >
                         <View >
