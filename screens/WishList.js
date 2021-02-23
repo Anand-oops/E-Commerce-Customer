@@ -71,10 +71,10 @@ export default function WishList(props) {
             Toast.show("Already added !! ", Toast.SHORT);
         } else {
             list.push(item);
-            var items = [...items];
-            items.splice(items.indexOf(item), 1);
-            setItem(items);
-            Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(items).then(() => {
+            var list2 = [...items];
+            list2.splice(items.indexOf(item), 1);
+            setItem(list2);
+            Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(list2).then(() => {
             })
             Firebase.database().ref(`Customers/${user.uid}/cart`).set(list).then(() => {
                 setListen(true);
@@ -124,12 +124,12 @@ export default function WishList(props) {
                                     );
                                 }}>
                                 <MaterialCommunityIcons name="heart-remove" color='red' size={20} />
-                                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black', marginLeft: 5 }}>Remove from Wishlist</Text>
+                                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'black', marginLeft: 5, flex: 1 }}>Remove from Wishlist</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: '#d8eafd', alignItems: 'center', }}
                                 onPress={() => addToCart(item)}>
                                 <MaterialCommunityIcons name="cart-arrow-right" color='red' size={20} />
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10 }}> Move to Cart</Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'black', marginLeft: 10, flex: 1 }}> Move to Cart</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

@@ -86,7 +86,7 @@ export default function Cart(props) {
                         list.push(data.val()[i].images[j].key);
                     }
                 }
-                console.log("Sale",list)
+                console.log("Sale", list)
                 setSaleItems(list);
             }
             setCardcheck(false);
@@ -121,22 +121,22 @@ export default function Cart(props) {
         if (items.length == 0) {
             Toast.show("No Products in Cart", Toast.SHORT);
         } else {
-            console.log("Counter",counters)
+            console.log("Counter", counters)
             let flag = true;
             let name = '';
             items.map(item => {
-                console.log("CTR",counters[items.indexOf(item)])
+                console.log("CTR", counters[items.indexOf(item)])
                 if (item.stocks < counters[items.indexOf(item)]) {
                     flag = false;
                     name = item.productName;
-                    Toast.show("Selected quantity of "+name+ " is not in stock", Toast.SHORT);
+                    Toast.show("Selected quantity of " + name + " is not in stock", Toast.SHORT);
                 }
             })
             if (flag) {
                 addressRBSheet.current.open();
                 setAddressCall(true)
-            } 
-                
+            }
+
         }
     }
 
@@ -216,10 +216,10 @@ export default function Cart(props) {
             Toast.show("Already added !! ", Toast.SHORT);
         } else {
             list.push(item);
-            var items = [...items];
-            items.splice(items.indexOf(item), 1);
-            setItem(items);
-            Firebase.database().ref(`Customers/${user.uid}/cart`).set(items).then(() => {
+            var list2 = [...items];
+            list2.splice(items.indexOf(item), 1);
+            setItem(list2);
+            Firebase.database().ref(`Customers/${user.uid}/cart`).set(list2).then(() => {
                 setListen(true);
             })
             Firebase.database().ref(`Customers/${user.uid}/wishlist`).set(list).then(() => {
@@ -280,14 +280,14 @@ export default function Cart(props) {
                                 }}>
 
                                 <Fontisto name='shopping-basket-remove' size={20} color='red' />
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000a1a', marginLeft: 10 }}>Remove from Cart</Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000a1a', marginLeft: 10, flex: 1 }}>Remove from Cart</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity style={{ flex: 1, margin: 5, flexDirection: 'row', padding: 10, elevation: 10, borderRadius: 4, backgroundColor: '#d8eafd', alignItems: 'center', }}
                                 onPress={() => addToWishlist(item)}>
 
                                 <MaterialCommunityIcons name="heart-plus" color='red' size={20} />
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000a1a', marginLeft: 10 }}>Move to WishList</Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000a1a', marginLeft: 10, flex: 1 }}>Move to WishList</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -379,7 +379,7 @@ export default function Cart(props) {
                 </ScrollView>
                 <TouchableOpacity style={styles.filterButton} onPress={() => {
                     if (addresses[addressIndex] != null) {
-                        props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items, price: sumFinalPrice,counters:counters })
+                        props.navigation.navigate('OrderPlacingScreen', { address: addresses[addressIndex], items: items, price: sumFinalPrice, counters: counters })
                     } else {
                         Toast.show("Select Address first", Toast.SHORT);
                     }
