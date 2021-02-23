@@ -50,7 +50,7 @@ export default function ShopByCategory({ navigation, route }) {
                                         style={{ padding: 2, height: 120, width: 100, resizeMode: 'contain', alignSelf: 'center', }}
                                         source={{ uri: item.uri }}
                                     />
-                                <Text style={{ color: '#000a1a', fontSize: 12, alignSelf: 'center',paddingLeft:5}}>{item.subitemName}</Text>
+                                <Text style={{ color: '#000a1a', fontSize: 12, alignSelf: 'center',paddingLeft:5,flex:1}}>{item.subitemName}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
