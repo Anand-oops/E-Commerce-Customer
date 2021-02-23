@@ -121,7 +121,7 @@ export default function ProductDetailsScreen(props) {
                             disabled={false}
                             maxStars={5}
                             rating={item.rating}
-                            starSize={30}
+                            starSize={25}
                             fullStarColor={'#ffa500'}
                             emptyStarColor={'#ff4500'}
                         />

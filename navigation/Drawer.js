@@ -25,6 +25,7 @@ import OrderDetails from "../screens/OrderDetails";
 import dummyImage from "../assets/avatar.png";
 import { Icon, withBadge } from 'react-native-elements';
 import Notifications from "../screens/Notifications";
+import { ToastAndroid } from 'react-native';
 
 function DrawerContent(props) {
 
@@ -656,9 +657,7 @@ export default function Drawer() {
     const WishBadge = withBadge(wishCount)(Icon)
 
     useEffect(() => {
-        console.log("Effected")
         Firebase.database().ref('DrawerItemsList').on('value', data => {
-                checkLength();
                 var customerItems = fixedItems;
                 if (data.val()) {
                     var addedItems = [];
@@ -784,6 +783,7 @@ export default function Drawer() {
                 setDrawerItems(customerItems);
             }
         })
+        checkLength();
     },[cartCount,wishCount])
 
 

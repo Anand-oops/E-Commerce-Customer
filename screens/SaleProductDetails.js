@@ -137,7 +137,7 @@ export default function SaleProductDetails(props) {
                                 disabled={false}
                                 maxStars={5}
                                 rating={item.rating}
-                                starSize={30}
+                                starSize={25}
                                 fullStarColor={'#ffa500'}
                                 emptyStarColor={'#ff4500'}
                             />

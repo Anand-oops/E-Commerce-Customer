@@ -39,18 +39,18 @@ export default function ShopByCategory({ navigation, route }) {
     return (
 
         <View style={styles.main}>
-            <FlatList 
+            <FlatList
                 data={items}
                 numColumns={2}
                 renderItem={({ item }) => (
                     <View style={styles.card}>
                         <TouchableOpacity onPress={() => itemsPress(item)}>
-                            <View style={{ margin: 2, borderRadius: 1,height: 110, flexDirection: 'row' }}>
-                                    <Image
-                                        style={{ padding: 2, height: 120, width: 100, resizeMode: 'contain', alignSelf: 'center', }}
-                                        source={{ uri: item.uri }}
-                                    />
-                                <Text style={{ color: '#000a1a', fontSize: 12, alignSelf: 'center',paddingLeft:5,flex:1}}>{item.subitemName}</Text>
+                            <View style={{ margin: 2, borderRadius: 1, height: 110, flexDirection: 'row' }}>
+                                <Image
+                                    style={{ padding: 2, height: 120, width: 100, resizeMode: 'contain', alignSelf: 'center', }}
+                                    source={{ uri: item.uri }}
+                                />
+                                <Text style={{ color: '#000a1a', fontSize: 12, alignSelf: 'center', paddingLeft: 5, flex: 1 }}>{item.subitemName}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
