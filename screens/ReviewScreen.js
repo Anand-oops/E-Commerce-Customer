@@ -117,7 +117,7 @@ export default function ReviewScreen(props) {
                     justifyContent: 'center', alignSelf: 'center', borderRadius: 10,
                     shadowOpacity: 'transparent',
                     shadowColor: 'white',
-                    backgroundColor: (item.deliveryStatus === 'Pending') ? 'orange' : ((item.deliveryStatus === 'Delivered') ? 'green' : 'transparent'), opacity: (item.deliveryStatus === 'Cancelled' || item.deliveryStatus === 'Retruned') ? 0 : 1
+                    backgroundColor: (item.deliveryStatus === 'Pending') ? 'orange' : ((item.deliveryStatus === 'Delivered') ? 'green' : 'transparent'), opacity: (item.deliveryStatus.includes('Cancelled') || item.deliveryStatus.includes('Returned')) ? 0 : 1
                 }}
                     onPress={() => {
                         if (item.deliveryStatus === 'Pending')

@@ -47,8 +47,7 @@ export default function YourOrders({ navigation }) {
                 setReturnedCB(true)
                 setSelectedDate(new Date());
                 setButtonText('Select Date');
-            } else
-                // Toast.show("No Orders", Toast.SHORT);
+            } 
             setListen(false);
             setLoader(false);
         }
