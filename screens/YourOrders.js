@@ -48,7 +48,7 @@ export default function YourOrders({ navigation }) {
                 setSelectedDate(new Date());
                 setButtonText('Select Date');
             } else
-                Toast.show("No Orders", Toast.SHORT);
+                // Toast.show("No Orders", Toast.SHORT);
             setListen(false);
             setLoader(false);
         }
