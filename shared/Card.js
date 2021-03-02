@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 18,
         fontWeight: 'bold',
-        fontStyle: 'italic'
+        fontStyle: 'italic',
+        textAlign:'center'
     },
 
     cardContainer: {
