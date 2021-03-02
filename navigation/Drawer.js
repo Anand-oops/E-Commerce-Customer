@@ -25,7 +25,6 @@ import OrderDetails from "../screens/OrderDetails";
 import dummyImage from "../assets/avatar.png";
 import { Icon, withBadge } from 'react-native-elements';
 import Notifications from "../screens/Notifications";
-import { ToastAndroid } from 'react-native';
 
 function DrawerContent(props) {
 
@@ -108,7 +107,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{ position: 'absolute', left: 3 }} />
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }}>Home</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }} adjustsFontSizeToFit={true}>Home</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -137,7 +136,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Details</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -178,7 +177,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{ position: 'absolute', left: 3 }} />
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }}>Profile</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }} adjustsFontSizeToFit={true}>Profile</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -207,7 +206,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Edit Profile</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Edit Profile</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -236,7 +235,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Change Email</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Change Email</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -265,7 +264,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Change Password</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Change Password</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -304,7 +303,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{ position: 'absolute', left: 3 }} />
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }}>Wishlist</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }} adjustsFontSizeToFit={true}>Wishlist</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -333,7 +332,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Details</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -376,7 +375,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{ position: 'absolute', left: 3 }} />
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }}>Cart</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }} adjustsFontSizeToFit={true}>Cart</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -406,7 +405,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Add Address</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Add Address</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -435,7 +434,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Details</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -464,7 +463,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Place Order</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Place Order</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -503,7 +502,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{ position: 'absolute', left: 3 }} />
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }}>Your Orders</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }} adjustsFontSizeToFit={true}>Your Orders</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -531,7 +530,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Your Orders</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}adjustsFontSizeToFit={true}>Your Orders</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -559,7 +558,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Review</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Review</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -587,7 +586,7 @@ export default function Drawer() {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Order Details</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Order Details</Text>
                         </View>
                         <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                             console.log("wishlist open");
@@ -692,7 +691,7 @@ export default function Drawer() {
                                                 <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                                                     <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{ position: 'absolute', left: 3 }} />
                                                     <View>
-                                                        <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }}>{text}</Text>
+                                                        <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white', textAlign: 'center' }} adjustsFontSizeToFit={true}>{text}</Text>
                                                     </View>
                                                     <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                                                         console.log("wishlist open");
@@ -720,7 +719,7 @@ export default function Drawer() {
                                                 <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                                                     <View>
-                                                        <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Explore</Text>
+                                                        <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Explore</Text>
                                                     </View>
                                                     <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                                                         console.log("wishlist open");
@@ -748,7 +747,7 @@ export default function Drawer() {
                                                 <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
 
                                                     <View>
-                                                        <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Details</Text>
+                                                        <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Details</Text>
                                                     </View>
                                                     <TouchableOpacity style={{ position: 'absolute', right: 50 }} onPress={() => {
                                                         console.log("wishlist open");

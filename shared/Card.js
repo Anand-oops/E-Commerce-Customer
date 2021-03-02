@@ -6,7 +6,7 @@ const Card = props => {
     return (
         <View>
             <View style={styles.headerContainer}>
-                <Text style={styles.header}>{props.header}</Text>
+                <Text style={styles.header} adjustsFontSizeToFit={true} >{props.header}</Text>
             </View>
             <View style={styles.cardContainer}>
                 <View style={styles.card}>
@@ -15,7 +15,7 @@ const Card = props => {
                             <View >
                                 <TouchableOpacity style={styles.Container} onPress={props.pressHandler.bind(this, itemData.item.product)}>
                                     <Image style={styles.image} source={itemData.item.image} />
-                                    <View style={{marginLeft:20}}>
+                                    <View style={{ marginLeft: 20 }}>
                                         <Text style={{ color: '#000a1a' }}>Sub-Category : {itemData.item.product.subCategory}</Text>
                                         <Text style={styles.text}>Sale : {itemData.item.textItem}</Text>
                                         <Text style={styles.offerText}>Sale discount : {itemData.item.textOff + " % off !"}</Text>
@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         fontStyle: 'italic',
-        textAlign:'center'
+        textAlign: 'center',
+        color:'white'
     },
 
     cardContainer: {
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        color: '#223240',
+        color: 'red',
     },
 
     offerText: {

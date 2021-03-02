@@ -104,7 +104,7 @@ export default function Notifications({ navigation }) {
                     <View style={{ height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Entypo name="menu" size={24} color="white" onPress={() => navigation.openDrawer()} style={{ position: 'absolute', left: 3 }} />
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }}>Notifications</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1, color: 'white' }} adjustsFontSizeToFit={true}>Notifications</Text>
                         </View>
                     </View>
                 ),
